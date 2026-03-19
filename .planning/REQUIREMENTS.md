@@ -9,10 +9,10 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: El admin puede iniciar sesión con email y contraseña
+- [x] **AUTH-01**: El admin puede iniciar sesión con email y contraseña
 - [ ] **AUTH-02**: El admin puede invitar a un cliente mediante un link firmado temporario enviado por email
 - [ ] **AUTH-03**: El cliente puede aceptar la invitación, definir su contraseña y acceder al portal
-- [ ] **AUTH-04**: La sesión persiste al recargar el navegador
+- [x] **AUTH-04**: La sesión persiste al recargar el navegador
 - [ ] **AUTH-05**: El usuario puede hacer logout desde cualquier página
 
 ### Clientes
@@ -96,10 +96,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Complete |
 | AUTH-05 | Phase 1 | Pending |
 | CLIE-01 | Phase 2 | Pending |
 | CLIE-02 | Phase 2 | Pending |

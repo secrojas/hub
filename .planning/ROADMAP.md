@@ -32,7 +32,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. El admin ve el layout de admin y el cliente ve el layout de portal — nunca se intercambian
   4. El usuario puede cerrar sesión desde cualquier página y queda completamente desautenticado
   5. Una URL de invitación usada o expirada es rechazada con mensaje de error
-**Plans**: TBD
+**Plans:** 4 plans
+Plans:
+- [ ] 01-01-PLAN.md — Laravel scaffold + Breeze + DB config + Role enum + migrations + seeder + test stubs
+- [ ] 01-02-PLAN.md — Admin auth flow (middleware, layouts, role redirect, shared data, tests)
+- [ ] 01-03-PLAN.md — Invitation system (controller, signed URLs, accept form, client registration)
+- [ ] 01-04-PLAN.md — Final wiring (disable registration, nav links, visual verification)
 
 ### Phase 2: CRM de Clientes
 **Goal**: El admin puede crear, ver, editar y eliminar clientes con todos sus campos operativos
@@ -109,7 +114,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Fundación y Auth | 0/TBD | Not started | - |
+| 1. Fundación y Auth | 0/4 | Not started | - |
 | 2. CRM de Clientes | 0/TBD | Not started | - |
 | 3. Tareas y Kanban | 0/TBD | Not started | - |
 | 4. Facturación | 0/TBD | Not started | - |

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-01-PLAN.md — Laravel 12 + Breeze + schema + admin seeder + 14 test stubs
-last_updated: "2026-03-19T22:09:03.489Z"
+stopped_at: Completed 01-02-PLAN.md — role-based auth, middleware pair, AdminLayout, PortalLayout, Error page, 8 tests passing
+last_updated: "2026-03-19T22:15:35.354Z"
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 4
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -46,6 +46,7 @@ Plan: 2 of 4
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-fundaci-n-y-auth P02 | 4 | 2 tasks | 13 files |
 
 ## Accumulated Context
 
@@ -60,6 +61,9 @@ Recent decisions affecting current work:
 - Invitation system: URL::temporarySignedRoute() exclusively
 - [Phase 01-fundaci-n-y-auth]: Laravel 12.55.1 installed (plan specified 11.x, compatible upgrade — all Breeze/Inertia patterns identical)
 - [Phase 01-fundaci-n-y-auth]: MySQL root password 123456 used (developer's system MySQL 8.0.31, not Laragon bundled)
+- [Phase 01-fundaci-n-y-auth]: Not using 'verified' middleware on protected routes — email verification disabled, admin seeded with email_verified_at set
+- [Phase 01-fundaci-n-y-auth]: Inertia Error.vue is a standalone full-page component with no layout — intentional for error display clarity
+- [Phase 01-fundaci-n-y-auth]: Route groups use ['auth', 'admin'] and ['auth', 'client'] — no 'verified' middleware — Breeze default dashboard route replaced entirely
 
 ### Pending Todos
 
@@ -73,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-19T22:09:03.484Z
-Stopped at: Completed 01-01-PLAN.md — Laravel 12 + Breeze + schema + admin seeder + 14 test stubs
+Last session: 2026-03-19T22:15:35.349Z
+Stopped at: Completed 01-02-PLAN.md — role-based auth, middleware pair, AdminLayout, PortalLayout, Error page, 8 tests passing
 Resume file: None

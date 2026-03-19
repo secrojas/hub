@@ -13,7 +13,7 @@
 - [ ] **AUTH-02**: El admin puede invitar a un cliente mediante un link firmado temporario enviado por email
 - [ ] **AUTH-03**: El cliente puede aceptar la invitación, definir su contraseña y acceder al portal
 - [x] **AUTH-04**: La sesión persiste al recargar el navegador
-- [ ] **AUTH-05**: El usuario puede hacer logout desde cualquier página
+- [x] **AUTH-05**: El usuario puede hacer logout desde cualquier página
 
 ### Clientes
 
@@ -100,7 +100,7 @@
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
 | AUTH-04 | Phase 1 | Complete |
-| AUTH-05 | Phase 1 | Pending |
+| AUTH-05 | Phase 1 | Complete |
 | CLIE-01 | Phase 2 | Pending |
 | CLIE-02 | Phase 2 | Pending |
 | CLIE-03 | Phase 2 | Pending |

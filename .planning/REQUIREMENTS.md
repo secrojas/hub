@@ -50,6 +50,10 @@
 - [ ] **PORT-03**: El cliente puede ver su estado de facturación (qué debe o ha pagado)
 - [ ] **PORT-04**: El portal tiene un dashboard personal con resumen de tareas, presupuestos y facturación
 
+### Dashboard del Admin
+
+- [ ] **DASH-01**: La vista principal del admin muestra las tareas activas (en progreso) y las próximas a vencer
+
 ---
 
 ## v2 Requirements
@@ -117,12 +121,13 @@
 | PORT-02 | Phase 6 | Pending |
 | PORT-03 | Phase 6 | Pending |
 | PORT-04 | Phase 6 | Pending |
+| DASH-01 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 25 total
-- Mapped to phases: 25
+- v1 requirements: 26 total
+- Mapped to phases: 26
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-19*
-*Last updated: 2026-03-19 after initial definition*
+*Last updated: 2026-03-19 — added DASH-01 (admin dashboard) during roadmap creation; mapped to Phase 7*

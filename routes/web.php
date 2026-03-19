@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
     })->name('dashboard');
+
+    Route::get('/invitations/create', [InvitationController::class, 'create'])->name('invitations.create');
+    Route::post('/invitations', [InvitationController::class, 'store'])->name('invitations.store');
+});
+
+// Public invitation acceptance (requires valid signature)
+Route::middleware('signed')->group(function () {
+    Route::get('/invitation/accept', [InvitationController::class, 'show'])->name('invitation.accept');
+    Route::post('/invitation/accept', [InvitationController::class, 'accept'])->name('invitation.accept.store');
 });
 
 Route::middleware(['auth', 'client'])->group(function () {

@@ -43,7 +43,7 @@ created: 2026-03-19
 | 1-02-01 | 02 | 1 | AUTH-02 | feature | `php artisan test --filter=InvitationTest` | ✅ W0 | ⬜ pending |
 | 1-02-02 | 02 | 1 | AUTH-03 | feature | `php artisan test --filter=ClientRegistrationTest` | ✅ W0 | ⬜ pending |
 | 1-03-01 | 03 | 2 | AUTH-04 | feature | `php artisan test --filter=MiddlewareTest` | ✅ W0 | ⬜ pending |
-| 1-03-02 | 03 | 2 | AUTH-05 | feature | `php artisan test --filter=InvitationExpiryTest` | ✅ W0 | ⬜ pending |
+| 1-03-02 | 03 | 2 | AUTH-05 | feature | `php artisan test --filter=InvitationTest::test_expired_invitation_is_rejected` | ✅ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 

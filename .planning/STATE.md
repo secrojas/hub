@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-02-PLAN.md — role-based auth, middleware pair, AdminLayout, PortalLayout, Error page, 8 tests passing
-last_updated: "2026-03-19T22:15:35.354Z"
+stopped_at: Completed 01-03-PLAN.md — invitation system, InvitationController, Accept.vue, 6 tests passing
+last_updated: "2026-03-19T22:16:31.000Z"
 progress:
   total_phases: 7
   completed_phases: 0
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 3
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 01 (Fundación y Auth) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 
 ## Performance Metrics
 
@@ -38,7 +38,7 @@ Plan: 2 of 4
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-fundaci-n-y-auth | 1/4 | 17 min | 17 min |
+| 01-fundaci-n-y-auth | 3/4 | 19 min | 6 min |
 
 **Recent Trend:**
 
@@ -47,6 +47,7 @@ Plan: 2 of 4
 
 *Updated after each plan completion*
 | Phase 01-fundaci-n-y-auth P02 | 4 | 2 tasks | 13 files |
+| Phase 01-fundaci-n-y-auth P03 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,8 @@ Recent decisions affecting current work:
 - [Phase 01-fundaci-n-y-auth]: Not using 'verified' middleware on protected routes — email verification disabled, admin seeded with email_verified_at set
 - [Phase 01-fundaci-n-y-auth]: Inertia Error.vue is a standalone full-page component with no layout — intentional for error display clarity
 - [Phase 01-fundaci-n-y-auth]: Route groups use ['auth', 'admin'] and ['auth', 'client'] — no 'verified' middleware — Breeze default dashboard route replaced entirely
+- [Phase 01-fundaci-n-y-auth]: accept_url passed as full signed URL prop to Accept.vue so form.post() preserves signature params
+- [Phase 01-fundaci-n-y-auth]: show() checks used_at explicitly before rendering form — 403 with custom message, not 404
 
 ### Pending Todos
 
@@ -77,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-19T22:15:35.349Z
-Stopped at: Completed 01-02-PLAN.md — role-based auth, middleware pair, AdminLayout, PortalLayout, Error page, 8 tests passing
+Last session: 2026-03-19T22:16:31.000Z
+Stopped at: Completed 01-03-PLAN.md — invitation system, InvitationController, Accept.vue, 6 tests passing
 Resume file: None

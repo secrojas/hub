@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-03-PLAN.md — invitation system, InvitationController, Accept.vue, 6 tests passing
-last_updated: "2026-03-19T22:16:31.000Z"
+stopped_at: Completed 01-04-PLAN.md Task 1 — registration disabled, all 39 tests green; awaiting Task 2 human verification at checkpoint
+last_updated: "2026-03-20T01:03:25.163Z"
 progress:
   total_phases: 7
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
 ---
 
 # Project State
@@ -48,6 +48,7 @@ Plan: 3 of 4
 *Updated after each plan completion*
 | Phase 01-fundaci-n-y-auth P02 | 4 | 2 tasks | 13 files |
 | Phase 01-fundaci-n-y-auth P03 | 2 | 2 tasks | 5 files |
+| Phase 01-fundaci-n-y-auth P04 | 15 | 1 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,7 @@ Recent decisions affecting current work:
 - [Phase 01-fundaci-n-y-auth]: Route groups use ['auth', 'admin'] and ['auth', 'client'] — no 'verified' middleware — Breeze default dashboard route replaced entirely
 - [Phase 01-fundaci-n-y-auth]: accept_url passed as full signed URL prop to Accept.vue so form.post() preserves signature params
 - [Phase 01-fundaci-n-y-auth]: show() checks used_at explicitly before rendering form — 403 with custom message, not 404
+- [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
 
 ### Pending Todos
 
@@ -80,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-19T22:16:31.000Z
-Stopped at: Completed 01-03-PLAN.md — invitation system, InvitationController, Accept.vue, 6 tests passing
+Last session: 2026-03-20T01:03:25.157Z
+Stopped at: Completed 01-04-PLAN.md Task 1 — registration disabled, all 39 tests green; awaiting Task 2 human verification at checkpoint
 Resume file: None

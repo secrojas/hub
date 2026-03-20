@@ -163,3 +163,17 @@ None - no external service configuration required.
 ---
 *Phase: 01-fundaci-n-y-auth*
 *Completed: 2026-03-19*
+
+## Self-Check: PASSED
+
+- FOUND: app/Http/Middleware/EnsureIsAdmin.php
+- FOUND: app/Http/Middleware/EnsureIsClient.php
+- FOUND: resources/js/Layouts/AdminLayout.vue
+- FOUND: resources/js/Layouts/PortalLayout.vue
+- FOUND: resources/js/Pages/Admin/Dashboard.vue
+- FOUND: resources/js/Pages/Portal/Index.vue
+- FOUND: resources/js/Pages/Error.vue
+- FOUND: .planning/phases/01-fundaci-n-y-auth/01-02-SUMMARY.md
+- FOUND commit: 01d6d69 (Task 1)
+- FOUND commit: d2ef0a0 (Task 2)
+- FOUND commit: dbe8a1e (metadata)

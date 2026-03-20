@@ -49,7 +49,11 @@ Plans:
   3. El admin puede abrir la página de detalle de un cliente y ver todos sus campos
   4. El admin puede editar cualquier campo de un cliente y los cambios persisten
   5. El admin puede eliminar un cliente y este desaparece de la lista
-**Plans**: TBD
+**Plans:** 3 plans
+Plans:
+- [ ] 02-01-PLAN.md — Migrations (clients table + client_id FKs) + Client model + User/Invitation model surgery + test stubs
+- [ ] 02-02-PLAN.md — ClientController CRUD + Index/Create/Edit/Show Vue pages + 10 feature tests
+- [ ] 02-03-PLAN.md — "Invitar al portal" wiring + InvitationController client_id propagation + AdminLayout nav + invitation tests
 
 ### Phase 3: Tareas y Kanban
 **Goal**: El admin puede gestionar tareas vinculadas a clientes y ver el estado de todo el trabajo en curso en un tablero Kanban
@@ -115,7 +119,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Fundación y Auth | 3/4 | In Progress|  |
-| 2. CRM de Clientes | 0/TBD | Not started | - |
+| 2. CRM de Clientes | 0/3 | Not started | - |
 | 3. Tareas y Kanban | 0/TBD | Not started | - |
 | 4. Facturación | 0/TBD | Not started | - |
 | 5. Presupuestos y PDF | 0/TBD | Not started | - |

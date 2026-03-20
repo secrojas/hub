@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Fundacion y Auth** - Scaffolding de Laravel + Inertia + Vue 3, autenticacion, roles admin/cliente e invitacion por email
 - [ ] **Phase 2: CRM de Clientes** - CRUD completo de clientes con todos sus campos, lista y vista de detalle
-- [ ] **Phase 3: Tareas y Kanban** - Creacion y edicion de tareas, tablero Kanban por cliente con drag-and-drop y vista global
+- [x] **Phase 3: Tareas y Kanban** - Creacion y edicion de tareas, tablero Kanban por cliente con drag-and-drop y vista global (completed 2026-03-20)
 - [ ] **Phase 4: Facturacion** - Registro manual de cobros en ARS, estados y dashboard mensual de facturacion
 - [ ] **Phase 5: Presupuestos y PDF** - Constructor de presupuestos con items, estados y generacion de PDF al marcar como Enviado
 - [ ] **Phase 6: Portal del Cliente** - Vistas de solo lectura para el cliente: tareas, presupuestos, facturacion y resumen personal
@@ -65,7 +65,7 @@ Plans:
   3. Si el drag-and-drop falla, la tarjeta vuelve a su posicion original y aparece un mensaje de error
   4. El admin puede ver el Kanban global con tareas de todos los clientes en una sola vista
   5. El admin puede filtrar o buscar tareas por titulo, estado o prioridad
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 Plans:
 - [ ] 03-01-PLAN.md -- Tasks migration + Task model + enums + factory + test stubs
 - [ ] 03-02-PLAN.md -- TaskController (CRUD + updateStatus) + Kanban Vue page with drag-drop + modals
@@ -124,7 +124,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 |-------|----------------|--------|-----------|
 | 1. Fundacion y Auth | 3/4 | In Progress|  |
 | 2. CRM de Clientes | 1/3 | In Progress|  |
-| 3. Tareas y Kanban | 2/3 | In Progress|  |
+| 3. Tareas y Kanban | 3/3 | Complete   | 2026-03-20 |
 | 4. Facturacion | 0/TBD | Not started | - |
 | 5. Presupuestos y PDF | 0/TBD | Not started | - |
 | 6. Portal del Cliente | 0/TBD | Not started | - |

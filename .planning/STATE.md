@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: "Completed 03-02-PLAN.md — Kanban board: TaskController, vue-draggable-plus, Index.vue, 8 tests"
-last_updated: "2026-03-20T18:49:48.068Z"
+stopped_at: Completed 03-03-PLAN.md — filter bar, Ver Kanban link, Tareas nav, 4 filter tests
+last_updated: "2026-03-20T18:53:54.987Z"
 progress:
   total_phases: 7
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 10
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # Project State
@@ -23,8 +23,8 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 
 ## Current Position
 
-Phase: 03 (Tareas y Kanban) — EXECUTING
-Plan: 2 of 3
+Phase: 03 (Tareas y Kanban) — COMPLETE
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Plan: 2 of 3
 | Phase 02-crm-de-clientes P03 | 2 | 2 tasks | 5 files |
 | Phase 03-tareas-y-kanban P01 | 3 | 2 tasks | 9 files |
 | Phase 03-tareas-y-kanban P02 | 2 | 2 tasks | 8 files |
+| Phase 03-tareas-y-kanban P03 | 2 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -89,6 +90,9 @@ Recent decisions affecting current work:
 - [Phase 03-tareas-y-kanban]: Collection grouping uses enum case comparison (TaskStatus::Backlog) not string — cast enum values don't match plain strings in Collection::where
 - [Phase 03-tareas-y-kanban]: updateStatus test uses assertSessionHasErrors(['estado']) not assertStatus(422) — controller uses redirect-back not JSON API
 - [Phase 03-tareas-y-kanban]: VueDraggable onColumnChange guards on event.added only to prevent double-firing; optimistic rollback via JSON.parse snapshot + onError
+- [Phase 03-tareas-y-kanban]: Filter navigation uses router.get with replace:true to prevent browser history pollution from typing in search
+- [Phase 03-tareas-y-kanban]: Titulo input debounced 300ms to avoid excessive Inertia requests on each keystroke
+- [Phase 03-tareas-y-kanban]: Filter tests use collect()->flatMap()->pluck('id') to merge all columns for presence/absence assertions
 
 ### Pending Todos
 
@@ -102,6 +106,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T18:49:48.064Z
-Stopped at: Completed 03-02-PLAN.md — Kanban board: TaskController, vue-draggable-plus, Index.vue, 8 tests
+Last session: 2026-03-20T18:53:54.982Z
+Stopped at: Completed 03-03-PLAN.md — filter bar, Ver Kanban link, Tareas nav, 4 filter tests
 Resume file: None

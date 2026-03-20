@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Enums\Role;
+use App\Models\Client;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -68,5 +69,36 @@ class InvitationTest extends TestCase
 
         $response = $this->get($url);
         $response->assertStatus(403);
+    }
+
+    public function test_accept_sets_user_client_id(): void
+    {
+        $client = Client::factory()->create();
+
+        Invitation::create([
+            'client_id'   => $client->id,
+            'email'       => 'newclient@test.com',
+            'client_name' => 'New Client',
+            'token'       => 'test-token-xyz',
+            'expires_at'  => now()->addHours(72),
+        ]);
+
+        $signedUrl = URL::temporarySignedRoute(
+            'invitation.accept',
+            now()->addHours(72),
+            ['token' => 'test-token-xyz']
+        );
+
+        $response = $this->post($signedUrl, [
+            'token'                 => 'test-token-xyz',
+            'password'              => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertRedirect(route('portal'));
+        $this->assertDatabaseHas('users', [
+            'email'     => 'newclient@test.com',
+            'client_id' => $client->id,
+        ]);
     }
 }

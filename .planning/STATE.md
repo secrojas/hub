@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: "Completed 03-01-PLAN.md — Task data foundation: enums, migration, model, factory, 12 test stubs"
-last_updated: "2026-03-20T18:44:22.121Z"
+stopped_at: "Completed 03-02-PLAN.md — Kanban board: TaskController, vue-draggable-plus, Index.vue, 8 tests"
+last_updated: "2026-03-20T18:49:48.068Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 10
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 03 (Tareas y Kanban) — EXECUTING
-Plan: 1 of 3
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Plan: 1 of 3
 | Phase 02-crm-de-clientes P02 | 2 | 2 tasks | 8 files |
 | Phase 02-crm-de-clientes P03 | 2 | 2 tasks | 5 files |
 | Phase 03-tareas-y-kanban P01 | 3 | 2 tasks | 9 files |
+| Phase 03-tareas-y-kanban P02 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,9 @@ Recent decisions affecting current work:
 - [Phase 03-tareas-y-kanban]: cascadeOnDelete on tasks.client_id — orphaned tasks have no business value without a client
 - [Phase 03-tareas-y-kanban]: TaskFactory defaults estado to backlog — gives predictable initial state for Kanban tests
 - [Phase 03-tareas-y-kanban]: Test stubs use markTestIncomplete pending TaskController — ensures Nyquist compliance from plan 01
+- [Phase 03-tareas-y-kanban]: Collection grouping uses enum case comparison (TaskStatus::Backlog) not string — cast enum values don't match plain strings in Collection::where
+- [Phase 03-tareas-y-kanban]: updateStatus test uses assertSessionHasErrors(['estado']) not assertStatus(422) — controller uses redirect-back not JSON API
+- [Phase 03-tareas-y-kanban]: VueDraggable onColumnChange guards on event.added only to prevent double-firing; optimistic rollback via JSON.parse snapshot + onError
 
 ### Pending Todos
 
@@ -98,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T18:44:22.117Z
-Stopped at: Completed 03-01-PLAN.md — Task data foundation: enums, migration, model, factory, 12 test stubs
+Last session: 2026-03-20T18:49:48.064Z
+Stopped at: Completed 03-02-PLAN.md — Kanban board: TaskController, vue-draggable-plus, Index.vue, 8 tests
 Resume file: None

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-04-PLAN.md Task 1 — registration disabled, all 39 tests green; awaiting Task 2 human verification at checkpoint
-last_updated: "2026-03-20T01:03:25.163Z"
+stopped_at: Completed 01-04-PLAN.md — Phase 1 auth system fully verified, all AUTH requirements done
+last_updated: "2026-03-20T12:18:01.504Z"
 progress:
   total_phases: 7
   completed_phases: 1
@@ -49,6 +49,7 @@ Plan: 3 of 4
 | Phase 01-fundaci-n-y-auth P02 | 4 | 2 tasks | 13 files |
 | Phase 01-fundaci-n-y-auth P03 | 2 | 2 tasks | 5 files |
 | Phase 01-fundaci-n-y-auth P04 | 15 | 1 tasks | 4 files |
+| Phase 01-fundaci-n-y-auth P04 | 17 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,7 @@ Recent decisions affecting current work:
 - [Phase 01-fundaci-n-y-auth]: accept_url passed as full signed URL prop to Accept.vue so form.post() preserves signature params
 - [Phase 01-fundaci-n-y-auth]: show() checks used_at explicitly before rendering form — 403 with custom message, not 404
 - [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
+- [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
 
 ### Pending Todos
 
@@ -82,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T01:03:25.157Z
-Stopped at: Completed 01-04-PLAN.md Task 1 — registration disabled, all 39 tests green; awaiting Task 2 human verification at checkpoint
+Last session: 2026-03-20T12:18:01.498Z
+Stopped at: Completed 01-04-PLAN.md — Phase 1 auth system fully verified, all AUTH requirements done
 Resume file: None

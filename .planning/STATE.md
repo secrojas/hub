@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: unknown
 stopped_at: Completed 02-03-PLAN.md — invitation wiring, InvitationController client_id propagation, 53 tests green
-last_updated: "2026-03-20T12:56:01.265Z"
+last_updated: "2026-03-20T12:59:22.180Z"
 progress:
   total_phases: 7
   completed_phases: 2

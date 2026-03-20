@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-04-PLAN.md — Phase 1 auth system fully verified, all AUTH requirements done
-last_updated: "2026-03-20T12:18:01.504Z"
+stopped_at: "Completed 02-01-PLAN.md — CRM database foundation: clients table, FK migrations, Client model, 13 test stubs"
+last_updated: "2026-03-20T12:47:44.172Z"
 progress:
   total_phases: 7
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 7
+  completed_plans: 5
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 01 — Fundación y Auth
+**Current focus:** Phase 02 — CRM de Clientes
 
 ## Current Position
 
-Phase: 01 (Fundación y Auth) — EXECUTING
-Plan: 3 of 4
+Phase: 02 (CRM de Clientes) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -50,6 +50,7 @@ Plan: 3 of 4
 | Phase 01-fundaci-n-y-auth P03 | 2 | 2 tasks | 5 files |
 | Phase 01-fundaci-n-y-auth P04 | 15 | 1 tasks | 4 files |
 | Phase 01-fundaci-n-y-auth P04 | 17 | 2 tasks | 4 files |
+| Phase 02-crm-de-clientes P01 | 8 | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,8 @@ Recent decisions affecting current work:
 - [Phase 01-fundaci-n-y-auth]: show() checks used_at explicitly before rendering form — 403 with custom message, not 404
 - [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
 - [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
+- [Phase 02-crm-de-clientes]: nullOnDelete on FK client_id in users and invitations — clients can be deleted without cascade-deleting users or invitations
+- [Phase 02-crm-de-clientes]: estado as enum column (activo/potencial/pausado default activo) — enforced at DB level
 
 ### Pending Todos
 
@@ -84,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T12:18:01.498Z
-Stopped at: Completed 01-04-PLAN.md — Phase 1 auth system fully verified, all AUTH requirements done
+Last session: 2026-03-20T12:47:44.167Z
+Stopped at: Completed 02-01-PLAN.md — CRM database foundation: clients table, FK migrations, Client model, 13 test stubs
 Resume file: None

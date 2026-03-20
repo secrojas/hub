@@ -17,8 +17,8 @@
 
 ### Clientes
 
-- [ ] **CLIE-01**: El admin puede crear, editar y eliminar clientes
-- [ ] **CLIE-02**: Cada cliente tiene: nombre, empresa, email, teléfono, stack tecnológico, estado (activo / potencial / pausado), notas internas y fecha de inicio
+- [x] **CLIE-01**: El admin puede crear, editar y eliminar clientes
+- [x] **CLIE-02**: Cada cliente tiene: nombre, empresa, email, teléfono, stack tecnológico, estado (activo / potencial / pausado), notas internas y fecha de inicio
 - [ ] **CLIE-03**: El admin puede ver la lista de todos los clientes
 - [ ] **CLIE-04**: El admin puede ver la página de detalle de un cliente individual
 
@@ -101,8 +101,8 @@
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete |
 | AUTH-05 | Phase 1 | Complete |
-| CLIE-01 | Phase 2 | Pending |
-| CLIE-02 | Phase 2 | Pending |
+| CLIE-01 | Phase 2 | Complete |
+| CLIE-02 | Phase 2 | Complete |
 | CLIE-03 | Phase 2 | Pending |
 | CLIE-04 | Phase 2 | Pending |
 | TASK-01 | Phase 3 | Pending |

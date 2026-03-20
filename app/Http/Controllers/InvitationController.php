@@ -26,6 +26,7 @@ class InvitationController extends Controller
         $request->validate([
             'email'       => ['required', 'email', 'unique:users,email'],
             'client_name' => ['required', 'string', 'max:255'],
+            'client_id'   => ['nullable', 'exists:clients,id'],
         ]);
 
         $token = Str::uuid()->toString();
@@ -34,6 +35,7 @@ class InvitationController extends Controller
             'token'       => $token,
             'email'       => $request->email,
             'client_name' => $request->client_name,
+            'client_id'   => $request->client_id,
             'expires_at'  => now()->addHours(72),
         ]);
 
@@ -89,6 +91,10 @@ class InvitationController extends Controller
             'role'              => Role::Client,
             'email_verified_at' => now(),
         ]);
+
+        if ($invitation->client_id) {
+            $user->update(['client_id' => $invitation->client_id]);
+        }
 
         $invitation->update(['used_at' => now()]);
 

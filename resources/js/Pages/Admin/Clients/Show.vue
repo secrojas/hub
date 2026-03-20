@@ -1,14 +1,27 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, Link } from '@inertiajs/vue3'
-import { defineOptions } from 'vue'
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
+import { computed, defineOptions } from 'vue'
 
 defineOptions({ layout: AdminLayout })
 
-defineProps({
+const props = defineProps({
     client: Object,
     hasActiveUser: Boolean,
 })
+
+const page = usePage()
+const invitationUrl = computed(() => page.props.flash?.invitation_url)
+
+const inviteForm = useForm({
+    email: props.client.email,
+    client_name: props.client.nombre,
+    client_id: props.client.id,
+})
+
+function invitar() {
+    inviteForm.post('/invitations', { preserveScroll: true })
+}
 
 function formatDate(dateStr) {
     if (!dateStr) return '-'
@@ -74,6 +87,39 @@ function estadoBadgeClass(estado) {
             <div class="px-6 py-4 grid grid-cols-3 gap-4">
                 <dt class="text-sm font-medium text-gray-500">Fecha de Inicio</dt>
                 <dd class="col-span-2 text-sm text-gray-900">{{ formatDate(client.fecha_inicio) }}</dd>
+            </div>
+        </div>
+
+        <!-- Portal Invitation Section -->
+        <div class="mt-6 bg-white shadow rounded-lg p-6">
+            <h2 class="text-base font-semibold text-gray-900 mb-3">Acceso al portal</h2>
+
+            <p v-if="hasActiveUser" class="text-sm text-amber-600">
+                Este cliente ya tiene una cuenta activa.
+            </p>
+
+            <template v-else>
+                <p v-if="inviteForm.errors.email" class="text-sm text-red-600 mb-3">
+                    {{ inviteForm.errors.email }}
+                </p>
+                <button
+                    @click="invitar"
+                    :disabled="inviteForm.processing"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium disabled:opacity-50"
+                >
+                    Invitar al portal
+                </button>
+            </template>
+
+            <div v-if="invitationUrl" class="mt-4">
+                <p class="text-sm font-medium text-green-700 mb-2">Enlace de invitacion generado:</p>
+                <input
+                    type="text"
+                    :value="invitationUrl"
+                    readonly
+                    class="w-full text-sm border border-green-300 rounded px-3 py-2 bg-green-50 text-gray-800 cursor-pointer"
+                    @click="$event.target.select()"
+                />
             </div>
         </div>
     </div>

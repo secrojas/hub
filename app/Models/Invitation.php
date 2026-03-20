@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Invitation extends Model
 {
@@ -10,6 +11,7 @@ class Invitation extends Model
         'token',
         'email',
         'client_name',
+        'client_id',
         'expires_at',
         'used_at',
     ];
@@ -20,5 +22,10 @@ class Invitation extends Model
             'expires_at' => 'datetime',
             'used_at'    => 'datetime',
         ];
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
     }
 }

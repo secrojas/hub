@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Enums\Role;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'client_id',
     ];
 
     /**
@@ -58,5 +60,10 @@ class User extends Authenticatable
     public function isClient(): bool
     {
         return $this->role === Role::Client;
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/invitations', [InvitationController::class, 'store'])->name('invitations.store');
 
     Route::resource('clients', ClientController::class);
+
+    Route::resource('tasks', TaskController::class)->except(['show', 'create', 'edit']);
+    Route::put('tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
 });
 
 // Public invitation acceptance (requires valid signature)

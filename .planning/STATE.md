@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: "Completed 02-01-PLAN.md — CRM database foundation: clients table, FK migrations, Client model, 13 test stubs"
-last_updated: "2026-03-20T12:47:44.172Z"
+stopped_at: Completed 02-02-PLAN.md — ClientController resource CRUD, 4 Vue pages (Index, Create, Edit, Show), 10 tests passing
+last_updated: "2026-03-20T12:52:27.212Z"
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
 ---
 
 # Project State
@@ -51,6 +51,7 @@ Plan: 2 of 3
 | Phase 01-fundaci-n-y-auth P04 | 15 | 1 tasks | 4 files |
 | Phase 01-fundaci-n-y-auth P04 | 17 | 2 tasks | 4 files |
 | Phase 02-crm-de-clientes P01 | 8 | 2 tasks | 10 files |
+| Phase 02-crm-de-clientes P02 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,9 @@ Recent decisions affecting current work:
 - [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
 - [Phase 02-crm-de-clientes]: nullOnDelete on FK client_id in users and invitations — clients can be deleted without cascade-deleting users or invitations
 - [Phase 02-crm-de-clientes]: estado as enum column (activo/potencial/pausado default activo) — enforced at DB level
+- [Phase 02-crm-de-clientes]: Estado filter uses router.get with preserveState:true — server-side filtering consistent with Inertia patterns
+- [Phase 02-crm-de-clientes]: Delete modal uses ref(null) sentinel pattern — null hides modal, set value triggers it
+- [Phase 02-crm-de-clientes]: hasActiveUser prop computed server-side in ClientController.show() — single source of truth for user-client relationship
 
 ### Pending Todos
 
@@ -87,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T12:47:44.167Z
-Stopped at: Completed 02-01-PLAN.md — CRM database foundation: clients table, FK migrations, Client model, 13 test stubs
+Last session: 2026-03-20T12:52:27.206Z
+Stopped at: Completed 02-02-PLAN.md — ClientController resource CRUD, 4 Vue pages (Index, Create, Edit, Show), 10 tests passing
 Resume file: None

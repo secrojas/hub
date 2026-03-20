@@ -23,8 +23,6 @@ class TaskKanbanTest extends TestCase
 
     public function test_index_returns_columns_scoped_to_client(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         $client = Client::factory()->create();
         Task::factory()->count(2)->create(['client_id' => $client->id]);
         Task::factory()->create(); // different client
@@ -39,8 +37,6 @@ class TaskKanbanTest extends TestCase
 
     public function test_update_status_changes_task_estado(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         $task = Task::factory()->create(['estado' => 'backlog']);
 
         $response = $this->actingAs($this->admin)->put("/tasks/{$task->id}/status", [
@@ -56,21 +52,17 @@ class TaskKanbanTest extends TestCase
 
     public function test_update_status_rejects_invalid_estado(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         $task = Task::factory()->create();
 
         $response = $this->actingAs($this->admin)->put("/tasks/{$task->id}/status", [
             'estado' => 'invalid',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertSessionHasErrors(['estado']);
     }
 
     public function test_global_view_returns_all_clients_tasks(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         Task::factory()->count(3)->create();
 
         $response = $this->actingAs($this->admin)->get('/tasks');

@@ -23,8 +23,6 @@ class TaskCrudTest extends TestCase
 
     public function test_admin_can_create_task(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         $client = Client::factory()->create();
 
         $response = $this->actingAs($this->admin)->post('/tasks', [
@@ -36,13 +34,12 @@ class TaskCrudTest extends TestCase
         $this->assertDatabaseHas('tasks', [
             'titulo'    => 'Nueva tarea de prueba',
             'client_id' => $client->id,
+            'estado'    => 'backlog',
         ]);
     }
 
     public function test_create_task_validation_requires_titulo_and_client(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         $response = $this->actingAs($this->admin)->post('/tasks', []);
 
         $response->assertSessionHasErrors(['titulo', 'client_id']);
@@ -50,8 +47,6 @@ class TaskCrudTest extends TestCase
 
     public function test_admin_can_update_task(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         $task = Task::factory()->create();
 
         $response = $this->actingAs($this->admin)->put("/tasks/{$task->id}", [
@@ -68,8 +63,6 @@ class TaskCrudTest extends TestCase
 
     public function test_admin_can_delete_task(): void
     {
-        $this->markTestIncomplete('Pending TaskController');
-
         $task = Task::factory()->create();
 
         $response = $this->actingAs($this->admin)->delete("/tasks/{$task->id}");

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 02-02-PLAN.md — ClientController resource CRUD, 4 Vue pages (Index, Create, Edit, Show), 10 tests passing
-last_updated: "2026-03-20T12:52:27.212Z"
+stopped_at: Completed 02-03-PLAN.md — invitation wiring, InvitationController client_id propagation, 53 tests green
+last_updated: "2026-03-20T12:56:01.265Z"
 progress:
   total_phases: 7
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # Project State
@@ -52,6 +52,7 @@ Plan: 2 of 3
 | Phase 01-fundaci-n-y-auth P04 | 17 | 2 tasks | 4 files |
 | Phase 02-crm-de-clientes P01 | 8 | 2 tasks | 10 files |
 | Phase 02-crm-de-clientes P02 | 2 | 2 tasks | 8 files |
+| Phase 02-crm-de-clientes P03 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,8 @@ Recent decisions affecting current work:
 - [Phase 02-crm-de-clientes]: Estado filter uses router.get with preserveState:true — server-side filtering consistent with Inertia patterns
 - [Phase 02-crm-de-clientes]: Delete modal uses ref(null) sentinel pattern — null hides modal, set value triggers it
 - [Phase 02-crm-de-clientes]: hasActiveUser prop computed server-side in ClientController.show() — single source of truth for user-client relationship
+- [Phase 02-crm-de-clientes]: Show.vue reads flash via usePage().props.flash?.invitation_url computed — consistent with Invitations/Create.vue pattern
+- [Phase 02-crm-de-clientes]: client_id propagation in accept() uses separate user->update() after User::create() — keeps create call clean and propagation logic isolated
 
 ### Pending Todos
 
@@ -91,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T12:52:27.206Z
-Stopped at: Completed 02-02-PLAN.md — ClientController resource CRUD, 4 Vue pages (Index, Create, Edit, Show), 10 tests passing
+Last session: 2026-03-20T12:56:01.260Z
+Stopped at: Completed 02-03-PLAN.md — invitation wiring, InvitationController client_id propagation, 53 tests green
 Resume file: None

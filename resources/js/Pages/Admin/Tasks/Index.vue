@@ -12,6 +12,33 @@ const props = defineProps({
     filtros: Object,
 })
 
+// Filter state — initialized from server-side filtros prop
+const filters = ref({
+    cliente:   props.filtros?.cliente ?? '',
+    estado:    props.filtros?.estado ?? '',
+    prioridad: props.filtros?.prioridad ?? '',
+    titulo:    props.filtros?.titulo ?? '',
+})
+
+function applyFilters() {
+    // Strip empty values so URL stays clean
+    const params = Object.fromEntries(
+        Object.entries(filters.value).filter(([_, v]) => v !== '' && v !== null)
+    )
+    router.get('/tasks', params, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+    })
+}
+
+// Debounce titulo input to avoid excessive requests
+let searchTimeout = null
+function onTituloInput() {
+    clearTimeout(searchTimeout)
+    searchTimeout = setTimeout(applyFilters, 300)
+}
+
 // Local columns state for optimistic update
 const localColumns = ref({
     backlog:     [...(props.columns.backlog || [])],
@@ -137,6 +164,50 @@ function prioridadBadgeClass(prioridad) {
             >
                 Nueva tarea
             </button>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="mb-6 flex flex-wrap gap-3 items-end">
+            <!-- Client dropdown -->
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Cliente</label>
+                <select v-model="filters.cliente" @change="applyFilters" class="border-gray-300 rounded text-sm">
+                    <option value="">Todos</option>
+                    <option v-for="c in clients" :key="c.id" :value="c.id">{{ c.nombre }}</option>
+                </select>
+            </div>
+            <!-- Estado dropdown -->
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Estado</label>
+                <select v-model="filters.estado" @change="applyFilters" class="border-gray-300 rounded text-sm">
+                    <option value="">Todos</option>
+                    <option value="backlog">Backlog</option>
+                    <option value="en_progreso">En progreso</option>
+                    <option value="en_revision">En revision</option>
+                    <option value="finalizado">Finalizado</option>
+                </select>
+            </div>
+            <!-- Prioridad dropdown -->
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Prioridad</label>
+                <select v-model="filters.prioridad" @change="applyFilters" class="border-gray-300 rounded text-sm">
+                    <option value="">Todas</option>
+                    <option value="alta">Alta</option>
+                    <option value="media">Media</option>
+                    <option value="baja">Baja</option>
+                </select>
+            </div>
+            <!-- Titulo search -->
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Buscar</label>
+                <input
+                    v-model="filters.titulo"
+                    @input="onTituloInput"
+                    type="text"
+                    placeholder="Buscar por titulo..."
+                    class="border-gray-300 rounded text-sm w-48"
+                />
+            </div>
         </div>
 
         <!-- Kanban board: 4 columns -->

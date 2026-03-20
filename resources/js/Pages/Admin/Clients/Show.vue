@@ -42,6 +42,12 @@ function estadoBadgeClass(estado) {
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl font-semibold text-gray-900">{{ client.nombre }}</h1>
             <div class="flex gap-3">
+                <Link
+                    :href="`/tasks?cliente=${client.id}`"
+                    class="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 text-sm font-medium"
+                >
+                    Ver Kanban
+                </Link>
                 <Link :href="`/clients/${client.id}/edit`" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm font-medium">
                     Editar
                 </Link>

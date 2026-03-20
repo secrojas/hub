@@ -24,7 +24,7 @@
 
 ### Tareas
 
-- [ ] **TASK-01**: El admin puede crear tareas vinculadas a un cliente con: título, descripción, prioridad y fecha límite opcional
+- [x] **TASK-01**: El admin puede crear tareas vinculadas a un cliente con: título, descripción, prioridad y fecha límite opcional
 - [ ] **TASK-02**: El admin puede editar y eliminar tareas
 - [ ] **TASK-03**: El admin puede ver el tablero Kanban por cliente con drag-and-drop (columnas: Backlog / En progreso / En revisión / Finalizado)
 - [ ] **TASK-04**: El admin puede ver una vista global del Kanban con tareas de todos los clientes
@@ -105,7 +105,7 @@
 | CLIE-02 | Phase 2 | Complete |
 | CLIE-03 | Phase 2 | Complete |
 | CLIE-04 | Phase 2 | Complete |
-| TASK-01 | Phase 3 | Pending |
+| TASK-01 | Phase 3 | Complete |
 | TASK-02 | Phase 3 | Pending |
 | TASK-03 | Phase 3 | Pending |
 | TASK-04 | Phase 3 | Pending |

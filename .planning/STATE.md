@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 02-03-PLAN.md — invitation wiring, InvitationController client_id propagation, 53 tests green
-last_updated: "2026-03-20T12:59:22.180Z"
+stopped_at: "Completed 03-01-PLAN.md — Task data foundation: enums, migration, model, factory, 12 test stubs"
+last_updated: "2026-03-20T18:44:22.121Z"
 progress:
   total_phases: 7
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 10
+  completed_plans: 8
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 02 — CRM de Clientes
+**Current focus:** Phase 03 — Tareas y Kanban
 
 ## Current Position
 
-Phase: 02 (CRM de Clientes) — EXECUTING
-Plan: 2 of 3
+Phase: 03 (Tareas y Kanban) — EXECUTING
+Plan: 1 of 3
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Plan: 2 of 3
 | Phase 02-crm-de-clientes P01 | 8 | 2 tasks | 10 files |
 | Phase 02-crm-de-clientes P02 | 2 | 2 tasks | 8 files |
 | Phase 02-crm-de-clientes P03 | 2 | 2 tasks | 5 files |
+| Phase 03-tareas-y-kanban P01 | 3 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,9 @@ Recent decisions affecting current work:
 - [Phase 02-crm-de-clientes]: hasActiveUser prop computed server-side in ClientController.show() — single source of truth for user-client relationship
 - [Phase 02-crm-de-clientes]: Show.vue reads flash via usePage().props.flash?.invitation_url computed — consistent with Invitations/Create.vue pattern
 - [Phase 02-crm-de-clientes]: client_id propagation in accept() uses separate user->update() after User::create() — keeps create call clean and propagation logic isolated
+- [Phase 03-tareas-y-kanban]: cascadeOnDelete on tasks.client_id — orphaned tasks have no business value without a client
+- [Phase 03-tareas-y-kanban]: TaskFactory defaults estado to backlog — gives predictable initial state for Kanban tests
+- [Phase 03-tareas-y-kanban]: Test stubs use markTestIncomplete pending TaskController — ensures Nyquist compliance from plan 01
 
 ### Pending Todos
 
@@ -94,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T12:56:01.260Z
-Stopped at: Completed 02-03-PLAN.md — invitation wiring, InvitationController client_id propagation, 53 tests green
+Last session: 2026-03-20T18:44:22.117Z
+Stopped at: Completed 03-01-PLAN.md — Task data foundation: enums, migration, model, factory, 12 test stubs
 Resume file: None

@@ -65,7 +65,7 @@ Plans:
   3. Si el drag-and-drop falla, la tarjeta vuelve a su posicion original y aparece un mensaje de error
   4. El admin puede ver el Kanban global con tareas de todos los clientes en una sola vista
   5. El admin puede filtrar o buscar tareas por titulo, estado o prioridad
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 Plans:
 - [ ] 03-01-PLAN.md -- Tasks migration + Task model + enums + factory + test stubs
 - [ ] 03-02-PLAN.md -- TaskController (CRUD + updateStatus) + Kanban Vue page with drag-drop + modals
@@ -124,7 +124,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 |-------|----------------|--------|-----------|
 | 1. Fundacion y Auth | 3/4 | In Progress|  |
 | 2. CRM de Clientes | 1/3 | In Progress|  |
-| 3. Tareas y Kanban | 0/3 | Not started | - |
+| 3. Tareas y Kanban | 1/3 | In Progress|  |
 | 4. Facturacion | 0/TBD | Not started | - |
 | 5. Presupuestos y PDF | 0/TBD | Not started | - |
 | 6. Portal del Cliente | 0/TBD | Not started | - |

@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-stopped_at: Completed 04-03-PLAN.md — summary cards, nav link, client billing section, 6 BillingDashboardTest green
-last_updated: "2026-03-25T12:19:43.921Z"
+status: idle
+stopped_at: Phase 04 complete — 80 tests green. Bug fix applied to Tasks/Index.vue (v-for object destructuring). Ready for Phase 05.
+last_updated: "2026-03-25"
 progress:
   total_phases: 7
   completed_phases: 4
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 04 — facturacion
+**Current focus:** Phase 05 — presupuestos-y-pdf (ready to start)
 
 ## Current Position
 
 Phase: 04 (facturacion) — COMPLETE
-Plan: 3 of 3 (all plans complete)
+Next: Phase 05 (presupuestos-y-pdf) — not started
 
 ## Performance Metrics
 
@@ -102,6 +102,7 @@ Recent decisions affecting current work:
 - [Phase 04-facturacion]: BillingController summary uses (float) cast on sum() — avoids '0' string from empty DB result
 - [Phase 04-facturacion]: Decimal amounts with fractions in assertInertia tests — avoids int/float strict comparison issue from PHP json_encode of round numbers
 - [Phase 04-facturacion]: billings in ClientController@show uses ->get() not ->paginate() — compact client detail section
+- [Phase 04-facturacion]: Tasks/Index.vue Kanban v-for bug fixed — v-for on objects is (value, key) in Vue 3, NOT (key, value). Was: v-for="(status, _) in columnLabels" → status was the LABEL ('Backlog'), not the key ('backlog'). Fixed: v-for="(label, status) in columnLabels"
 
 ### Pending Todos
 
@@ -115,6 +116,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T12:15:45.287Z
-Stopped at: Completed 04-03-PLAN.md — summary cards, nav link, client billing section, 6 BillingDashboardTest green
+Last session: 2026-03-25
+Stopped at: Phase 04 complete (80 tests, 363 assertions). Fixed Tasks/Index.vue Kanban v-for bug (object destructuring order). Ready to start Phase 05: /gsd:discuss-phase 5
 Resume file: None

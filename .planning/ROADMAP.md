@@ -12,8 +12,8 @@ Hub se construye en siete fases ordenadas por dependencias duras: la autenticaci
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Fundacion y Auth** - Scaffolding de Laravel + Inertia + Vue 3, autenticacion, roles admin/cliente e invitacion por email
-- [ ] **Phase 2: CRM de Clientes** - CRUD completo de clientes con todos sus campos, lista y vista de detalle
+- [x] **Phase 1: Fundacion y Auth** - Scaffolding de Laravel + Inertia + Vue 3, autenticacion, roles admin/cliente e invitacion por email (completed 2026-03-25)
+- [x] **Phase 2: CRM de Clientes** - CRUD completo de clientes con todos sus campos, lista y vista de detalle (completed 2026-03-25)
 - [x] **Phase 3: Tareas y Kanban** - Creacion y edicion de tareas, tablero Kanban por cliente con drag-and-drop y vista global (completed 2026-03-20)
 - [x] **Phase 4: Facturacion** - Registro manual de cobros en ARS, estados y dashboard mensual de facturacion (completed 2026-03-25)
 - [ ] **Phase 5: Presupuestos y PDF** - Constructor de presupuestos con items, estados y generacion de PDF al marcar como Enviado
@@ -32,12 +32,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. El admin ve el layout de admin y el cliente ve el layout de portal -- nunca se intercambian
   4. El usuario puede cerrar sesion desde cualquier pagina y queda completamente desautenticado
   5. Una URL de invitacion usada o expirada es rechazada con mensaje de error
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 Plans:
-- [ ] 01-01-PLAN.md -- Laravel scaffold + Breeze + DB config + Role enum + migrations + seeder + test stubs
-- [ ] 01-02-PLAN.md -- Admin auth flow (middleware, layouts, role redirect, shared data, tests)
-- [ ] 01-03-PLAN.md -- Invitation system (controller, signed URLs, accept form, client registration)
-- [ ] 01-04-PLAN.md -- Final wiring (disable registration, nav links, visual verification)
+- [x] 01-01-PLAN.md -- Laravel scaffold + Breeze + DB config + Role enum + migrations + seeder + test stubs
+- [x] 01-02-PLAN.md -- Admin auth flow (middleware, layouts, role redirect, shared data, tests)
+- [x] 01-03-PLAN.md -- Invitation system (controller, signed URLs, accept form, client registration)
+- [x] 01-04-PLAN.md -- Final wiring (disable registration, nav links, visual verification)
 
 ### Phase 2: CRM de Clientes
 **Goal**: El admin puede crear, ver, editar y eliminar clientes con todos sus campos operativos
@@ -49,11 +49,11 @@ Plans:
   3. El admin puede abrir la pagina de detalle de un cliente y ver todos sus campos
   4. El admin puede editar cualquier campo de un cliente y los cambios persisten
   5. El admin puede eliminar un cliente y este desaparece de la lista
-**Plans:** 1/3 plans executed
+**Plans:** 3/3 plans complete
 Plans:
-- [ ] 02-01-PLAN.md -- Migrations (clients table + client_id FKs) + Client model + User/Invitation model surgery + test stubs
-- [ ] 02-02-PLAN.md -- ClientController CRUD + Index/Create/Edit/Show Vue pages + 10 feature tests
-- [ ] 02-03-PLAN.md -- "Invitar al portal" wiring + InvitationController client_id propagation + AdminLayout nav + invitation tests
+- [x] 02-01-PLAN.md -- Migrations (clients table + client_id FKs) + Client model + User/Invitation model surgery + test stubs
+- [x] 02-02-PLAN.md -- ClientController CRUD + Index/Create/Edit/Show Vue pages + 10 feature tests
+- [x] 02-03-PLAN.md -- "Invitar al portal" wiring + InvitationController client_id propagation + AdminLayout nav + invitation tests
 
 ### Phase 3: Tareas y Kanban
 **Goal**: El admin puede gestionar tareas vinculadas a clientes y ver el estado de todo el trabajo en curso en un tablero Kanban
@@ -80,7 +80,11 @@ Plans:
   2. Un cobro puede tener estado pendiente, pagado o vencido, y el admin puede cambiar ese estado
   3. El dashboard de facturacion muestra el total cobrado en el mes actual y la deuda pendiente total en ARS
   4. El admin puede filtrar cobros por cliente o por estado y los resultados se actualizan correctamente
-**Plans**: TBD
+**Plans:** 3/3 plans complete
+Plans:
+- [x] 04-01-PLAN.md -- billings migration + BillingStatus enum + Billing model + BillingFactory + test stubs
+- [x] 04-02-PLAN.md -- BillingController CRUD + Form Requests (required_if) + Index/Create/Edit Vue pages + 9 tests
+- [x] 04-03-PLAN.md -- Dashboard summary cards + Facturacion nav + client billing section + 6 dashboard tests
 
 ### Phase 5: Presupuestos y PDF
 **Goal**: El admin puede crear presupuestos con items y generar un PDF descargable al enviarlos al cliente
@@ -122,8 +126,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Fundacion y Auth | 3/4 | In Progress|  |
-| 2. CRM de Clientes | 1/3 | In Progress|  |
+| 1. Fundacion y Auth | 4/4 | Complete   | 2026-03-25 |
+| 2. CRM de Clientes | 3/3 | Complete   | 2026-03-25 |
 | 3. Tareas y Kanban | 3/3 | Complete   | 2026-03-20 |
 | 4. Facturacion | 3/3 | Complete   | 2026-03-25 |
 | 5. Presupuestos y PDF | 0/TBD | Not started | - |

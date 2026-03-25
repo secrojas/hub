@@ -213,13 +213,13 @@ function prioridadBadgeClass(prioridad) {
         <!-- Kanban board: 4 columns -->
         <div class="flex gap-4 overflow-x-auto pb-4 items-start">
             <div
-                v-for="(status, _) in columnLabels"
+                v-for="(label, status) in columnLabels"
                 :key="status"
                 class="flex-shrink-0 w-72 bg-gray-50 rounded-lg p-3"
             >
                 <!-- Column header -->
                 <h2 class="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3">
-                    {{ columnLabels[status] }}
+                    {{ label }}
                     <span class="ml-1 text-xs font-normal text-gray-400">({{ localColumns[status].length }})</span>
                 </h2>
 

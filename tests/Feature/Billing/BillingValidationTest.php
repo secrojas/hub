@@ -23,21 +23,55 @@ class BillingValidationTest extends TestCase
 
     public function test_store_requires_concepto_monto_fecha_emision_estado(): void
     {
-        $this->markTestIncomplete('Pending BillingController');
+        $response = $this->actingAs($this->admin)->post('/billing', []);
+
+        $response->assertSessionHasErrors(['concepto', 'monto', 'fecha_emision', 'estado', 'client_id']);
     }
 
     public function test_fecha_pago_required_when_estado_is_pagado(): void
     {
-        $this->markTestIncomplete('Pending BillingController');
+        $client = Client::factory()->create();
+
+        $response = $this->actingAs($this->admin)->post('/billing', [
+            'client_id'     => $client->id,
+            'concepto'      => 'Servicio',
+            'monto'         => '1000.00',
+            'fecha_emision' => '2026-03-01',
+            'estado'        => 'pagado',
+            // fecha_pago omitted intentionally
+        ]);
+
+        $response->assertSessionHasErrors('fecha_pago');
     }
 
     public function test_fecha_pago_not_required_when_estado_is_pendiente(): void
     {
-        $this->markTestIncomplete('Pending BillingController');
+        $client = Client::factory()->create();
+
+        $response = $this->actingAs($this->admin)->post('/billing', [
+            'client_id'     => $client->id,
+            'concepto'      => 'Servicio',
+            'monto'         => '1000.00',
+            'fecha_emision' => '2026-03-01',
+            'fecha_pago'    => null,
+            'estado'        => 'pendiente',
+        ]);
+
+        $response->assertSessionDoesntHaveErrors('fecha_pago');
     }
 
     public function test_estado_rejects_invalid_values(): void
     {
-        $this->markTestIncomplete('Pending BillingController');
+        $client = Client::factory()->create();
+
+        $response = $this->actingAs($this->admin)->post('/billing', [
+            'client_id'     => $client->id,
+            'concepto'      => 'Servicio',
+            'monto'         => '1000.00',
+            'fecha_emision' => '2026-03-01',
+            'estado'        => 'invalido',
+        ]);
+
+        $response->assertSessionHasErrors('estado');
     }
 }

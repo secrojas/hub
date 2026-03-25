@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('tasks', TaskController::class)->except(['show', 'create', 'edit']);
     Route::put('tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+
+    Route::resource('billing', BillingController::class)->except(['show']);
 });
 
 // Public invitation acceptance (requires valid signature)

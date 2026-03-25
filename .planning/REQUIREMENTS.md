@@ -34,8 +34,8 @@
 
 - [x] **BILL-01**: El admin puede registrar manualmente un cobro (cliente, concepto, monto ARS, fecha de emisión, fecha de pago, estado)
 - [x] **BILL-02**: Los cobros tienen estados: pendiente / pagado / vencido
-- [ ] **BILL-03**: El admin puede ver un dashboard mensual de facturación (total cobrado en el mes, deuda pendiente total)
-- [ ] **BILL-04**: El admin puede filtrar cobros por cliente o por estado
+- [x] **BILL-03**: El admin puede ver un dashboard mensual de facturación (total cobrado en el mes, deuda pendiente total)
+- [x] **BILL-04**: El admin puede filtrar cobros por cliente o por estado
 
 ### Presupuestos
 
@@ -112,8 +112,8 @@
 | TASK-05 | Phase 3 | Complete |
 | BILL-01 | Phase 4 | Complete |
 | BILL-02 | Phase 4 | Complete |
-| BILL-03 | Phase 4 | Pending |
-| BILL-04 | Phase 4 | Pending |
+| BILL-03 | Phase 4 | Complete |
+| BILL-04 | Phase 4 | Complete |
 | QUOT-01 | Phase 5 | Pending |
 | QUOT-02 | Phase 5 | Pending |
 | QUOT-03 | Phase 5 | Pending |

@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Fundacion y Auth** - Scaffolding de Laravel + Inertia + Vue 3, autenticacion, roles admin/cliente e invitacion por email
 - [ ] **Phase 2: CRM de Clientes** - CRUD completo de clientes con todos sus campos, lista y vista de detalle
 - [x] **Phase 3: Tareas y Kanban** - Creacion y edicion de tareas, tablero Kanban por cliente con drag-and-drop y vista global (completed 2026-03-20)
-- [ ] **Phase 4: Facturacion** - Registro manual de cobros en ARS, estados y dashboard mensual de facturacion
+- [x] **Phase 4: Facturacion** - Registro manual de cobros en ARS, estados y dashboard mensual de facturacion (completed 2026-03-25)
 - [ ] **Phase 5: Presupuestos y PDF** - Constructor de presupuestos con items, estados y generacion de PDF al marcar como Enviado
 - [ ] **Phase 6: Portal del Cliente** - Vistas de solo lectura para el cliente: tareas, presupuestos, facturacion y resumen personal
 - [ ] **Phase 7: Dashboard del Admin** - Vista principal del admin con tareas activas y proximas a vencer
@@ -125,7 +125,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 1. Fundacion y Auth | 3/4 | In Progress|  |
 | 2. CRM de Clientes | 1/3 | In Progress|  |
 | 3. Tareas y Kanban | 3/3 | Complete   | 2026-03-20 |
-| 4. Facturacion | 2/3 | In Progress|  |
+| 4. Facturacion | 3/3 | Complete   | 2026-03-25 |
 | 5. Presupuestos y PDF | 0/TBD | Not started | - |
 | 6. Portal del Cliente | 0/TBD | Not started | - |
 | 7. Dashboard del Admin | 0/TBD | Not started | - |

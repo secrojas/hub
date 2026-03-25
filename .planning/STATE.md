@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 04-01-PLAN.md — billings migration, BillingStatus enum, Billing model, BillingFactory, 15 test stubs
-last_updated: "2026-03-25T12:05:05.501Z"
+stopped_at: Completed 04-02-PLAN.md — BillingController, Form Requests, Vue pages, 9 green tests
+last_updated: "2026-03-25T12:10:46.913Z"
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 13
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 ## Current Position
 
 Phase: 04 (facturacion) — EXECUTING
-Plan: 1 of 3
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Plan: 1 of 3
 | Phase 03-tareas-y-kanban P02 | 2 | 2 tasks | 8 files |
 | Phase 03-tareas-y-kanban P03 | 2 | 2 tasks | 4 files |
 | Phase 04-facturacion P01 | 4 | 2 tasks | 8 files |
+| Phase 04-facturacion P02 | 8 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -96,6 +97,8 @@ Recent decisions affecting current work:
 - [Phase 03-tareas-y-kanban]: Filter tests use collect()->flatMap()->pluck('id') to merge all columns for presence/absence assertions
 - [Phase 04-facturacion]: nullOnDelete on billings.client_id — financial records must survive client deletion
 - [Phase 04-facturacion]: BillingFactory defaults estado to pendiente for predictable test state; pagado()/vencido() state methods for explicit overrides
+- [Phase 04-facturacion]: fecha_pago initialized as null (not empty string) in useForm — required_if:estado,pagado fires correctly on null
+- [Phase 04-facturacion]: BillingController summary uses (float) cast on sum() — avoids '0' string from empty DB result
 
 ### Pending Todos
 
@@ -109,6 +112,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T12:05:05.495Z
-Stopped at: Completed 04-01-PLAN.md — billings migration, BillingStatus enum, Billing model, BillingFactory, 15 test stubs
+Last session: 2026-03-25T12:10:46.907Z
+Stopped at: Completed 04-02-PLAN.md — BillingController, Form Requests, Vue pages, 9 green tests
 Resume file: None

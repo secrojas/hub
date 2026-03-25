@@ -125,7 +125,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 1. Fundacion y Auth | 3/4 | In Progress|  |
 | 2. CRM de Clientes | 1/3 | In Progress|  |
 | 3. Tareas y Kanban | 3/3 | Complete   | 2026-03-20 |
-| 4. Facturacion | 1/3 | In Progress|  |
+| 4. Facturacion | 2/3 | In Progress|  |
 | 5. Presupuestos y PDF | 0/TBD | Not started | - |
 | 6. Portal del Cliente | 0/TBD | Not started | - |
 | 7. Dashboard del Admin | 0/TBD | Not started | - |

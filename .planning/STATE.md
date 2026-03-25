@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03-03-PLAN.md — filter bar, Ver Kanban link, Tareas nav, 4 filter tests
-last_updated: "2026-03-20T18:57:21.492Z"
+stopped_at: Completed 04-01-PLAN.md — billings migration, BillingStatus enum, Billing model, BillingFactory, 15 test stubs
+last_updated: "2026-03-25T12:05:05.501Z"
 progress:
   total_phases: 7
   completed_phases: 3
-  total_plans: 10
-  completed_plans: 10
+  total_plans: 13
+  completed_plans: 11
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 03 — Tareas y Kanban
+**Current focus:** Phase 04 — facturacion
 
 ## Current Position
 
-Phase: 03 (Tareas y Kanban) — COMPLETE
-Plan: 3 of 3
+Phase: 04 (facturacion) — EXECUTING
+Plan: 1 of 3
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Plan: 3 of 3
 | Phase 03-tareas-y-kanban P01 | 3 | 2 tasks | 9 files |
 | Phase 03-tareas-y-kanban P02 | 2 | 2 tasks | 8 files |
 | Phase 03-tareas-y-kanban P03 | 2 | 2 tasks | 4 files |
+| Phase 04-facturacion P01 | 4 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 03-tareas-y-kanban]: Filter navigation uses router.get with replace:true to prevent browser history pollution from typing in search
 - [Phase 03-tareas-y-kanban]: Titulo input debounced 300ms to avoid excessive Inertia requests on each keystroke
 - [Phase 03-tareas-y-kanban]: Filter tests use collect()->flatMap()->pluck('id') to merge all columns for presence/absence assertions
+- [Phase 04-facturacion]: nullOnDelete on billings.client_id — financial records must survive client deletion
+- [Phase 04-facturacion]: BillingFactory defaults estado to pendiente for predictable test state; pagado()/vencido() state methods for explicit overrides
 
 ### Pending Todos
 
@@ -106,6 +109,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-20T18:53:54.982Z
-Stopped at: Completed 03-03-PLAN.md — filter bar, Ver Kanban link, Tareas nav, 4 filter tests
+Last session: 2026-03-25T12:05:05.495Z
+Stopped at: Completed 04-01-PLAN.md — billings migration, BillingStatus enum, Billing model, BillingFactory, 15 test stubs
 Resume file: None

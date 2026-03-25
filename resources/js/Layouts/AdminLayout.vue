@@ -39,6 +39,13 @@ function logout() {
                             Tareas
                         </Link>
                         <Link
+                            href="/billing"
+                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
+                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/billing') }"
+                        >
+                            Facturación
+                        </Link>
+                        <Link
                             href="/invitations/create"
                             class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
                             :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/invitations') }"

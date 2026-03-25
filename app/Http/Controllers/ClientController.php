@@ -54,6 +54,7 @@ class ClientController extends Controller
         return Inertia::render('Admin/Clients/Show', [
             'client'        => $client,
             'hasActiveUser' => $hasActiveUser,
+            'billings'      => $client->billings()->latest()->get(['id', 'concepto', 'monto', 'fecha_emision', 'estado']),
         ]);
     }
 

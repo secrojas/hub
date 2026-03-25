@@ -8,6 +8,7 @@ defineOptions({ layout: AdminLayout })
 const props = defineProps({
     client: Object,
     hasActiveUser: Boolean,
+    billings: Array,
 })
 
 const page = usePage()
@@ -32,6 +33,16 @@ function estadoBadgeClass(estado) {
     if (estado === 'activo') return 'bg-green-100 text-green-800'
     if (estado === 'potencial') return 'bg-blue-100 text-blue-800'
     return 'bg-gray-100 text-gray-700'
+}
+
+function billingBadgeClass(estado) {
+    if (estado === 'pagado')  return 'bg-green-100 text-green-800'
+    if (estado === 'vencido') return 'bg-red-100 text-red-800'
+    return 'bg-yellow-100 text-yellow-800'
+}
+
+function formatARS(monto) {
+    return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(monto)
 }
 </script>
 
@@ -94,6 +105,36 @@ function estadoBadgeClass(estado) {
                 <dt class="text-sm font-medium text-gray-500">Fecha de Inicio</dt>
                 <dd class="col-span-2 text-sm text-gray-900">{{ formatDate(client.fecha_inicio) }}</dd>
             </div>
+        </div>
+
+        <!-- Billing Section -->
+        <div class="mt-6 bg-white shadow rounded-lg p-6">
+            <h2 class="text-base font-semibold text-gray-900 mb-4">Facturación</h2>
+            <div v-if="billings && billings.length">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Concepto</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Emisión</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr v-for="billing in billings" :key="billing.id" class="hover:bg-gray-50">
+                            <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ billing.concepto }}</td>
+                            <td class="px-4 py-3 text-sm text-gray-900">{{ formatARS(billing.monto) }}</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">{{ formatDate(billing.fecha_emision) }}</td>
+                            <td class="px-4 py-3">
+                                <span :class="['px-2 py-1 text-xs font-medium rounded-full', billingBadgeClass(billing.estado)]">
+                                    {{ billing.estado }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p v-else class="text-sm text-gray-500">No hay cobros registrados para este cliente.</p>
         </div>
 
         <!-- Portal Invitation Section -->

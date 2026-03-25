@@ -72,6 +72,22 @@ function formatDate(dateStr) {
             </Link>
         </div>
 
+        <!-- Summary cards -->
+        <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-white shadow rounded-lg p-4 border-l-4 border-green-400">
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Cobrado este mes</p>
+                <p class="text-xl font-semibold text-green-700">{{ formatMonto(summary?.cobrado_mes ?? 0) }}</p>
+            </div>
+            <div class="bg-white shadow rounded-lg p-4 border-l-4 border-yellow-400">
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Deuda pendiente</p>
+                <p class="text-xl font-semibold text-yellow-700">{{ formatMonto(summary?.pendiente_total ?? 0) }}</p>
+            </div>
+            <div class="bg-white shadow rounded-lg p-4 border-l-4 border-red-400">
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Cobros vencidos</p>
+                <p class="text-xl font-semibold text-red-700">{{ summary?.vencidos_count ?? 0 }}</p>
+            </div>
+        </div>
+
         <!-- Filter bar -->
         <div class="mb-6 flex flex-wrap gap-3 items-end">
             <!-- Estado dropdown -->

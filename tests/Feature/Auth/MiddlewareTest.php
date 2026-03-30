@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Enums\Role;
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -25,7 +26,8 @@ class MiddlewareTest extends TestCase
 
     public function test_client_can_access_portal(): void
     {
-        $client = User::factory()->create(['role' => Role::Client]);
+        $clientModel = Client::factory()->create();
+        $client = User::factory()->create(['role' => Role::Client, 'client_id' => $clientModel->id]);
         $this->actingAs($client)->get('/portal')->assertStatus(200);
     }
 

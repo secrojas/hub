@@ -123,3 +123,16 @@ None - plan executed exactly as written.
 ---
 *Phase: 05-presupuestos-y-pdf*
 *Completed: 2026-03-30*
+
+## Self-Check: PASSED
+
+- FOUND: app/Http/Controllers/QuoteController.php
+- FOUND: app/Http/Requests/StoreQuoteRequest.php
+- FOUND: app/Http/Requests/UpdateQuoteRequest.php
+- FOUND: resources/js/Pages/Admin/Quotes/Index.vue
+- FOUND: resources/js/Pages/Admin/Quotes/Create.vue
+- FOUND: resources/js/Pages/Admin/Quotes/Edit.vue
+- FOUND: .planning/phases/05-presupuestos-y-pdf/05-02-SUMMARY.md
+- COMMIT 434bd5b: verified in git log
+- COMMIT 00b02df: verified in git log
+- Tests: 10 passed, 3 incomplete, 0 failed

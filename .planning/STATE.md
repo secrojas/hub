@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-30T16:12:57.068Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-03-30T16:19:04.811Z"
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 16
-  completed_plans: 14
+  completed_plans: 15
 ---
 
 # Project State
@@ -60,6 +60,7 @@ Plan: 1 of 3
 | Phase 04-facturacion P02 | 8 | 2 tasks | 9 files |
 | Phase 04-facturacion P03 | 3 | 2 tasks | 5 files |
 | Phase 05-presupuestos-y-pdf P01 | 5 | 2 tasks | 10 files |
+| Phase 05-presupuestos-y-pdf P02 | 4 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -107,6 +108,8 @@ Recent decisions affecting current work:
 - [Phase 05-presupuestos-y-pdf]: nullOnDelete on quotes.client_id — quote as financial record survives client deletion (consistent with billings)
 - [Phase 05-presupuestos-y-pdf]: cascadeOnDelete on quote_items.quote_id — items have no standalone value without parent quote
 - [Phase 05-presupuestos-y-pdf]: QuoteFactory defaults to QuoteStatus::Borrador for predictable initial test state
+- [Phase 05-presupuestos-y-pdf]: Re-insert pattern for quote items update: delete all + re-create from request, simpler than diffing
+- [Phase 05-presupuestos-y-pdf]: pdf route registered in Plan 02 for URL generation even though method implemented in Plan 03
 
 ### Pending Todos
 
@@ -120,6 +123,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T16:12:57.061Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-30T16:19:04.804Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None

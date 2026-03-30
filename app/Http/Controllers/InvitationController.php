@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
+use App\Models\Client;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -84,17 +85,19 @@ class InvitationController extends Controller
             ->whereNull('used_at')
             ->firstOrFail();
 
+        $clientId = $invitation->client_id ?? Client::create([
+            'nombre' => $invitation->client_name,
+            'email'  => $invitation->email,
+        ])->id;
+
         $user = User::create([
             'name'              => $invitation->client_name,
             'email'             => $invitation->email,
             'password'          => Hash::make($request->password),
             'role'              => Role::Client,
+            'client_id'         => $clientId,
             'email_verified_at' => now(),
         ]);
-
-        if ($invitation->client_id) {
-            $user->update(['client_id' => $invitation->client_id]);
-        }
 
         $invitation->update(['used_at' => now()]);
 

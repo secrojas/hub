@@ -109,6 +109,10 @@ None - no external service configuration required.
 - Any phase that reads `user.client_id` or `invitation.client_id` can now rely on these being correctly populated
 - Phase 3 (Gestion de Proyectos) can link projects to clients via the established client model
 
+## Self-Check: PASSED
+
+All files confirmed present on disk. All task commits (713cf6c, 3b47423) verified in git log.
+
 ---
 *Phase: 02-crm-de-clientes*
 *Completed: 2026-03-20*

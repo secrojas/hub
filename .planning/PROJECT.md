@@ -82,9 +82,9 @@ El admin puede ver de un vistazo qué tareas están activas en este momento y qu
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Inertia.js en lugar de API REST + SPA separada | El desarrollador ya conoce el stack y quiere velocidad de desarrollo | — Pending |
-| PDF de presupuesto generado en servidor (Laravel) | Evita dependencias JS del cliente, más confiable | — Pending |
+| PDF de presupuesto generado en servidor (Laravel) | Evita dependencias JS del cliente, más confiable | barryvdh/laravel-dompdf v3.1.2, sync download, DejaVu Sans para UTF-8 |
 | Portal del cliente: lista simple (no Kanban) | Reduce complejidad del portal, el cliente no necesita arrastrar columnas | — Pending |
 | Sin notificaciones automáticas en v1 | Evita configuración de queues/email en etapas tempranas | — Pending |
 
 ---
-*Last updated: 2026-03-19 after initialization*
+*Last updated: 2026-03-30 — Phase 5 complete: Presupuestos y PDF (QUOT-01, QUOT-02, QUOT-03 verified)*

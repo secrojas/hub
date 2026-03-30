@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: idle
-stopped_at: Phase 04 complete — 80 tests green. Bug fix applied to Tasks/Index.vue (v-for object destructuring). Ready for Phase 05.
-last_updated: "2026-03-25"
+status: unknown
+stopped_at: Phase 05 context gathered
+last_updated: "2026-03-30T12:10:32.885Z"
 progress:
   total_phases: 7
   completed_phases: 4
@@ -116,6 +116,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25
-Stopped at: Phase 04 complete (80 tests, 363 assertions). Fixed Tasks/Index.vue Kanban v-for bug (object destructuring order). Ready to start Phase 05: /gsd:discuss-phase 5
-Resume file: None
+Last session: 2026-03-30T12:10:32.879Z
+Stopped at: Phase 05 context gathered
+Resume file: .planning/phases/05-presupuestos-y-pdf/05-CONTEXT.md

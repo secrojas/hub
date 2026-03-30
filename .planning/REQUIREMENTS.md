@@ -39,9 +39,9 @@
 
 ### Presupuestos
 
-- [ ] **QUOT-01**: El admin puede crear presupuestos con ítems (descripción + precio) vinculados a un cliente, con total calculado automáticamente
-- [ ] **QUOT-02**: Los presupuestos tienen estados: Borrador / Enviado / Aceptado / Rechazado
-- [ ] **QUOT-03**: Al marcar un presupuesto como "Enviado" se genera un PDF descargable
+- [x] **QUOT-01**: El admin puede crear presupuestos con ítems (descripción + precio) vinculados a un cliente, con total calculado automáticamente
+- [x] **QUOT-02**: Los presupuestos tienen estados: Borrador / Enviado / Aceptado / Rechazado
+- [x] **QUOT-03**: Al marcar un presupuesto como "Enviado" se genera un PDF descargable
 
 ### Portal del Cliente
 
@@ -114,9 +114,9 @@
 | BILL-02 | Phase 4 | Complete |
 | BILL-03 | Phase 4 | Complete |
 | BILL-04 | Phase 4 | Complete |
-| QUOT-01 | Phase 5 | Pending |
-| QUOT-02 | Phase 5 | Pending |
-| QUOT-03 | Phase 5 | Pending |
+| QUOT-01 | Phase 5 | Complete |
+| QUOT-02 | Phase 5 | Complete |
+| QUOT-03 | Phase 5 | Complete |
 | PORT-01 | Phase 6 | Pending |
 | PORT-02 | Phase 6 | Pending |
 | PORT-03 | Phase 6 | Pending |

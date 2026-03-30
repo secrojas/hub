@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Phase 05 context gathered
-last_updated: "2026-03-30T12:10:32.885Z"
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-30T16:12:57.068Z"
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 13
-  completed_plans: 13
+  total_plans: 16
+  completed_plans: 14
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 05 — presupuestos-y-pdf (ready to start)
+**Current focus:** Phase 05 — presupuestos-y-pdf
 
 ## Current Position
 
-Phase: 04 (facturacion) — COMPLETE
-Next: Phase 05 (presupuestos-y-pdf) — not started
+Phase: 05 (presupuestos-y-pdf) — EXECUTING
+Plan: 1 of 3
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Next: Phase 05 (presupuestos-y-pdf) — not started
 | Phase 04-facturacion P01 | 4 | 2 tasks | 8 files |
 | Phase 04-facturacion P02 | 8 | 2 tasks | 9 files |
 | Phase 04-facturacion P03 | 3 | 2 tasks | 5 files |
+| Phase 05-presupuestos-y-pdf P01 | 5 | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -103,6 +104,9 @@ Recent decisions affecting current work:
 - [Phase 04-facturacion]: Decimal amounts with fractions in assertInertia tests — avoids int/float strict comparison issue from PHP json_encode of round numbers
 - [Phase 04-facturacion]: billings in ClientController@show uses ->get() not ->paginate() — compact client detail section
 - [Phase 04-facturacion]: Tasks/Index.vue Kanban v-for bug fixed — v-for on objects is (value, key) in Vue 3, NOT (key, value). Was: v-for="(status, _) in columnLabels" → status was the LABEL ('Backlog'), not the key ('backlog'). Fixed: v-for="(label, status) in columnLabels"
+- [Phase 05-presupuestos-y-pdf]: nullOnDelete on quotes.client_id — quote as financial record survives client deletion (consistent with billings)
+- [Phase 05-presupuestos-y-pdf]: cascadeOnDelete on quote_items.quote_id — items have no standalone value without parent quote
+- [Phase 05-presupuestos-y-pdf]: QuoteFactory defaults to QuoteStatus::Borrador for predictable initial test state
 
 ### Pending Todos
 
@@ -116,6 +120,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T12:10:32.879Z
-Stopped at: Phase 05 context gathered
-Resume file: .planning/phases/05-presupuestos-y-pdf/05-CONTEXT.md
+Last session: 2026-03-30T16:12:57.061Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TaskController;
@@ -46,9 +47,8 @@ Route::middleware('signed')->group(function () {
 });
 
 Route::middleware(['auth', 'client'])->group(function () {
-    Route::get('/portal', function () {
-        return Inertia::render('Portal/Index');
-    })->name('portal');
+    Route::get('/portal', [PortalController::class, 'index'])->name('portal');
+    Route::get('/portal/quotes/{quote}/pdf', [PortalController::class, 'pdf'])->name('portal.quotes.pdf');
 });
 
 Route::middleware('auth')->group(function () {

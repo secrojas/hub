@@ -4,6 +4,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
 
     Route::resource('billing', BillingController::class)->except(['show']);
+
+    Route::resource('quotes', QuoteController::class)->except(['show']);
+    Route::patch('quotes/{quote}/estado', [QuoteController::class, 'updateEstado'])->name('quotes.updateEstado');
+    Route::get('quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.pdf');
 });
 
 // Public invitation acceptance (requires valid signature)

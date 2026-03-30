@@ -45,10 +45,10 @@
 
 ### Portal del Cliente
 
-- [ ] **PORT-01**: El cliente puede ver la lista de sus tareas activas (título, estado, fecha límite) — solo lectura
-- [ ] **PORT-02**: El cliente puede ver sus presupuestos y el estado de cada uno
-- [ ] **PORT-03**: El cliente puede ver su estado de facturación (qué debe o ha pagado)
-- [ ] **PORT-04**: El portal tiene un dashboard personal con resumen de tareas, presupuestos y facturación
+- [x] **PORT-01**: El cliente puede ver la lista de sus tareas activas (título, estado, fecha límite) — solo lectura
+- [x] **PORT-02**: El cliente puede ver sus presupuestos y el estado de cada uno
+- [x] **PORT-03**: El cliente puede ver su estado de facturación (qué debe o ha pagado)
+- [x] **PORT-04**: El portal tiene un dashboard personal con resumen de tareas, presupuestos y facturación
 
 ### Dashboard del Admin
 
@@ -117,10 +117,10 @@
 | QUOT-01 | Phase 5 | Complete |
 | QUOT-02 | Phase 5 | Complete |
 | QUOT-03 | Phase 5 | Complete |
-| PORT-01 | Phase 6 | Pending |
-| PORT-02 | Phase 6 | Pending |
-| PORT-03 | Phase 6 | Pending |
-| PORT-04 | Phase 6 | Pending |
+| PORT-01 | Phase 6 | Complete |
+| PORT-02 | Phase 6 | Complete |
+| PORT-03 | Phase 6 | Complete |
+| PORT-04 | Phase 6 | Complete |
 | DASH-01 | Phase 7 | Pending |
 
 **Coverage:**

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Phase 6 context gathered
-last_updated: "2026-03-30T21:41:00.668Z"
+stopped_at: Completed 06-portal-del-cliente 06-01-PLAN.md
+last_updated: "2026-03-30T22:09:09.184Z"
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 16
-  completed_plans: 16
+  total_plans: 18
+  completed_plans: 17
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 05 — presupuestos-y-pdf
+**Current focus:** Phase 06 — portal-del-cliente
 
 ## Current Position
 
-Phase: 05 (presupuestos-y-pdf) — COMPLETE
-Plan: 3 of 3 (all plans done)
+Phase: 06 (portal-del-cliente) — EXECUTING
+Plan: 1 of 2
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Plan: 3 of 3 (all plans done)
 | Phase 05-presupuestos-y-pdf P01 | 5 | 2 tasks | 10 files |
 | Phase 05-presupuestos-y-pdf P02 | 4 | 2 tasks | 9 files |
 | Phase 05-presupuestos-y-pdf P03 | 3 | 1 tasks | 3 files |
+| Phase 06-portal-del-cliente P01 | 15 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -113,6 +114,8 @@ Recent decisions affecting current work:
 - [Phase 05-presupuestos-y-pdf]: pdf route registered in Plan 02 for URL generation even though method implemented in Plan 03
 - [Phase 05-presupuestos-y-pdf]: DejaVu Sans font mandatory in dompdf Blade templates — only bundled font with full UTF-8/Latin support; default font silently drops ñ, á, é
 - [Phase 05-presupuestos-y-pdf]: streamDownload used for PDF response — avoids disk I/O, memory-efficient for generated content
+- [Phase 06-portal-del-cliente]: Portal pdf() does NOT block Borrador estado — per CONTEXT.md locked decision: sin restriccion por estado
+- [Phase 06-portal-del-cliente]: abort_unless($clientId, 403) guard on index() — defensive against null client_id edge case
 
 ### Pending Todos
 
@@ -126,6 +129,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T21:41:00.660Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-portal-del-cliente/06-CONTEXT.md
+Last session: 2026-03-30T22:09:09.175Z
+Stopped at: Completed 06-portal-del-cliente 06-01-PLAN.md
+Resume file: None

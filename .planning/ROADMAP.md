@@ -111,7 +111,7 @@ Plans:
   3. El cliente ve su estado de facturacion (que debe o ha pagado) en ARS -- no puede modificarlo
   4. El portal del cliente nunca muestra notas internas, datos de otros clientes ni montos globales del admin
   5. El cliente ve un dashboard personal con resumen de sus tareas, presupuestos y facturacion
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 Plans:
 - [ ] 06-01-PLAN.md -- PortalController (index + pdf) + routes + 13 feature tests (data isolation + security)
 - [ ] 06-02-PLAN.md -- Portal/Index.vue full implementation (dashboard cards + task/quote/billing lists) + visual verification
@@ -138,5 +138,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Tareas y Kanban | 3/3 | Complete   | 2026-03-20 |
 | 4. Facturacion | 3/3 | Complete   | 2026-03-25 |
 | 5. Presupuestos y PDF | 3/3 | Complete    | 2026-03-30 |
-| 6. Portal del Cliente | 0/2 | Not started | - |
+| 6. Portal del Cliente | 1/2 | In Progress|  |
 | 7. Dashboard del Admin | 0/TBD | Not started | - |

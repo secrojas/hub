@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-03-30T16:19:04.811Z"
+stopped_at: Completed 05-03-PLAN.md
+last_updated: "2026-03-30T16:25:00Z"
 progress:
   total_phases: 7
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 16
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # Project State
@@ -23,8 +23,8 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 
 ## Current Position
 
-Phase: 05 (presupuestos-y-pdf) — EXECUTING
-Plan: 1 of 3
+Phase: 05 (presupuestos-y-pdf) — COMPLETE
+Plan: 3 of 3 (all plans done)
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ Plan: 1 of 3
 | Phase 04-facturacion P03 | 3 | 2 tasks | 5 files |
 | Phase 05-presupuestos-y-pdf P01 | 5 | 2 tasks | 10 files |
 | Phase 05-presupuestos-y-pdf P02 | 4 | 2 tasks | 9 files |
+| Phase 05-presupuestos-y-pdf P03 | 3 | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -110,6 +111,8 @@ Recent decisions affecting current work:
 - [Phase 05-presupuestos-y-pdf]: QuoteFactory defaults to QuoteStatus::Borrador for predictable initial test state
 - [Phase 05-presupuestos-y-pdf]: Re-insert pattern for quote items update: delete all + re-create from request, simpler than diffing
 - [Phase 05-presupuestos-y-pdf]: pdf route registered in Plan 02 for URL generation even though method implemented in Plan 03
+- [Phase 05-presupuestos-y-pdf]: DejaVu Sans font mandatory in dompdf Blade templates — only bundled font with full UTF-8/Latin support; default font silently drops ñ, á, é
+- [Phase 05-presupuestos-y-pdf]: streamDownload used for PDF response — avoids disk I/O, memory-efficient for generated content
 
 ### Pending Todos
 
@@ -123,6 +126,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T16:19:04.804Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-03-30T16:25:00Z
+Stopped at: Completed 05-03-PLAN.md (Phase 05 complete)
 Resume file: None

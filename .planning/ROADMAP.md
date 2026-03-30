@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: CRM de Clientes** - CRUD completo de clientes con todos sus campos, lista y vista de detalle (completed 2026-03-25)
 - [x] **Phase 3: Tareas y Kanban** - Creacion y edicion de tareas, tablero Kanban por cliente con drag-and-drop y vista global (completed 2026-03-20)
 - [x] **Phase 4: Facturacion** - Registro manual de cobros en ARS, estados y dashboard mensual de facturacion (completed 2026-03-25)
-- [ ] **Phase 5: Presupuestos y PDF** - Constructor de presupuestos con items, estados y generacion de PDF al marcar como Enviado
+- [x] **Phase 5: Presupuestos y PDF** - Constructor de presupuestos con items, estados y generacion de PDF al marcar como Enviado (completed 2026-03-30)
 - [ ] **Phase 6: Portal del Cliente** - Vistas de solo lectura para el cliente: tareas, presupuestos, facturacion y resumen personal
 - [ ] **Phase 7: Dashboard del Admin** - Vista principal del admin con tareas activas y proximas a vencer
 
@@ -95,7 +95,7 @@ Plans:
   2. Un presupuesto puede pasar por los estados Borrador, Enviado, Aceptado y Rechazado -- solo transiciones validas son permitidas
   3. Al marcar un presupuesto como "Enviado" se genera un PDF descargable con los items, precios y total en ARS
   4. El PDF se descarga correctamente con caracteres en espanol y montos ARS sin corrupcion
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 Plans:
 - [ ] 05-01-PLAN.md -- Install dompdf, Quote/QuoteItem migrations + models + enum + factories + test stubs
 - [ ] 05-02-PLAN.md -- QuoteController CRUD + Form Requests + Index/Create/Edit Vue pages + nav link + 10 tests
@@ -134,6 +134,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 2. CRM de Clientes | 3/3 | Complete   | 2026-03-25 |
 | 3. Tareas y Kanban | 3/3 | Complete   | 2026-03-20 |
 | 4. Facturacion | 3/3 | Complete   | 2026-03-25 |
-| 5. Presupuestos y PDF | 2/3 | In Progress|  |
+| 5. Presupuestos y PDF | 3/3 | Complete   | 2026-03-30 |
 | 6. Portal del Cliente | 0/TBD | Not started | - |
 | 7. Dashboard del Admin | 0/TBD | Not started | - |

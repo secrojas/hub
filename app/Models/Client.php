@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Billing;
+use App\Models\Quote;
 use App\Models\Task;
 
 class Client extends Model
@@ -49,5 +50,10 @@ class Client extends Model
     public function billings(): HasMany
     {
         return $this->hasMany(Billing::class);
+    }
+
+    public function quotes(): HasMany
+    {
+        return $this->hasMany(Quote::class);
     }
 }

@@ -107,6 +107,15 @@ None — no external service configuration required.
 - All 13 QuoteTest pass; QUOT-01, QUOT-02, QUOT-03 requirements satisfied
 - Phase 06 (portal-cliente) can proceed — it will need Quote model and PDF endpoint
 
+## Self-Check: PASSED
+
+- FOUND: resources/views/pdf/quote.blade.php
+- FOUND: app/Http/Controllers/QuoteController.php (pdf method)
+- FOUND: tests/Feature/QuoteTest.php (3 QUOT-03 tests implemented)
+- FOUND: .planning/phases/05-presupuestos-y-pdf/05-03-SUMMARY.md
+- FOUND commit: 78fd68a (feat: PDF generation)
+- FOUND commit: 5a523dd (docs: plan metadata)
+
 ---
 *Phase: 05-presupuestos-y-pdf*
 *Completed: 2026-03-30*

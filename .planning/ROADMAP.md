@@ -95,7 +95,11 @@ Plans:
   2. Un presupuesto puede pasar por los estados Borrador, Enviado, Aceptado y Rechazado -- solo transiciones validas son permitidas
   3. Al marcar un presupuesto como "Enviado" se genera un PDF descargable con los items, precios y total en ARS
   4. El PDF se descarga correctamente con caracteres en espanol y montos ARS sin corrupcion
-**Plans**: TBD
+**Plans:** 3 plans
+Plans:
+- [ ] 05-01-PLAN.md -- Install dompdf, Quote/QuoteItem migrations + models + enum + factories + test stubs
+- [ ] 05-02-PLAN.md -- QuoteController CRUD + Form Requests + Index/Create/Edit Vue pages + nav link + 10 tests
+- [ ] 05-03-PLAN.md -- PDF Blade template + QuoteController@pdf + 3 PDF tests + visual verification
 
 ### Phase 6: Portal del Cliente
 **Goal**: El cliente autenticado puede ver el estado de su trabajo, presupuestos y facturacion -- solo lectura, sin acceso a datos de otros clientes
@@ -130,6 +134,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 2. CRM de Clientes | 3/3 | Complete   | 2026-03-25 |
 | 3. Tareas y Kanban | 3/3 | Complete   | 2026-03-20 |
 | 4. Facturacion | 3/3 | Complete   | 2026-03-25 |
-| 5. Presupuestos y PDF | 0/TBD | Not started | - |
+| 5. Presupuestos y PDF | 0/3 | Not started | - |
 | 6. Portal del Cliente | 0/TBD | Not started | - |
 | 7. Dashboard del Admin | 0/TBD | Not started | - |

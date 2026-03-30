@@ -186,16 +186,35 @@ class QuoteTest extends TestCase
     // QUOT-03: PDF
     public function test_pdf_downloads_for_enviado_quote(): void
     {
-        $this->markTestIncomplete('Pending QuoteController');
+        $quote = Quote::factory()->enviado()->create();
+        QuoteItem::factory()->for($quote)->count(2)->create();
+
+        $response = $this->actingAs($this->admin)->get("/quotes/{$quote->id}/pdf");
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/pdf');
     }
 
     public function test_pdf_forbidden_for_borrador_quote(): void
     {
-        $this->markTestIncomplete('Pending QuoteController');
+        $quote = Quote::factory()->borrador()->create();
+
+        $response = $this->actingAs($this->admin)->get("/quotes/{$quote->id}/pdf");
+
+        $response->assertStatus(403);
     }
 
     public function test_pdf_response_has_correct_filename(): void
     {
-        $this->markTestIncomplete('Pending QuoteController');
+        $quote = Quote::factory()->enviado()->create(['titulo' => 'Landing Page Empresa XYZ']);
+        QuoteItem::factory()->for($quote)->count(2)->create();
+
+        $response = $this->actingAs($this->admin)->get("/quotes/{$quote->id}/pdf");
+
+        $response->assertStatus(200);
+        $this->assertStringContainsString(
+            "presupuesto-{$quote->id}-landing-page-empresa-xyz.pdf",
+            $response->headers->get('Content-Disposition')
+        );
     }
 }

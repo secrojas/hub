@@ -7,7 +7,9 @@ use App\Http\Requests\StoreQuoteRequest;
 use App\Http\Requests\UpdateQuoteRequest;
 use App\Models\Client;
 use App\Models\Quote;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -89,5 +91,23 @@ class QuoteController extends Controller
         $quote->update(['estado' => $request->estado]);
 
         return back();
+    }
+
+    public function pdf(Quote $quote)
+    {
+        abort_if($quote->estado === QuoteStatus::Borrador, 403);
+
+        $quote->load(['client', 'items']);
+
+        $pdf = Pdf::loadView('pdf.quote', ['quote' => $quote]);
+
+        $slug = Str::slug($quote->titulo);
+        $filename = "presupuesto-{$quote->id}-{$slug}.pdf";
+
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            $filename,
+            ['Content-Type' => 'application/pdf']
+        );
     }
 }

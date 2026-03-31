@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Phase 7 UI-SPEC approved
-last_updated: "2026-03-31T12:22:32.676Z"
+stopped_at: Completed 07-01-PLAN.md
+last_updated: "2026-03-31T16:22:17.306Z"
 progress:
   total_phases: 7
   completed_phases: 6
-  total_plans: 18
-  completed_plans: 18
+  total_plans: 20
+  completed_plans: 19
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 06 — portal-del-cliente
+**Current focus:** Phase 07 — dashboard-del-admin
 
 ## Current Position
 
-Phase: 06 (portal-del-cliente) — COMPLETE
-Plan: 2 of 2
+Phase: 07 (dashboard-del-admin) — EXECUTING
+Plan: 1 of 2
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Plan: 2 of 2
 | Phase 05-presupuestos-y-pdf P02 | 4 | 2 tasks | 9 files |
 | Phase 05-presupuestos-y-pdf P03 | 3 | 1 tasks | 3 files |
 | Phase 06-portal-del-cliente P01 | 15 | 2 tasks | 4 files |
+| Phase 07-dashboard-del-admin P01 | 12 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -116,6 +117,8 @@ Recent decisions affecting current work:
 - [Phase 05-presupuestos-y-pdf]: streamDownload used for PDF response — avoids disk I/O, memory-efficient for generated content
 - [Phase 06-portal-del-cliente]: Portal pdf() does NOT block Borrador estado — per CONTEXT.md locked decision: sin restriccion por estado
 - [Phase 06-portal-del-cliente]: abort_unless($clientId, 403) guard on index() — defensive against null client_id edge case
+- [Phase 07-dashboard-del-admin]: Two-query dashboard pattern: vencenProonto first (7-day window, no finalizado, no null fecha_limite), enProgreso excludes vencenProonto IDs via whereNotIn
+- [Phase 07-dashboard-del-admin]: AdminLayout sidebar: Dashboard link uses exact URL match to avoid highlight bleed, all others use startsWith
 
 ### Pending Todos
 
@@ -129,6 +132,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-31T12:22:32.670Z
-Stopped at: Phase 7 UI-SPEC approved
-Resume file: .planning/phases/07-dashboard-del-admin/07-UI-SPEC.md
+Last session: 2026-03-31T16:22:17.300Z
+Stopped at: Completed 07-01-PLAN.md
+Resume file: None

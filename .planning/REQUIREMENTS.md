@@ -52,7 +52,7 @@
 
 ### Dashboard del Admin
 
-- [ ] **DASH-01**: La vista principal del admin muestra las tareas activas (en progreso) y las próximas a vencer
+- [x] **DASH-01**: La vista principal del admin muestra las tareas activas (en progreso) y las próximas a vencer
 
 ---
 
@@ -121,7 +121,7 @@
 | PORT-02 | Phase 6 | Complete |
 | PORT-03 | Phase 6 | Complete |
 | PORT-04 | Phase 6 | Complete |
-| DASH-01 | Phase 7 | Pending |
+| DASH-01 | Phase 7 | Complete |
 
 **Coverage:**
 - v1 requirements: 26 total

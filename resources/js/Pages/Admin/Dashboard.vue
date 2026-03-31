@@ -62,6 +62,7 @@ function updateStatus(taskId, event) {
                     <span class="text-xs w-24 text-right text-gray-400">{{ task.fecha_limite ?? '-' }}</span>
                     <select
                         :value="task.estado"
+                        @click.stop
                         @change.stop="updateStatus(task.id, $event)"
                         class="text-xs border-gray-300 rounded text-gray-700 py-0.5 bg-white"
                     >
@@ -95,6 +96,7 @@ function updateStatus(taskId, event) {
                     <span class="text-xs w-24 text-right" :class="urgencyClass(task.fecha_limite)">{{ task.fecha_limite }}</span>
                     <select
                         :value="task.estado"
+                        @click.stop
                         @change.stop="updateStatus(task.id, $event)"
                         class="text-xs border-gray-300 rounded text-gray-700 py-0.5 bg-white"
                     >

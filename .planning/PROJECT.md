@@ -12,7 +12,8 @@ El admin puede ver de un vistazo qué tareas están activas en este momento y qu
 
 ### Validated
 
-(None yet — ship to validate)
+**Dashboard del admin** *(Validated in Phase 07: dashboard-del-admin)*
+- [x] Vista principal muestra tareas activas (en progreso) y las próximas a vencer (DASH-01)
 
 ### Active
 
@@ -48,7 +49,7 @@ El admin puede ver de un vistazo qué tareas están activas en este momento y qu
 - [ ] El cliente no puede modificar nada — solo lectura
 
 **Dashboard del admin**
-- [ ] Vista principal muestra tareas activas (en progreso) y las próximas a vencer
+- [x] Vista principal muestra tareas activas (en progreso) y las próximas a vencer *(Phase 07)*
 
 ### Out of Scope
 
@@ -87,4 +88,4 @@ El admin puede ver de un vistazo qué tareas están activas en este momento y qu
 | Sin notificaciones automáticas en v1 | Evita configuración de queues/email en etapas tempranas | — Pending |
 
 ---
-*Last updated: 2026-03-30 — Phase 5 complete: Presupuestos y PDF (QUOT-01, QUOT-02, QUOT-03 verified)*
+*Last updated: 2026-03-31 — Phase 7 complete: Dashboard del admin (DASH-01 verified) — Milestone v1.0 complete*

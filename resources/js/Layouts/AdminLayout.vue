@@ -11,70 +11,74 @@ function logout() {
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100">
-        <nav class="bg-white shadow">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center space-x-8">
-                        <Link href="/dashboard" class="text-xl font-bold text-gray-900">Hub</Link>
-                        <Link
-                            href="/dashboard"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/dashboard') }"
-                        >
-                            Dashboard
-                        </Link>
-                        <Link
-                            href="/clients"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/clients') }"
-                        >
-                            Clientes
-                        </Link>
-                        <Link
-                            href="/tasks"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/tasks') }"
-                        >
-                            Tareas
-                        </Link>
-                        <Link
-                            href="/billing"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/billing') }"
-                        >
-                            Facturación
-                        </Link>
-                        <Link
-                            href="/quotes"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/quotes') }"
-                        >
-                            Presupuestos
-                        </Link>
-                        <Link
-                            href="/invitations/create"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/invitations') }"
-                        >
-                            Invitar Cliente
-                        </Link>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-600">{{ user?.name }}</span>
-                        <button
-                            @click="logout"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                        >
-                            Cerrar sesion
-                        </button>
-                    </div>
-                </div>
+    <div class="min-h-screen bg-gray-100 flex">
+        <!-- Fixed sidebar -->
+        <aside class="w-[220px] bg-white border-r border-gray-200 fixed inset-y-0 left-0 flex flex-col">
+            <!-- Logo -->
+            <div class="px-4 py-5 border-b border-gray-200">
+                <Link href="/dashboard" class="text-xl font-bold text-gray-900">Hub</Link>
             </div>
-        </nav>
 
-        <main class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-            <slot />
-        </main>
+            <!-- Nav items -->
+            <nav class="flex-1 py-4 space-y-1">
+                <Link href="/dashboard"
+                    class="flex items-center gap-3 px-4 py-3 text-sm transition"
+                    :class="$page.url === '/dashboard'
+                        ? 'bg-blue-50 text-blue-700 border-l-2 border-blue-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"
+                >Dashboard</Link>
+
+                <Link href="/clients"
+                    class="flex items-center gap-3 px-4 py-3 text-sm transition"
+                    :class="$page.url.startsWith('/clients')
+                        ? 'bg-blue-50 text-blue-700 border-l-2 border-blue-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"
+                >Clientes</Link>
+
+                <Link href="/tasks"
+                    class="flex items-center gap-3 px-4 py-3 text-sm transition"
+                    :class="$page.url.startsWith('/tasks')
+                        ? 'bg-blue-50 text-blue-700 border-l-2 border-blue-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"
+                >Tareas</Link>
+
+                <Link href="/billing"
+                    class="flex items-center gap-3 px-4 py-3 text-sm transition"
+                    :class="$page.url.startsWith('/billing')
+                        ? 'bg-blue-50 text-blue-700 border-l-2 border-blue-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"
+                >Facturacion</Link>
+
+                <Link href="/quotes"
+                    class="flex items-center gap-3 px-4 py-3 text-sm transition"
+                    :class="$page.url.startsWith('/quotes')
+                        ? 'bg-blue-50 text-blue-700 border-l-2 border-blue-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"
+                >Presupuestos</Link>
+
+                <Link href="/invitations/create"
+                    class="flex items-center gap-3 px-4 py-3 text-sm transition"
+                    :class="$page.url.startsWith('/invitations')
+                        ? 'bg-blue-50 text-blue-700 border-l-2 border-blue-600 font-semibold'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"
+                >Invitar Cliente</Link>
+            </nav>
+
+            <!-- User + Logout at bottom -->
+            <div class="border-t border-gray-200 px-4 py-4">
+                <p class="text-sm text-gray-600 mb-2 truncate">{{ user?.name }}</p>
+                <button
+                    @click="logout"
+                    class="text-sm text-gray-600 hover:text-gray-900 transition"
+                >Cerrar sesion</button>
+            </div>
+        </aside>
+
+        <!-- Main content area -->
+        <div class="ml-[220px] flex-1 flex flex-col">
+            <main class="p-6 flex-1">
+                <slot />
+            </main>
+        </div>
     </div>
 </template>

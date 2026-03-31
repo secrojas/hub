@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-stopped_at: Completed 07-01-PLAN.md
-last_updated: "2026-03-31T16:22:17.306Z"
+status: complete
+stopped_at: Completed 07-02-PLAN.md
+last_updated: "2026-03-31T17:00:00.000Z"
 progress:
   total_phases: 7
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 20
-  completed_plans: 19
+  completed_plans: 20
 ---
 
 # Project State
@@ -23,8 +23,8 @@ See: .planning/PROJECT.md (updated 2026-03-19)
 
 ## Current Position
 
-Phase: 07 (dashboard-del-admin) — EXECUTING
-Plan: 1 of 2
+Phase: 07 (dashboard-del-admin) — COMPLETE
+Plan: 2 of 2
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Plan: 1 of 2
 | Phase 05-presupuestos-y-pdf P03 | 3 | 1 tasks | 3 files |
 | Phase 06-portal-del-cliente P01 | 15 | 2 tasks | 4 files |
 | Phase 07-dashboard-del-admin P01 | 12 | 2 tasks | 4 files |
+| Phase 07-dashboard-del-admin P02 | 20 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -119,6 +120,9 @@ Recent decisions affecting current work:
 - [Phase 06-portal-del-cliente]: abort_unless($clientId, 403) guard on index() — defensive against null client_id edge case
 - [Phase 07-dashboard-del-admin]: Two-query dashboard pattern: vencenProonto first (7-day window, no finalizado, no null fecha_limite), enProgreso excludes vencenProonto IDs via whereNotIn
 - [Phase 07-dashboard-del-admin]: AdminLayout sidebar: Dashboard link uses exact URL match to avoid highlight bleed, all others use startsWith
+- [Phase 07-dashboard-del-admin]: Dashboard.vue uses :value (not v-model) on select — reflects server state, Inertia re-renders props after PUT
+- [Phase 07-dashboard-del-admin]: @click.stop on select prevents row navigation when user opens status dropdown — @change.stop stops the wrong event
+- [Phase 07-dashboard-del-admin]: urgencyClass() only applied in Vencen pronto section; En progreso dates use plain text-gray-400 with ?? '-' fallback for null fecha_limite
 
 ### Pending Todos
 
@@ -132,6 +136,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-31T16:22:17.300Z
-Stopped at: Completed 07-01-PLAN.md
+Last session: 2026-03-31T17:00:00.000Z
+Stopped at: Completed 07-02-PLAN.md
 Resume file: None

@@ -16,6 +16,15 @@ const prioridadBadgeClass = {
     baja:  'bg-green-100 text-green-800',
 }
 
+function formatDate(dateStr) {
+    if (!dateStr) return '-'
+    const d = new Date(dateStr)
+    const dd = String(d.getUTCDate()).padStart(2, '0')
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0')
+    const yyyy = d.getUTCFullYear()
+    return `${dd}/${mm}/${yyyy}`
+}
+
 function urgencyClass(fechaLimite) {
     const days = Math.ceil((new Date(fechaLimite) - new Date()) / (1000 * 60 * 60 * 24))
     if (days <= 1)  return 'text-red-600 font-semibold'
@@ -59,7 +68,7 @@ function updateStatus(taskId, event) {
                     <span class="flex-1 text-sm font-medium text-gray-900 truncate">{{ task.titulo }}</span>
                     <span class="text-xs text-gray-500 w-32 truncate">{{ task.client.nombre }}</span>
                     <span class="px-2 py-0.5 text-xs font-medium rounded-full" :class="prioridadBadgeClass[task.prioridad]">{{ task.prioridad }}</span>
-                    <span class="text-xs w-24 text-right text-gray-400">{{ task.fecha_limite ?? '-' }}</span>
+                    <span class="text-xs w-24 text-right text-gray-400">{{ formatDate(task.fecha_limite) }}</span>
                     <select
                         :value="task.estado"
                         @click.stop
@@ -93,7 +102,7 @@ function updateStatus(taskId, event) {
                     <span class="flex-1 text-sm font-medium text-gray-900 truncate">{{ task.titulo }}</span>
                     <span class="text-xs text-gray-500 w-32 truncate">{{ task.client.nombre }}</span>
                     <span class="px-2 py-0.5 text-xs font-medium rounded-full" :class="prioridadBadgeClass[task.prioridad]">{{ task.prioridad }}</span>
-                    <span class="text-xs w-24 text-right" :class="urgencyClass(task.fecha_limite)">{{ task.fecha_limite }}</span>
+                    <span class="text-xs w-24 text-right" :class="urgencyClass(task.fecha_limite)">{{ formatDate(task.fecha_limite) }}</span>
                     <select
                         :value="task.estado"
                         @click.stop

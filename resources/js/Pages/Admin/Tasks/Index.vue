@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { router, useForm, Link, Head } from '@inertiajs/vue3'
 import { VueDraggable } from 'vue-draggable-plus'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
@@ -47,16 +47,6 @@ const localColumns = ref({
     finalizado:  [...(props.columns.finalizado || [])],
 })
 
-// Re-sync localColumns when Inertia updates props after successful PUT
-watch(() => props.columns, (newColumns) => {
-    localColumns.value = {
-        backlog:     [...(newColumns.backlog || [])],
-        en_progreso: [...(newColumns.en_progreso || [])],
-        en_revision: [...(newColumns.en_revision || [])],
-        finalizado:  [...(newColumns.finalizado || [])],
-    }
-}, { deep: true })
-
 const columnLabels = {
     backlog:     'Backlog',
     en_progreso: 'En progreso',
@@ -64,18 +54,15 @@ const columnLabels = {
     finalizado:  'Finalizado',
 }
 
-// Drag handler — only fire on added, ignore removed/moved
-function onColumnChange(newStatus, event) {
-    if (!event.added) return
-
-    const task = event.added.element
+// Drag handler — fires only when a card lands in this column from another
+function onColumnAdd(newStatus, event) {
+    const task = event.data
     const previousColumns = JSON.parse(JSON.stringify(localColumns.value))
 
     router.put(`/tasks/${task.id}/status`, { estado: newStatus }, {
-        preserveState: true,
         preserveScroll: true,
         onError: () => {
-            localColumns.value = previousColumns  // Rollback on failure
+            localColumns.value = previousColumns
         },
     })
 }
@@ -229,7 +216,7 @@ function prioridadBadgeClass(prioridad) {
                     :group="{ name: 'tasks', pull: true, put: true }"
                     item-key="id"
                     class="min-h-16 space-y-2"
-                    @change="(e) => onColumnChange(status, e)"
+                    @add="(e) => onColumnAdd(status, e)"
                 >
                     <div
                         v-for="task in localColumns[status]"

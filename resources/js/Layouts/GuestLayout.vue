@@ -8,9 +8,9 @@ import Card from '@/Components/UI/Card.vue';
         <!-- Brand area -->
         <div class="mb-8 text-center">
             <Link href="/">
-                <img src="/images/logo.png" alt="srojas" class="h-8 brightness-0 invert mx-auto" />
+                <h1 class="text-3xl font-bold text-gradient">Hub</h1>
             </Link>
-            <p class="mt-3 text-sm text-slate-500">Your workspace, organised</p>
+            <p class="mt-1 text-sm text-slate-500">Your workspace, organised</p>
         </div>
 
         <!-- Form card -->

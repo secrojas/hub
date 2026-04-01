@@ -16,9 +16,8 @@ function logout() {
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between items-center">
                     <div class="flex items-center space-x-8">
-                        <Link href="/portal" class="flex items-center gap-2">
-                            <img src="/images/icon.png" alt="srojas" class="h-6 brightness-0 invert" />
-                            <span class="text-sm font-semibold text-slate-400">Portal</span>
+                        <Link href="/portal" class="text-xl font-bold text-slate-100 tracking-tight">
+                            Hub <span class="text-cyan-400">Portal</span>
                         </Link>
                         <Link
                             href="/portal"

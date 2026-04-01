@@ -16,9 +16,7 @@ function logout() {
         <aside class="w-[220px] bg-surface-950 border-r border-slate-700/40 fixed inset-y-0 left-0 flex flex-col">
             <!-- Logo -->
             <div class="px-4 py-5 border-b border-slate-700/40">
-                <Link href="/dashboard">
-                    <img src="/images/logo.png" alt="srojas" class="h-7 brightness-0 invert" />
-                </Link>
+                <Link href="/dashboard" class="text-xl font-bold text-slate-100 tracking-tight">Hub</Link>
             </div>
 
             <!-- Nav items -->

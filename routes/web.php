@@ -8,17 +8,13 @@ use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TaskController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin'       => Route::has('login'),
-        'canRegister'    => false,
-        'laravelVersion' => Application::VERSION,
-        'phpVersion'     => PHP_VERSION,
-    ]);
+    if (auth()->check()) {
+        return redirect(auth()->user()->role === 'admin' ? '/dashboard' : '/portal');
+    }
+    return redirect()->route('login');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

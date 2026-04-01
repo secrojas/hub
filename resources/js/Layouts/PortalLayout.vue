@@ -11,25 +11,29 @@ function logout() {
 </script>
 
 <template>
-    <div class="min-h-screen bg-blue-50">
-        <nav class="bg-white shadow">
+    <div class="min-h-screen bg-surface-900">
+        <nav class="bg-surface-950 border-b border-slate-700/40 backdrop-blur-md sticky top-0 z-10">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between items-center">
                     <div class="flex items-center space-x-8">
-                        <Link href="/portal" class="text-xl font-bold text-blue-700">Hub Portal</Link>
+                        <Link href="/portal" class="text-xl font-bold text-slate-100 tracking-tight">
+                            Hub <span class="text-cyan-400">Portal</span>
+                        </Link>
                         <Link
                             href="/portal"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
-                            :class="{ 'text-gray-900 font-semibold': $page.url.startsWith('/portal') }"
+                            class="text-sm font-medium transition-colors duration-150 pb-0.5"
+                            :class="$page.url.startsWith('/portal')
+                                ? 'text-cyan-400 border-b-2 border-cyan-400'
+                                : 'text-slate-400 hover:text-slate-100 border-b-2 border-transparent'"
                         >
                             Portal
                         </Link>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-600">{{ user?.name }}</span>
+                        <span class="text-sm text-slate-400">{{ user?.name }}</span>
                         <button
                             @click="logout"
-                            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition"
+                            class="text-sm font-medium text-slate-500 hover:text-slate-100 transition-colors duration-150"
                         >
                             Cerrar sesion
                         </button>

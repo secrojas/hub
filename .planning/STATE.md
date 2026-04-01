@@ -1,10 +1,10 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
-status: unknown
-stopped_at: Completed 07-02-PLAN.md
-last_updated: "2026-03-31T23:02:02.215Z"
+milestone_name: MVP
+status: complete
+stopped_at: v1.0 MVP complete
+last_updated: "2026-04-01T13:30:00.000Z"
 progress:
   total_phases: 7
   completed_phases: 7
@@ -16,126 +16,39 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-19)
+See: .planning/PROJECT.md (updated 2026-04-01)
 
 **Core value:** El admin puede ver de un vistazo qué tareas están activas en este momento y qué vence pronto — todo lo demás es soporte a esa claridad operativa.
-**Current focus:** Phase 07 — dashboard-del-admin
+**Current focus:** v1.0 MVP shipped — planning next milestone
 
 ## Current Position
 
-Phase: 07 (dashboard-del-admin) — COMPLETE
-Plan: 2 of 2
+Milestone v1.0 MVP — COMPLETE (2026-04-01)
+All 7 phases, 20 plans complete.
 
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 1
-- Average duration: 17 min
-- Total execution time: 0.28 hours
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01-fundaci-n-y-auth | 3/4 | 19 min | 6 min |
-
-**Recent Trend:**
-
-- Last 5 plans: 17 min
-- Trend: -
-
-*Updated after each plan completion*
-| Phase 01-fundaci-n-y-auth P02 | 4 | 2 tasks | 13 files |
-| Phase 01-fundaci-n-y-auth P03 | 2 | 2 tasks | 5 files |
-| Phase 01-fundaci-n-y-auth P04 | 15 | 1 tasks | 4 files |
-| Phase 01-fundaci-n-y-auth P04 | 17 | 2 tasks | 4 files |
-| Phase 02-crm-de-clientes P01 | 8 | 2 tasks | 10 files |
-| Phase 02-crm-de-clientes P02 | 2 | 2 tasks | 8 files |
-| Phase 02-crm-de-clientes P03 | 2 | 2 tasks | 5 files |
-| Phase 03-tareas-y-kanban P01 | 3 | 2 tasks | 9 files |
-| Phase 03-tareas-y-kanban P02 | 2 | 2 tasks | 8 files |
-| Phase 03-tareas-y-kanban P03 | 2 | 2 tasks | 4 files |
-| Phase 04-facturacion P01 | 4 | 2 tasks | 8 files |
-| Phase 04-facturacion P02 | 8 | 2 tasks | 9 files |
-| Phase 04-facturacion P03 | 3 | 2 tasks | 5 files |
-| Phase 05-presupuestos-y-pdf P01 | 5 | 2 tasks | 10 files |
-| Phase 05-presupuestos-y-pdf P02 | 4 | 2 tasks | 9 files |
-| Phase 05-presupuestos-y-pdf P03 | 3 | 1 tasks | 3 files |
-| Phase 06-portal-del-cliente P01 | 15 | 2 tasks | 4 files |
-| Phase 07-dashboard-del-admin P01 | 12 | 2 tasks | 4 files |
-| Phase 07-dashboard-del-admin P02 | 20 | 2 tasks | 1 files |
+Next step: `/gsd:new-milestone` to define v2.0 requirements and roadmap.
 
 ## Accumulated Context
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+Key decisions archived in `.planning/PROJECT.md` Key Decisions table and `.planning/milestones/v1.0-ROADMAP.md`.
 
-- Stack non-negotiable: Laravel 11 + Inertia.js + Vue 3 + MySQL
-- Auth scaffold: Laravel Breeze (Vue + Inertia preset) — not Jetstream
-- PDF generation: barryvdh/laravel-dompdf (pure PHP, no binary dependency)
-- Invitation system: URL::temporarySignedRoute() exclusively
-- [Phase 01-fundaci-n-y-auth]: Laravel 12.55.1 installed (plan specified 11.x, compatible upgrade — all Breeze/Inertia patterns identical)
-- [Phase 01-fundaci-n-y-auth]: MySQL root password 123456 used (developer's system MySQL 8.0.31, not Laragon bundled)
-- [Phase 01-fundaci-n-y-auth]: Not using 'verified' middleware on protected routes — email verification disabled, admin seeded with email_verified_at set
-- [Phase 01-fundaci-n-y-auth]: Inertia Error.vue is a standalone full-page component with no layout — intentional for error display clarity
-- [Phase 01-fundaci-n-y-auth]: Route groups use ['auth', 'admin'] and ['auth', 'client'] — no 'verified' middleware — Breeze default dashboard route replaced entirely
-- [Phase 01-fundaci-n-y-auth]: accept_url passed as full signed URL prop to Accept.vue so form.post() preserves signature params
-- [Phase 01-fundaci-n-y-auth]: show() checks used_at explicitly before rendering form — 403 with custom message, not 404
-- [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
-- [Phase 01-fundaci-n-y-auth]: Breeze register routes commented out at route level — clients register via invitation only, RegistrationTest rewritten to assert 404
-- [Phase 02-crm-de-clientes]: nullOnDelete on FK client_id in users and invitations — clients can be deleted without cascade-deleting users or invitations
-- [Phase 02-crm-de-clientes]: estado as enum column (activo/potencial/pausado default activo) — enforced at DB level
-- [Phase 02-crm-de-clientes]: Estado filter uses router.get with preserveState:true — server-side filtering consistent with Inertia patterns
-- [Phase 02-crm-de-clientes]: Delete modal uses ref(null) sentinel pattern — null hides modal, set value triggers it
-- [Phase 02-crm-de-clientes]: hasActiveUser prop computed server-side in ClientController.show() — single source of truth for user-client relationship
-- [Phase 02-crm-de-clientes]: Show.vue reads flash via usePage().props.flash?.invitation_url computed — consistent with Invitations/Create.vue pattern
-- [Phase 02-crm-de-clientes]: client_id propagation in accept() uses separate user->update() after User::create() — keeps create call clean and propagation logic isolated
-- [Phase 03-tareas-y-kanban]: cascadeOnDelete on tasks.client_id — orphaned tasks have no business value without a client
-- [Phase 03-tareas-y-kanban]: TaskFactory defaults estado to backlog — gives predictable initial state for Kanban tests
-- [Phase 03-tareas-y-kanban]: Test stubs use markTestIncomplete pending TaskController — ensures Nyquist compliance from plan 01
-- [Phase 03-tareas-y-kanban]: Collection grouping uses enum case comparison (TaskStatus::Backlog) not string — cast enum values don't match plain strings in Collection::where
-- [Phase 03-tareas-y-kanban]: updateStatus test uses assertSessionHasErrors(['estado']) not assertStatus(422) — controller uses redirect-back not JSON API
-- [Phase 03-tareas-y-kanban]: VueDraggable onColumnChange guards on event.added only to prevent double-firing; optimistic rollback via JSON.parse snapshot + onError
-- [Phase 03-tareas-y-kanban]: Filter navigation uses router.get with replace:true to prevent browser history pollution from typing in search
-- [Phase 03-tareas-y-kanban]: Titulo input debounced 300ms to avoid excessive Inertia requests on each keystroke
-- [Phase 03-tareas-y-kanban]: Filter tests use collect()->flatMap()->pluck('id') to merge all columns for presence/absence assertions
-- [Phase 04-facturacion]: nullOnDelete on billings.client_id — financial records must survive client deletion
-- [Phase 04-facturacion]: BillingFactory defaults estado to pendiente for predictable test state; pagado()/vencido() state methods for explicit overrides
-- [Phase 04-facturacion]: fecha_pago initialized as null (not empty string) in useForm — required_if:estado,pagado fires correctly on null
-- [Phase 04-facturacion]: BillingController summary uses (float) cast on sum() — avoids '0' string from empty DB result
-- [Phase 04-facturacion]: Decimal amounts with fractions in assertInertia tests — avoids int/float strict comparison issue from PHP json_encode of round numbers
-- [Phase 04-facturacion]: billings in ClientController@show uses ->get() not ->paginate() — compact client detail section
-- [Phase 04-facturacion]: Tasks/Index.vue Kanban v-for bug fixed — v-for on objects is (value, key) in Vue 3, NOT (key, value). Was: v-for="(status, _) in columnLabels" → status was the LABEL ('Backlog'), not the key ('backlog'). Fixed: v-for="(label, status) in columnLabels"
-- [Phase 05-presupuestos-y-pdf]: nullOnDelete on quotes.client_id — quote as financial record survives client deletion (consistent with billings)
-- [Phase 05-presupuestos-y-pdf]: cascadeOnDelete on quote_items.quote_id — items have no standalone value without parent quote
-- [Phase 05-presupuestos-y-pdf]: QuoteFactory defaults to QuoteStatus::Borrador for predictable initial test state
-- [Phase 05-presupuestos-y-pdf]: Re-insert pattern for quote items update: delete all + re-create from request, simpler than diffing
-- [Phase 05-presupuestos-y-pdf]: pdf route registered in Plan 02 for URL generation even though method implemented in Plan 03
-- [Phase 05-presupuestos-y-pdf]: DejaVu Sans font mandatory in dompdf Blade templates — only bundled font with full UTF-8/Latin support; default font silently drops ñ, á, é
-- [Phase 05-presupuestos-y-pdf]: streamDownload used for PDF response — avoids disk I/O, memory-efficient for generated content
-- [Phase 06-portal-del-cliente]: Portal pdf() does NOT block Borrador estado — per CONTEXT.md locked decision: sin restriccion por estado
-- [Phase 06-portal-del-cliente]: abort_unless($clientId, 403) guard on index() — defensive against null client_id edge case
-- [Phase 07-dashboard-del-admin]: Two-query dashboard pattern: vencenProonto first (7-day window, no finalizado, no null fecha_limite), enProgreso excludes vencenProonto IDs via whereNotIn
-- [Phase 07-dashboard-del-admin]: AdminLayout sidebar: Dashboard link uses exact URL match to avoid highlight bleed, all others use startsWith
-- [Phase 07-dashboard-del-admin]: Dashboard.vue uses :value (not v-model) on select — reflects server state, Inertia re-renders props after PUT
-- [Phase 07-dashboard-del-admin]: @click.stop on select prevents row navigation when user opens status dropdown — @change.stop stops the wrong event
-- [Phase 07-dashboard-del-admin]: urgencyClass() only applied in Vencen pronto section; En progreso dates use plain text-gray-400 with ?? '-' fallback for null fecha_limite
+Notable gotchas for next milestone:
+- vue-draggable-plus: use @add + event.data (NOT @change + event.added.element)
+- dompdf: always use DejaVu Sans — default font drops UTF-8 silently
+- Laravel date cast serializes as ISO 8601 with microseconds — format on frontend with UTC methods
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-- Phase 3: Verify vuedraggable (vue.draggable.next) maintenance status and Vue 3 + Inertia v2 compatibility before planning begins
-- Phase 5: Decide sync vs. queued PDF generation before planning begins
-- General: Verify Inertia.js v2 share() API signature against current docs before Phase 1 implementation
+None — clean slate for v2.0.
 
 ## Session Continuity
 
-Last session: 2026-03-31T17:00:00.000Z
-Stopped at: Completed 07-02-PLAN.md
+Last session: 2026-04-01
+Stopped at: v1.0 milestone complete
 Resume file: None

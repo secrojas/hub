@@ -1,8 +1,7 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Button from '@/Components/UI/Button.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
@@ -24,9 +23,12 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
+        <h2 class="text-xl font-semibold text-slate-100 mb-1">Create an account</h2>
+        <p class="text-sm text-slate-400 mb-6">Get started with Hub today</p>
+
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
+                <label for="name" class="block text-sm font-medium text-slate-300 mb-1">Name</label>
 
                 <TextInput
                     id="name"
@@ -42,7 +44,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+                <label for="email" class="block text-sm font-medium text-slate-300 mb-1">Email</label>
 
                 <TextInput
                     id="email"
@@ -57,7 +59,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <label for="password" class="block text-sm font-medium text-slate-300 mb-1">Password</label>
 
                 <TextInput
                     id="password"
@@ -72,10 +74,9 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
+                <label for="password_confirmation" class="block text-sm font-medium text-slate-300 mb-1">
+                    Confirm Password
+                </label>
 
                 <TextInput
                     id="password_confirmation"
@@ -92,21 +93,22 @@ const submit = () => {
                 />
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
+            <div class="mt-6 flex items-center justify-between">
                 <Link
                     :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    class="text-sm text-violet-400 hover:text-violet-300 transition-colors"
                 >
                     Already registered?
                 </Link>
 
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
+                <Button
+                    type="submit"
+                    variant="primary"
+                    size="md"
                     :disabled="form.processing"
                 >
                     Register
-                </PrimaryButton>
+                </Button>
             </div>
         </form>
     </GuestLayout>

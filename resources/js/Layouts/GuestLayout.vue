@@ -1,22 +1,23 @@
 <script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';
+import Card from '@/Components/UI/Card.vue';
 </script>
 
 <template>
-    <div
-        class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0"
-    >
-        <div>
+    <div class="min-h-screen bg-surface-950 flex flex-col items-center justify-center px-4">
+        <!-- Brand area -->
+        <div class="mb-8 text-center">
             <Link href="/">
-                <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
+                <h1 class="text-3xl font-bold text-gradient">Hub</h1>
             </Link>
+            <p class="mt-1 text-sm text-slate-500">Your workspace, organised</p>
         </div>
 
-        <div
-            class="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg"
-        >
-            <slot />
+        <!-- Form card -->
+        <div class="w-full max-w-md">
+            <Card variant="glass" padding="lg">
+                <slot />
+            </Card>
         </div>
     </div>
 </template>

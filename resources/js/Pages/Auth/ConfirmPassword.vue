@@ -1,8 +1,7 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Button from '@/Components/UI/Button.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
@@ -21,14 +20,15 @@ const submit = () => {
     <GuestLayout>
         <Head title="Confirm Password" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            This is a secure area of the application. Please confirm your
-            password before continuing.
-        </div>
+        <h2 class="text-xl font-semibold text-slate-100 mb-1">Confirm your password</h2>
+        <p class="text-sm text-slate-400 mb-6">
+            This is a secure area. Please confirm your password before continuing.
+        </p>
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="password" value="Password" />
+                <label for="password" class="block text-sm font-medium text-slate-300 mb-1">Password</label>
+
                 <TextInput
                     id="password"
                     type="password"
@@ -38,17 +38,19 @@ const submit = () => {
                     autocomplete="current-password"
                     autofocus
                 />
+
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="mt-4 flex justify-end">
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
+            <div class="mt-6 flex justify-end">
+                <Button
+                    type="submit"
+                    variant="primary"
+                    size="md"
                     :disabled="form.processing"
                 >
                     Confirm
-                </PrimaryButton>
+                </Button>
             </div>
         </form>
     </GuestLayout>

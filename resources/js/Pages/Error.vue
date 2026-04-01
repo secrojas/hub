@@ -1,4 +1,6 @@
 <script setup>
+import Button from '@/Components/UI/Button.vue';
+
 const props = defineProps({
     status: Number,
     message: String,
@@ -15,13 +17,17 @@ const displayMessage = props.message || messages[props.status] || 'Ha ocurrido u
 </script>
 
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="min-h-screen bg-surface-950 flex items-center justify-center px-4">
         <div class="text-center">
-            <h1 class="text-6xl font-bold text-gray-300">{{ status }}</h1>
-            <p class="mt-4 text-xl text-gray-600">{{ displayMessage }}</p>
-            <a href="/" class="mt-6 inline-block text-blue-600 hover:text-blue-800 underline">
-                Volver al inicio
-            </a>
+            <h1 class="text-8xl font-bold text-gradient leading-none">{{ status }}</h1>
+            <p class="mt-6 text-lg text-slate-400">{{ displayMessage }}</p>
+            <div class="mt-8">
+                <a href="/">
+                    <Button variant="secondary" size="md">
+                        Volver al inicio
+                    </Button>
+                </a>
+            </div>
         </div>
     </div>
 </template>

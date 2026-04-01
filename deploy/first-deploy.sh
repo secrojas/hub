@@ -7,8 +7,8 @@
 set -e
 
 REPO="https://github.com/secrojas/hub.git"
-APP_DIR="/home/srojasap/hub"
-PUBLIC_LINK="/home/srojasap/public_html/hub"
+APP_DIR="/home2/srojasap/hub"
+PUBLIC_LINK="/home2/srojasap/public_html/hub"
 
 echo "→ Cloning repository..."
 git clone "$REPO" "$APP_DIR"

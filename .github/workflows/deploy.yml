@@ -33,9 +33,6 @@ jobs:
           npm ci
           npm run build
 
-      - name: Install rsync
-        run: sudo apt-get update -qq && sudo apt-get install -y rsync
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -57,7 +54,9 @@ jobs:
 
       - name: Sync built assets
         run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no" \
-            public/build/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home2/srojasap/hub/public/build/
+          tar -czf - -C public/build . | \
+            ssh -i ~/.ssh/deploy_key \
+                -p ${{ secrets.SSH_PORT }} \
+                -o StrictHostKeyChecking=no \
+                ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+                'mkdir -p /home2/srojasap/hub/public/build && tar -xzf - -C /home2/srojasap/hub/public/build'

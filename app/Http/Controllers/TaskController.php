@@ -31,7 +31,7 @@ class TaskController extends Controller
 
         return Inertia::render('Admin/Tasks/Index', [
             'columns' => $columns,
-            'clients' => Client::orderBy('nombre')->get(['id', 'nombre']),
+            'clients' => Client::orderBy('nombre')->get(['id', 'nombre', 'valor_hora']),
             'filtros' => $request->only(['cliente', 'estado', 'prioridad', 'titulo']),
         ]);
     }

@@ -19,15 +19,28 @@ class Task extends Model
         'prioridad',
         'estado',
         'fecha_limite',
+        'horas',
     ];
 
     protected function casts(): array
     {
         return [
-            'estado'       => TaskStatus::class,
-            'prioridad'    => TaskPriority::class,
-            'fecha_limite' => 'date',
+            'estado'             => TaskStatus::class,
+            'prioridad'          => TaskPriority::class,
+            'fecha_limite'       => 'date',
+            'fecha_finalizacion' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::updating(function (Task $task) {
+            if ($task->isDirty('estado')) {
+                $task->fecha_finalizacion = $task->estado === TaskStatus::Finalizado
+                    ? now()
+                    : null;
+            }
+        });
     }
 
     public function client(): BelongsTo

@@ -13,6 +13,7 @@ const props = defineProps({
     quotes: Array,
     billings: Array,
     dashboard: Object,
+    horasBilling: Object,
 })
 
 function formatMonto(monto) {
@@ -138,6 +139,48 @@ function formatDate(dateStr) {
                             :href="'/portal/quotes/' + quote.id + '/pdf'"
                             class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors"
                         >PDF</a>
+                    </span>
+                </div>
+            </Card>
+        </section>
+
+        <!-- Horas trabajadas -->
+        <section v-if="horasBilling?.tareas?.length || horasBilling?.total_mensual > 0">
+            <h2 class="text-base font-semibold text-slate-100 mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>
+                Horas Trabajadas
+            </h2>
+
+            <!-- Totales semanal / mensual -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <Card variant="glass" padding="md">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Esta semana</p>
+                    <p class="text-2xl font-semibold text-cyan-400">{{ formatMonto(horasBilling.total_semanal) }}</p>
+                </Card>
+                <Card variant="glass" padding="md">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Este mes</p>
+                    <p class="text-2xl font-semibold text-violet-400">{{ formatMonto(horasBilling.total_mensual) }}</p>
+                </Card>
+            </div>
+
+            <!-- Tabla de tareas finalizadas -->
+            <Card v-if="horasBilling.tareas?.length" variant="default" padding="none">
+                <div class="grid grid-cols-[1fr_120px_80px_140px] px-4 py-2 border-b border-slate-700/40">
+                    <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Tarea</span>
+                    <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Finalizada</span>
+                    <span class="text-xs font-medium text-slate-500 uppercase tracking-wider text-right">Horas</span>
+                    <span class="text-xs font-medium text-slate-500 uppercase tracking-wider text-right">Monto</span>
+                </div>
+                <div
+                    v-for="t in horasBilling.tareas"
+                    :key="t.id"
+                    class="grid grid-cols-[1fr_120px_80px_140px] px-4 py-3 border-b border-slate-700/40 last:border-0 hover:bg-surface-700/40 transition-colors duration-150"
+                >
+                    <span class="text-sm text-slate-100 truncate pr-4">{{ t.titulo }}</span>
+                    <span class="text-sm text-slate-400">{{ formatDate(t.fecha_finalizacion) }}</span>
+                    <span class="text-sm text-slate-100 text-right">{{ t.horas }}h</span>
+                    <span class="text-sm font-medium text-green-400 text-right">
+                        {{ horasBilling.valor_hora ? formatMonto(t.monto) : '—' }}
                     </span>
                 </div>
             </Card>

@@ -19,6 +19,7 @@ class UpdateTaskRequest extends FormRequest
             'descripcion'  => ['nullable', 'string'],
             'prioridad'    => ['nullable', 'in:baja,media,alta'],
             'fecha_limite' => ['nullable', 'date'],
+            'horas'        => ['nullable', 'integer', 'min:1', 'max:999'],
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -38,6 +39,7 @@ class ClientController extends Controller
             'estado'            => ['nullable', 'in:activo,potencial,pausado'],
             'notas'             => ['nullable', 'string'],
             'fecha_inicio'      => ['nullable', 'date'],
+            'valor_hora'        => ['nullable', 'numeric', 'min:0'],
         ]);
 
         $data['estado'] = $data['estado'] ?? 'activo';
@@ -50,11 +52,40 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $hasActiveUser = $client->user()->exists();
+        $valorHora     = (float) ($client->valor_hora ?? 0);
+
+        $tareasFin = $client->tasks()
+            ->where('estado', TaskStatus::Finalizado)
+            ->whereNotNull('horas')
+            ->orderByDesc('fecha_finalizacion')
+            ->get(['id', 'titulo', 'horas', 'fecha_finalizacion']);
+
+        $tareasConMonto = $tareasFin->map(fn ($t) => [
+            'id'                 => $t->id,
+            'titulo'             => $t->titulo,
+            'horas'              => $t->horas,
+            'fecha_finalizacion' => $t->fecha_finalizacion?->format('Y-m-d'),
+            'monto'              => round($t->horas * $valorHora, 2),
+        ]);
+
+        $now          = now();
+        $totalSemanal = round($tareasFin
+            ->filter(fn ($t) => $t->fecha_finalizacion?->gte($now->copy()->startOfWeek()))
+            ->sum(fn ($t) => $t->horas * $valorHora), 2);
+        $totalMensual = round($tareasFin
+            ->filter(fn ($t) => $t->fecha_finalizacion?->gte($now->copy()->startOfMonth()))
+            ->sum(fn ($t) => $t->horas * $valorHora), 2);
 
         return Inertia::render('Admin/Clients/Show', [
             'client'        => $client,
             'hasActiveUser' => $hasActiveUser,
             'billings'      => $client->billings()->latest()->get(['id', 'concepto', 'monto', 'fecha_emision', 'estado']),
+            'horasBilling'  => [
+                'valor_hora'    => $valorHora,
+                'tareas'        => $tareasConMonto,
+                'total_semanal' => $totalSemanal,
+                'total_mensual' => $totalMensual,
+            ],
         ]);
     }
 
@@ -76,6 +107,7 @@ class ClientController extends Controller
             'estado'            => ['nullable', 'in:activo,potencial,pausado'],
             'notas'             => ['nullable', 'string'],
             'fecha_inicio'      => ['nullable', 'date'],
+            'valor_hora'        => ['nullable', 'numeric', 'min:0'],
         ]);
 
         $client->update($data);

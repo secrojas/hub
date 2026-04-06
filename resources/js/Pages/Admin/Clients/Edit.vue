@@ -21,6 +21,7 @@ const form = useForm({
     estado: props.client.estado || 'activo',
     notas: props.client.notas || '',
     fecha_inicio: props.client.fecha_inicio?.substring(0, 10) || '',
+    valor_hora: props.client.valor_hora ?? '',
 })
 
 function submit() {
@@ -89,6 +90,12 @@ function submit() {
                     <label for="fecha_inicio" class="block text-sm font-medium text-slate-300 mb-1">Fecha de Inicio</label>
                     <input id="fecha_inicio" v-model="form.fecha_inicio" type="date" class="w-full" />
                     <p v-if="form.errors.fecha_inicio" class="text-red-400 text-sm mt-1">{{ form.errors.fecha_inicio }}</p>
+                </div>
+
+                <div>
+                    <label for="valor_hora" class="block text-sm font-medium text-slate-300 mb-1">Valor hora (ARS)</label>
+                    <input id="valor_hora" v-model="form.valor_hora" type="number" min="0" step="0.01" placeholder="0.00" class="w-full" />
+                    <p v-if="form.errors.valor_hora" class="text-red-400 text-sm mt-1">{{ form.errors.valor_hora }}</p>
                 </div>
 
                 <div class="flex items-center gap-4 pt-2">

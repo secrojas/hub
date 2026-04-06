@@ -13,6 +13,7 @@ const props = defineProps({
     client: Object,
     hasActiveUser: Boolean,
     billings: Array,
+    horasBilling: Object,
 })
 
 const page = usePage()
@@ -122,6 +123,56 @@ function formatARS(monto) {
                 </table>
             </div>
             <p v-else class="px-6 py-8 text-center text-slate-500">No hay cobros registrados para este cliente.</p>
+        </Card>
+
+        <!-- Facturación por Tareas -->
+        <Card variant="default" padding="none">
+            <div class="px-6 py-4 border-b border-slate-700/40 flex items-center justify-between">
+                <h2 class="text-base font-semibold text-slate-100">Facturacion por Tareas</h2>
+                <span class="text-xs text-slate-500">
+                    Valor hora:
+                    <span class="text-slate-300 font-medium">
+                        {{ horasBilling.valor_hora ? formatARS(horasBilling.valor_hora) + '/h' : 'No configurado' }}
+                    </span>
+                </span>
+            </div>
+
+            <!-- Totales semanal / mensual -->
+            <div class="grid grid-cols-2 divide-x divide-slate-700/30 border-b border-slate-700/40">
+                <div class="px-6 py-4">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Esta semana</p>
+                    <p class="text-xl font-semibold text-cyan-400">{{ formatARS(horasBilling.total_semanal) }}</p>
+                </div>
+                <div class="px-6 py-4">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Este mes</p>
+                    <p class="text-xl font-semibold text-violet-400">{{ formatARS(horasBilling.total_mensual) }}</p>
+                </div>
+            </div>
+
+            <!-- Tabla de tareas finalizadas con horas -->
+            <div v-if="horasBilling.tareas?.length">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-surface-800 border-b border-slate-700/40">
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Tarea</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Finalizada</th>
+                            <th class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">Horas</th>
+                            <th class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="t in horasBilling.tareas" :key="t.id" class="border-b border-slate-700/20 hover:bg-surface-700/40 transition-colors">
+                            <td class="px-4 py-3 text-slate-100">{{ t.titulo }}</td>
+                            <td class="px-4 py-3 text-slate-400">{{ formatDate(t.fecha_finalizacion) }}</td>
+                            <td class="px-4 py-3 text-slate-100 text-right">{{ t.horas }}h</td>
+                            <td class="px-4 py-3 text-green-400 text-right font-medium">
+                                {{ horasBilling.valor_hora ? formatARS(t.monto) : '—' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p v-else class="px-6 py-8 text-center text-slate-500">No hay tareas finalizadas con horas registradas.</p>
         </Card>
 
         <!-- Portal Invitation Section -->

@@ -23,12 +23,14 @@ class Client extends Model
         'estado',
         'notas',
         'fecha_inicio',
+        'valor_hora',
     ];
 
     protected function casts(): array
     {
         return [
             'fecha_inicio' => 'date',
+            'valor_hora'   => 'float',
         ];
     }
 

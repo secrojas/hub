@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { router, useForm, Link, Head } from '@inertiajs/vue3'
 import { VueDraggable } from 'vue-draggable-plus'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
@@ -77,6 +77,21 @@ function onColumnAdd(newStatus, event) {
     })
 }
 
+// Client map for valor_hora lookup
+const clientMap = computed(() =>
+    Object.fromEntries(props.clients.map(c => [c.id, c]))
+)
+
+function formatARS(monto) {
+    return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(monto)
+}
+
+function taskMonto(task) {
+    const c = clientMap.value[task.client_id]
+    if (!task.horas || !c?.valor_hora) return null
+    return task.horas * parseFloat(c.valor_hora)
+}
+
 // Create modal
 const showCreateModal = ref(false)
 const createForm = useForm({
@@ -85,6 +100,7 @@ const createForm = useForm({
     descripcion:  '',
     prioridad:    'media',
     fecha_limite: '',
+    horas:        '',
 })
 
 function openCreateModal() {
@@ -110,6 +126,7 @@ const editForm = useForm({
     descripcion:  '',
     prioridad:    'media',
     fecha_limite: '',
+    horas:        '',
 })
 
 function openEditModal(task) {
@@ -119,6 +136,7 @@ function openEditModal(task) {
     editForm.descripcion  = task.descripcion || ''
     editForm.prioridad    = task.prioridad || 'media'
     editForm.fecha_limite = task.fecha_limite ? task.fecha_limite.substring(0, 10) : ''
+    editForm.horas        = task.horas ?? ''
 }
 
 function submitEdit() {
@@ -237,6 +255,12 @@ function confirmDeleteTask() {
                                 {{ task.fecha_limite.substring(0, 10) }}
                             </span>
                         </div>
+                        <div v-if="task.horas" class="mt-2 flex items-center justify-between">
+                            <span class="text-xs text-slate-500">{{ task.horas }}h</span>
+                            <span v-if="taskMonto(task)" class="text-xs font-medium text-green-400">
+                                {{ formatARS(taskMonto(task)) }}
+                            </span>
+                        </div>
                     </div>
                 </VueDraggable>
             </div>
@@ -294,6 +318,18 @@ function confirmDeleteTask() {
                             type="date"
                             class="w-full rounded-lg text-sm"
                         />
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 text-sm font-medium mb-1">Horas</label>
+                        <input
+                            v-model="createForm.horas"
+                            type="number"
+                            min="1"
+                            max="999"
+                            placeholder="Ej: 3"
+                            class="w-full rounded-lg text-sm"
+                        />
+                        <p v-if="createForm.errors.horas" class="mt-1 text-xs text-red-400">{{ createForm.errors.horas }}</p>
                     </div>
                 </div>
                 <!-- Modal footer -->
@@ -359,6 +395,18 @@ function confirmDeleteTask() {
                             type="date"
                             class="w-full rounded-lg text-sm"
                         />
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 text-sm font-medium mb-1">Horas</label>
+                        <input
+                            v-model="editForm.horas"
+                            type="number"
+                            min="1"
+                            max="999"
+                            placeholder="Ej: 3"
+                            class="w-full rounded-lg text-sm"
+                        />
+                        <p v-if="editForm.errors.horas" class="mt-1 text-xs text-red-400">{{ editForm.errors.horas }}</p>
                     </div>
                 </div>
                 <!-- Modal footer -->

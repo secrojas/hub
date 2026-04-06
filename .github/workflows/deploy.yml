@@ -52,6 +52,9 @@ jobs:
                php artisan optimize &&
                php artisan view:clear'
 
+      - name: Install rsync
+        run: sudo apt-get install -y rsync
+
       - name: Sync built assets
         run: |
           rsync -avz --delete \

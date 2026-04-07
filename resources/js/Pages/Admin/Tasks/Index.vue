@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { router, useForm, Link, Head } from '@inertiajs/vue3'
 import { VueDraggable } from 'vue-draggable-plus'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
@@ -50,6 +50,22 @@ const localColumns = ref({
     finalizado:  [...(props.columns.finalizado || [])],
 })
 
+// Sync localColumns and open modal when Inertia refreshes props
+watch(() => props.columns, (newColumns) => {
+    localColumns.value = {
+        backlog:     [...(newColumns.backlog || [])],
+        en_progreso: [...(newColumns.en_progreso || [])],
+        en_revision: [...(newColumns.en_revision || [])],
+        finalizado:  [...(newColumns.finalizado || [])],
+    }
+    // If a task modal is open, update it with fresh data (picks up new comments, etc.)
+    if (editingTask.value) {
+        const allTasks = Object.values(newColumns).flat()
+        const updated = allTasks.find(t => t.id === editingTask.value.id)
+        if (updated) editingTask.value = updated
+    }
+}, { deep: true })
+
 const columnLabels = {
     backlog:     'Backlog',
     en_progreso: 'En progreso',
@@ -92,6 +108,14 @@ function taskMonto(task) {
     return task.horas * parseFloat(c.valor_hora)
 }
 
+function formatDate(dateStr) {
+    if (!dateStr) return ''
+    return new Date(dateStr).toLocaleDateString('es-AR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+    })
+}
+
 // Create modal
 const showCreateModal = ref(false)
 const createForm = useForm({
@@ -101,6 +125,7 @@ const createForm = useForm({
     prioridad:    'media',
     fecha_limite: '',
     horas:        '',
+    source_url:   '',
 })
 
 function openCreateModal() {
@@ -127,6 +152,7 @@ const editForm = useForm({
     prioridad:    'media',
     fecha_limite: '',
     horas:        '',
+    source_url:   '',
 })
 
 function openEditModal(task) {
@@ -137,6 +163,7 @@ function openEditModal(task) {
     editForm.prioridad    = task.prioridad || 'media'
     editForm.fecha_limite = task.fecha_limite ? task.fecha_limite.substring(0, 10) : ''
     editForm.horas        = task.horas ?? ''
+    editForm.source_url   = task.source_url || ''
 }
 
 function submitEdit() {
@@ -157,6 +184,21 @@ function confirmDeleteTask() {
             editingTask.value = null
         },
     })
+}
+
+// Comments
+const commentForm = useForm({ contenido: '' })
+
+function submitComment() {
+    commentForm.post(`/tasks/${editingTask.value.id}/comments`, {
+        preserveScroll: true,
+        onSuccess: () => commentForm.reset(),
+    })
+}
+
+function confirmDeleteComment(commentId) {
+    if (!confirm('Eliminar comentario?')) return
+    router.delete(`/task-comments/${commentId}`, { preserveScroll: true })
 }
 </script>
 
@@ -261,6 +303,16 @@ function confirmDeleteTask() {
                                 {{ formatARS(taskMonto(task)) }}
                             </span>
                         </div>
+                        <div v-if="task.source_url" class="mt-1">
+                            <a
+                                :href="task.source_url"
+                                target="_blank"
+                                @click.stop
+                                class="text-xs text-blue-400 hover:text-blue-300 underline truncate block"
+                            >
+                                Ver origen
+                            </a>
+                        </div>
                     </div>
                 </VueDraggable>
             </div>
@@ -269,14 +321,14 @@ function confirmDeleteTask() {
 
     <!-- Create modal -->
     <div v-if="showCreateModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50">
-        <div class="bg-surface-800 rounded-2xl shadow-2xl border border-slate-700/40 w-full max-w-lg mx-4">
+        <div class="bg-surface-800 rounded-2xl shadow-2xl border border-slate-700/40 w-full max-w-lg mx-4 max-h-[90vh] flex flex-col">
             <!-- Modal header -->
-            <div class="px-6 pt-6 pb-4 border-b border-slate-700/40">
+            <div class="px-6 pt-6 pb-4 border-b border-slate-700/40 flex-shrink-0">
                 <h2 class="text-lg font-semibold text-slate-100">Nueva tarea</h2>
             </div>
             <!-- Modal body -->
-            <form @submit.prevent="submitCreate">
-                <div class="px-6 py-4 space-y-4">
+            <form @submit.prevent="submitCreate" class="flex flex-col flex-1 min-h-0">
+                <div class="px-6 py-4 space-y-4 overflow-y-auto flex-1">
                     <div>
                         <label class="block text-slate-300 text-sm font-medium mb-1">Titulo *</label>
                         <input
@@ -331,9 +383,19 @@ function confirmDeleteTask() {
                         />
                         <p v-if="createForm.errors.horas" class="mt-1 text-xs text-red-400">{{ createForm.errors.horas }}</p>
                     </div>
+                    <div>
+                        <label class="block text-slate-300 text-sm font-medium mb-1">Link de origen</label>
+                        <input
+                            v-model="createForm.source_url"
+                            type="url"
+                            placeholder="https://trello.com/c/..."
+                            class="w-full rounded-lg text-sm"
+                        />
+                        <p v-if="createForm.errors.source_url" class="mt-1 text-xs text-red-400">{{ createForm.errors.source_url }}</p>
+                    </div>
                 </div>
                 <!-- Modal footer -->
-                <div class="px-6 py-4 border-t border-slate-700/40 flex justify-end gap-3">
+                <div class="px-6 py-4 border-t border-slate-700/40 flex justify-end gap-3 flex-shrink-0">
                     <Button type="button" variant="ghost" @click="showCreateModal = false">
                         Cancelar
                     </Button>
@@ -347,83 +409,145 @@ function confirmDeleteTask() {
 
     <!-- Edit modal -->
     <div v-if="editingTask" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50">
-        <div class="bg-surface-800 rounded-2xl shadow-2xl border border-slate-700/40 w-full max-w-lg mx-4">
+        <div class="bg-surface-800 rounded-2xl shadow-2xl border border-slate-700/40 w-full max-w-lg mx-4 max-h-[90vh] flex flex-col">
             <!-- Modal header -->
-            <div class="px-6 pt-6 pb-4 border-b border-slate-700/40">
+            <div class="px-6 pt-6 pb-4 border-b border-slate-700/40 flex-shrink-0">
                 <h2 class="text-lg font-semibold text-slate-100">Editar tarea</h2>
             </div>
-            <!-- Modal body -->
-            <form @submit.prevent="submitEdit">
-                <div class="px-6 py-4 space-y-4">
-                    <div>
-                        <label class="block text-slate-300 text-sm font-medium mb-1">Titulo *</label>
-                        <input
-                            v-model="editForm.titulo"
-                            type="text"
-                            class="w-full rounded-lg text-sm"
-                        />
-                        <p v-if="editForm.errors.titulo" class="mt-1 text-xs text-red-400">{{ editForm.errors.titulo }}</p>
+
+            <!-- Scrollable body -->
+            <div class="overflow-y-auto flex-1">
+                <!-- Main edit form -->
+                <form @submit.prevent="submitEdit">
+                    <div class="px-6 py-4 space-y-4">
+                        <div>
+                            <label class="block text-slate-300 text-sm font-medium mb-1">Titulo *</label>
+                            <input
+                                v-model="editForm.titulo"
+                                type="text"
+                                class="w-full rounded-lg text-sm"
+                            />
+                            <p v-if="editForm.errors.titulo" class="mt-1 text-xs text-red-400">{{ editForm.errors.titulo }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 text-sm font-medium mb-1">Cliente *</label>
+                            <select v-model="editForm.client_id" class="w-full rounded-lg text-sm">
+                                <option :value="null">Seleccionar cliente...</option>
+                                <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.nombre }}</option>
+                            </select>
+                            <p v-if="editForm.errors.client_id" class="mt-1 text-xs text-red-400">{{ editForm.errors.client_id }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 text-sm font-medium mb-1">Descripcion</label>
+                            <textarea
+                                v-model="editForm.descripcion"
+                                rows="3"
+                                class="w-full rounded-lg text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 text-sm font-medium mb-1">Prioridad</label>
+                            <select v-model="editForm.prioridad" class="w-full rounded-lg text-sm">
+                                <option value="baja">Baja</option>
+                                <option value="media">Media</option>
+                                <option value="alta">Alta</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 text-sm font-medium mb-1">Fecha limite</label>
+                            <input
+                                v-model="editForm.fecha_limite"
+                                type="date"
+                                class="w-full rounded-lg text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 text-sm font-medium mb-1">Horas</label>
+                            <input
+                                v-model="editForm.horas"
+                                type="number"
+                                min="1"
+                                max="999"
+                                placeholder="Ej: 3"
+                                class="w-full rounded-lg text-sm"
+                            />
+                            <p v-if="editForm.errors.horas" class="mt-1 text-xs text-red-400">{{ editForm.errors.horas }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 text-sm font-medium mb-1">Link de origen</label>
+                            <input
+                                v-model="editForm.source_url"
+                                type="url"
+                                placeholder="https://trello.com/c/..."
+                                class="w-full rounded-lg text-sm"
+                            />
+                            <p v-if="editForm.errors.source_url" class="mt-1 text-xs text-red-400">{{ editForm.errors.source_url }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-slate-300 text-sm font-medium mb-1">Cliente *</label>
-                        <select v-model="editForm.client_id" class="w-full rounded-lg text-sm">
-                            <option :value="null">Seleccionar cliente...</option>
-                            <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.nombre }}</option>
-                        </select>
-                        <p v-if="editForm.errors.client_id" class="mt-1 text-xs text-red-400">{{ editForm.errors.client_id }}</p>
+                    <!-- Form footer -->
+                    <div class="px-6 py-4 border-t border-slate-700/40 flex justify-between">
+                        <Button type="button" variant="danger" @click="confirmDeleteTask">
+                            Eliminar
+                        </Button>
+                        <div class="flex gap-3">
+                            <Button type="button" variant="ghost" @click="editingTask = null">
+                                Cancelar
+                            </Button>
+                            <Button type="submit" variant="primary" :disabled="editForm.processing">
+                                Guardar
+                            </Button>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-slate-300 text-sm font-medium mb-1">Descripcion</label>
+                </form>
+
+                <!-- Comments section -->
+                <div class="px-6 py-4 border-t border-slate-700/40">
+                    <h3 class="text-sm font-semibold text-slate-300 mb-3">Comentarios</h3>
+
+                    <!-- Comment list -->
+                    <div v-if="editingTask.comments?.length" class="space-y-3 mb-4">
+                        <div
+                            v-for="comment in editingTask.comments"
+                            :key="comment.id"
+                            class="bg-slate-800/60 rounded-lg px-3 py-2"
+                        >
+                            <p class="text-sm text-slate-200 whitespace-pre-wrap">{{ comment.contenido }}</p>
+                            <div class="flex items-center justify-between mt-1">
+                                <span class="text-xs text-slate-500">{{ formatDate(comment.created_at) }}</span>
+                                <button
+                                    type="button"
+                                    @click="confirmDeleteComment(comment.id)"
+                                    class="text-xs text-red-400 hover:text-red-300"
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p v-else class="text-xs text-slate-500 mb-4">Sin comentarios aun.</p>
+
+                    <!-- Add comment form -->
+                    <div class="space-y-2">
                         <textarea
-                            v-model="editForm.descripcion"
-                            rows="3"
+                            v-model="commentForm.contenido"
+                            rows="2"
+                            placeholder="Agregar comentario..."
                             class="w-full rounded-lg text-sm"
                         />
-                    </div>
-                    <div>
-                        <label class="block text-slate-300 text-sm font-medium mb-1">Prioridad</label>
-                        <select v-model="editForm.prioridad" class="w-full rounded-lg text-sm">
-                            <option value="baja">Baja</option>
-                            <option value="media">Media</option>
-                            <option value="alta">Alta</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-slate-300 text-sm font-medium mb-1">Fecha limite</label>
-                        <input
-                            v-model="editForm.fecha_limite"
-                            type="date"
-                            class="w-full rounded-lg text-sm"
-                        />
-                    </div>
-                    <div>
-                        <label class="block text-slate-300 text-sm font-medium mb-1">Horas</label>
-                        <input
-                            v-model="editForm.horas"
-                            type="number"
-                            min="1"
-                            max="999"
-                            placeholder="Ej: 3"
-                            class="w-full rounded-lg text-sm"
-                        />
-                        <p v-if="editForm.errors.horas" class="mt-1 text-xs text-red-400">{{ editForm.errors.horas }}</p>
+                        <p v-if="commentForm.errors.contenido" class="text-xs text-red-400">{{ commentForm.errors.contenido }}</p>
+                        <div class="flex justify-end">
+                            <Button
+                                type="button"
+                                variant="primary"
+                                :disabled="commentForm.processing || !commentForm.contenido.trim()"
+                                @click="submitComment"
+                            >
+                                Agregar
+                            </Button>
+                        </div>
                     </div>
                 </div>
-                <!-- Modal footer -->
-                <div class="px-6 py-4 border-t border-slate-700/40 flex justify-between">
-                    <Button type="button" variant="danger" @click="confirmDeleteTask">
-                        Eliminar
-                    </Button>
-                    <div class="flex gap-3">
-                        <Button type="button" variant="ghost" @click="editingTask = null">
-                            Cancelar
-                        </Button>
-                        <Button type="submit" variant="primary" :disabled="editForm.processing">
-                            Guardar
-                        </Button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>

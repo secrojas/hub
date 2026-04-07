@@ -14,7 +14,7 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Task::with('client')
+        $query = Task::with(['client', 'comments'])
             ->when($request->filled('cliente'), fn ($q) => $q->where('client_id', $request->cliente))
             ->when($request->filled('estado'), fn ($q) => $q->where('estado', $request->estado))
             ->when($request->filled('prioridad'), fn ($q) => $q->where('prioridad', $request->prioridad))

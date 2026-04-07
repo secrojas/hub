@@ -20,6 +20,7 @@ class StoreTaskRequest extends FormRequest
             'prioridad'    => ['nullable', 'in:baja,media,alta'],
             'fecha_limite' => ['nullable', 'date'],
             'horas'        => ['nullable', 'integer', 'min:1', 'max:999'],
+            'source_url'   => ['nullable', 'url', 'max:2048'],
         ];
     }
 }

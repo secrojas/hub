@@ -7,6 +7,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('tasks', TaskController::class)->except(['show', 'create', 'edit']);
     Route::put('tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+    Route::post('tasks/{task}/comments', [TaskCommentController::class, 'store'])->name('task-comments.store');
+    Route::delete('task-comments/{comment}', [TaskCommentController::class, 'destroy'])->name('task-comments.destroy');
 
     Route::resource('billing', BillingController::class)->except(['show']);
 

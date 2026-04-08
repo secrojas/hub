@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
+use App\Mail\InvitacionCliente;
 use App\Models\Client;
 use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -44,6 +46,10 @@ class InvitationController extends Controller
             'invitation.accept',
             now()->addHours(72),
             ['token' => $token]
+        );
+
+        Mail::to($request->email)->send(
+            new InvitacionCliente($request->client_name, $url)
         );
 
         return back()->with('invitation_url', $url);

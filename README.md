@@ -17,22 +17,28 @@ Herramienta de gestión todo-en-uno para freelancers. Centraliza clientes, tarea
 | PDF | barryvdh/laravel-dompdf |
 | Editor WYSIWYG | Tiptap v2 + lowlight (syntax highlighting) |
 | Auth scaffold | Laravel Breeze |
+| Email | SMTP cPanel — `Mail::send()` con Mailable |
 
 ---
 
 ## Módulos
 
 ### Clientes (CRM)
-CRUD completo. Campos: nombre, empresa, email, teléfono, estado (`activo / potencial / pausado`), stack tecnológico, notas internas (solo admin).
+CRUD completo. Campos: nombre, empresa, email, teléfono, estado (`activo / potencial / pausado`), stack tecnológico, notas internas (solo admin), valor por hora (`valor_hora`).
 
 ### Tareas + Kanban
 Tareas vinculadas a cliente. Tablero Kanban drag-and-drop (vue-draggable-plus). Vista global de todas las tareas de todos los clientes. Comentarios por tarea.
 
 Estados: `Backlog → En progreso → En revisión → Finalizado`  
-Prioridades: `Baja · Media · Alta`
+Prioridades: `Baja · Media · Alta`  
+Horas: decimal con precisión de 15 minutos (`0.25`, `0.5`, `1.75`, etc.). Se muestran como `"1h 30min"` via composable `formatHoras`.
 
 ### Facturación
-Registro manual de cobros en ARS. Tres estados: `Pendiente · Pagado · Vencido`.
+Cobros con ítems de línea. Cada factura tiene un título (concepto) y una lista de ítems que pueden ser:
+- **Tarea finalizada** del cliente (monto calculado como `horas × valor_hora`, guardado como snapshot)
+- **Ítem manual** (concepto y monto libre)
+
+El `monto` total en `billings` siempre se computa como suma de `billing_items`. Tres estados: `Pendiente · Pagado · Vencido`.
 
 ### Presupuestos
 Constructor con ítems de línea (descripción + precio). Cuatro estados: `Borrador → Enviado → Aceptado / Rechazado`. Generación de PDF con firma.
@@ -41,7 +47,10 @@ Constructor con ítems de línea (descripción + precio). Cuatro estados: `Borra
 Base de conocimiento interna estilo Notion. Carpetas con jerarquía, editor WYSIWYG con syntax highlighting, búsqueda por título.
 
 ### Portal del Cliente
-Vista de solo lectura para el cliente autenticado: tareas activas, presupuestos, estado de facturación.
+Vista de solo lectura para el cliente autenticado: tareas activas (con detalle), presupuestos (con PDF), facturación (con detalle de ítems).
+
+### Invitaciones + Email
+Los clientes se crean por invitación. El admin genera una signed URL (válida 72h) y el sistema dispara automáticamente un email al cliente con un template dark branded y botón CTA. El link también queda disponible en pantalla como fallback.
 
 ---
 
@@ -54,22 +63,21 @@ Flujo de datos:
 useForm().post/patch()
   → Laravel Controller
   → FormRequest (validación)
-  → Service (lógica de negocio)
-  → Repository (acceso a datos)
+  → Service (lógica de negocio)         ← módulo Notes
+  → Repository (acceso a datos)         ← módulo Notes
   → Model (Eloquent)
   → redirect() con flash
 ```
 
 ### Capa Repository/Service
 
-Patrón adoptado a partir del módulo Notes. Las interfaces viven en `app/Contracts/Repositories/`, las implementaciones en `app/Repositories/`, y los servicios en `app/Services/`. Los bindings se registran en `AppServiceProvider`.
+Patrón introducido en el módulo Notes. Interfaces en `app/Contracts/Repositories/`, implementaciones en `app/Repositories/`, servicios en `app/Services/`. Bindings en `AppServiceProvider::register()`.
 
 ```
 app/
-├── Contracts/
-│   └── Repositories/
-│       ├── NoteRepositoryInterface.php
-│       └── NoteFolderRepositoryInterface.php
+├── Contracts/Repositories/
+│   ├── NoteRepositoryInterface.php
+│   └── NoteFolderRepositoryInterface.php
 ├── Repositories/
 │   ├── NoteRepository.php
 │   └── NoteFolderRepository.php
@@ -78,6 +86,8 @@ app/
     └── NoteFolderService.php
 ```
 
+> Los módulos anteriores (Tasks, Billing, Quotes, Clients) usan Eloquent directo en controllers — consistencia con código existente.
+
 ### Roles y acceso
 
 | Rol | Acceso | Middleware |
@@ -85,25 +95,29 @@ app/
 | `admin` | Panel completo `/dashboard` | `['auth', 'admin']` |
 | `client` | Portal de solo lectura `/portal` | `['auth', 'client']` |
 
-Los clientes se crean por invitación vía signed URL (`URL::temporarySignedRoute`). No hay registro público.
-
 ### Estructura de Pages
 
 ```
 resources/js/
 ├── Layouts/
 │   ├── AdminLayout.vue
-│   └── PortalLayout.vue
+│   ├── PortalLayout.vue
+│   └── GuestLayout.vue          ← invitaciones + login
 └── Pages/
     ├── Admin/
     │   ├── Dashboard.vue
-    │   ├── Clients/       (Index, Create, Edit, Show)
-    │   ├── Tasks/         (Index — Kanban)
-    │   ├── Billing/       (Index, Create, Edit)
-    │   ├── Quotes/        (Index, Create, Edit)
-    │   ├── Notes/         (Index, Show, Create, Edit)
+    │   ├── Clients/              (Index, Create, Edit, Show)
+    │   ├── Tasks/                (Index — Kanban)
+    │   ├── Billing/              (Index, Create, Edit)
+    │   ├── Quotes/               (Index, Create, Edit)
+    │   ├── Notes/                (Index, Show, Create, Edit)
     │   └── Invitations/
-    └── Portal/
+    ├── Portal/
+    │   ├── Index.vue
+    │   ├── Tasks/Show.vue        ← detalle de tarea
+    │   └── Billing/Show.vue      ← comprobante con ítems
+    └── Invitation/
+        └── Accept.vue            ← dark theme con GuestLayout
 ```
 
 ---
@@ -164,19 +178,20 @@ Navegar a `http://localhost:8000`.
 
 | Tabla | Descripción |
 |---|---|
-| `users` | Usuarios (admin y clientes). Campo `role` enum + `client_id` FK |
-| `clients` | Datos del cliente. FK para tareas, cobros y presupuestos |
-| `tasks` | Tareas con `status` y `priority` enum, vinculadas a cliente |
+| `users` | Usuarios. Campo `role` enum (`admin`/`client`) + `client_id` FK |
+| `clients` | CRM. FK para tareas, cobros y presupuestos. Incluye `valor_hora decimal(10,2)` |
+| `tasks` | Tareas. `estado` y `prioridad` enum. `horas decimal(5,2)` (mín 0.25) |
 | `task_comments` | Comentarios por tarea |
-| `billings` | Registros de cobro por cliente |
+| `billings` | Cabecera de cobro. `monto` = suma de `billing_items` (snapshot) |
+| `billing_items` | Ítems de un cobro. `task_id` nullable (tarea vinculada o ítem libre) |
 | `quotes` | Presupuestos por cliente |
 | `quote_items` | Ítems de línea de un presupuesto |
-| `invitations` | Tokens de invitación por email (signed URL) |
-| `note_folders` | Carpetas de notas. Self-referencing `parent_id` |
-| `notes` | Notas WYSIWYG. FK a `note_folders` (nullable) |
+| `invitations` | Tokens de invitación por email (signed URL, expira 72h) |
+| `note_folders` | Carpetas de notas. `parent_id` self-referencing, `nullOnDelete` |
+| `notes` | Notas WYSIWYG HTML. `folder_id` nullable, `esta_fijada` boolean |
 
-Columnas monetarias en `decimal(15,2)` — ARS con centavos.  
-Columnas de texto largo (`contenido` de notas) en `LONGTEXT`.
+Columnas monetarias en `decimal(12,2)` o `decimal(15,2)` — ARS con centavos.  
+`tasks.horas` en `decimal(5,2) unsigned` — mínimo 0.25 (15 min).
 
 ---
 
@@ -184,20 +199,22 @@ Columnas de texto largo (`contenido` de notas) en `LONGTEXT`.
 
 ### Backend
 
-- **Modelos**: PascalCase en inglés (`Task`, `NoteFolder`, `QuoteItem`)
-- **Columnas**: snake_case en español (`titulo`, `esta_fijada`, `fecha_limite`)
-- **FK**: `{model_en_singular}_id` en inglés (`client_id`, `folder_id`, `task_id`)
-- **Enums**: en `app/Enums/`, cast en el modelo via `casts()`
+- **Modelos**: PascalCase inglés (`Task`, `NoteFolder`, `BillingItem`)
+- **Columnas**: snake_case español (`titulo`, `esta_fijada`, `fecha_limite`, `valor_hora`)
+- **FK**: `{singular_model}_id` inglés (`client_id`, `folder_id`, `billing_id`)
+- **Enums**: en `app/Enums/`, cast en modelo via `casts()`
 - **FormRequests**: `Store{Entity}Request` / `Update{Entity}Request`
 - **Controllers**: devuelven `Inertia::render()` o `redirect()->route()`
+- **Mailables**: en `app/Mail/`, templates en `resources/views/emails/`
 - **Sin API routes**: todo por `routes/web.php`
 
 ### Frontend
 
-- Todas las pages usan `defineOptions({ layout: AdminLayout })` o `PortalLayout`
+- Pages usan `defineOptions({ layout: AdminLayout })` o `PortalLayout` o `GuestLayout`
 - Forms con `useForm()` de `@inertiajs/vue3`
 - Filtros y búsqueda vía `router.get()` con `preserveState: true`
-- Componentes UI reutilizables en `Components/UI/`: `Button`, `Card`, `Badge`, `PageHeader`, `StatsCard`
+- Composables en `resources/js/composables/`
+- Componentes UI reutilizables en `Components/UI/`
 
 ---
 
@@ -219,39 +236,104 @@ Columnas de texto largo (`contenido` de notas) en `LONGTEXT`.
 
 ### `<Badge>`
 ```vue
-<Badge :status="task.estado" />
+<Badge :variant="task.estado" />
 <!-- Mapea automáticamente estados a colores -->
 ```
 
 ### `<PageHeader>`
 ```vue
-<PageHeader title="Clientes" subtitle="Gestión de clientes">
-    <Button>Nueva acción</Button>  <!-- slot default -->
+<PageHeader title="Clientes" subtitle="...">
+    <Button>Acción</Button>   <!-- slot default -->
 </PageHeader>
 ```
 
 ---
 
+## Composables
+
+### `formatHoras(h)` — `resources/js/composables/useFormatHoras.js`
+
+Convierte horas decimales a formato legible:
+
+```js
+import { formatHoras } from '@/composables/useFormatHoras.js'
+
+formatHoras(0.25)  // → "15min"
+formatHoras(0.5)   // → "30min"
+formatHoras(1)     // → "1h"
+formatHoras(1.75)  // → "1h 45min"
+formatHoras(null)  // → "—"
+```
+
+Usado en: Tasks/Index (Kanban cards), Portal/Tasks/Show, Portal/Index (tabla horas), Clients/Show, Billing/Create y Edit (selector de tareas).
+
+---
+
 ## Módulo de Notas — detalles técnicos
 
-El módulo Notes introduce el patrón Repository/Service al proyecto. Los contenidos se almacenan como HTML (output de Tiptap), no como Markdown.
+Contenido almacenado como HTML (output de Tiptap), no como Markdown.
 
-**Editor:** Tiptap v2 con `StarterKit` + `CodeBlockLowlight` (syntax highlighting via `lowlight`).  
+**Editor:** Tiptap v2 con `StarterKit` (codeBlock deshabilitado) + `CodeBlockLowlight` via `lowlight`.  
 **Viewer:** `v-html` + `hljs.highlightElement()` post-render + clases `prose` de `@tailwindcss/typography`.  
-**Extracto:** generado automáticamente en `NoteService` con `strip_tags()` sobre el contenido HTML.
+**Extracto:** generado en `NoteService::generateExcerpt()` con `strip_tags()` + `Str::limit(250)`.
 
-Rutas disponibles:
+---
+
+## Módulo de Facturación — detalles técnicos
+
+El `billing.monto` es siempre un total computado — nunca se ingresa manualmente.
+
 ```
-GET    /notes              → Index (listado + filtros)
-GET    /notes/create       → Formulario nueva nota
-POST   /notes              → Guardar nota
-GET    /notes/{note}       → Detalle / viewer
-GET    /notes/{note}/edit  → Editar nota
-PUT    /notes/{note}       → Actualizar nota
-DELETE /notes/{note}       → Eliminar nota
-POST   /note-folders       → Crear carpeta
-DELETE /note-folders/{id}  → Eliminar carpeta
+billing (cabecera)
+  └── billing_items[]
+        ├── task_id = null  → ítem libre (concepto + monto manual)
+        └── task_id = X     → tarea vinculada (monto snapshot: horas × valor_hora al momento de facturar)
 ```
+
+**Migración de datos existentes:** la migration `2026_04_08_000004` crea automáticamente un `billing_item` por cada registro de `billings` existente, preservando el concepto y monto original.
+
+---
+
+## Email — Invitaciones
+
+**Mailable:** `App\Mail\InvitacionCliente` (props: `clientName`, `invitationUrl`)  
+**Template:** `resources/views/emails/invitacion.blade.php` — diseño dark con inline styles (compatible Gmail, Outlook, Apple Mail)  
+**Disparado en:** `InvitationController::store()` — simultáneo a la generación del signed URL
+
+**Configuración SMTP (cPanel, puerto 465 SSL):**
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=mail.srojas.app
+MAIL_PORT=465
+MAIL_USERNAME=delivery@srojas.app
+MAIL_PASSWORD=<ver credenciales>
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS="delivery@srojas.app"
+MAIL_FROM_NAME="Hub"
+```
+
+> Para desarrollo local sin enviar emails reales: `MAIL_MAILER=log`
+
+---
+
+## Deploy (GitHub Actions)
+
+El workflow `.github/workflows/deploy.yml` corre en cada push a `master`:
+
+1. **Build PHP** — `composer install --no-dev`
+2. **Build assets** — `npm ci && npm run build`
+3. **Setup SSH** — escribe `~/.ssh/deploy_key` + config con `StrictHostKeyChecking no`
+4. **Pull & deploy** — `git pull` + `composer install` + `migrate --force` + `optimize` en el servidor
+5. **Sync assets** — sube `public/build/` via `tar` por SSH
+
+**Secrets requeridos en GitHub:**
+
+| Secret | Descripción |
+|---|---|
+| `SSH_PRIVATE_KEY` | Clave privada SSH para el servidor |
+| `SSH_HOST` | Hostname o IP del servidor |
+| `SSH_PORT` | Puerto SSH (default 22) |
+| `SSH_USER` | Usuario SSH |
 
 ---
 
@@ -268,12 +350,13 @@ DB_PORT=3306
 DB_DATABASE=hub_srojas
 
 MAIL_MAILER=smtp
-MAIL_HOST=
-MAIL_PORT=587
-MAIL_USERNAME=
+MAIL_HOST=mail.srojas.app
+MAIL_PORT=465
+MAIL_USERNAME=delivery@srojas.app
 MAIL_PASSWORD=
-MAIL_FROM_ADDRESS=noreply@hub.dev
-MAIL_FROM_NAME="${APP_NAME}"
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS="delivery@srojas.app"
+MAIL_FROM_NAME="Hub"
 ```
 
 ---
@@ -283,18 +366,19 @@ MAIL_FROM_NAME="${APP_NAME}"
 ```bash
 # Migraciones
 php artisan migrate
-php artisan migrate:fresh --seed   # reset completo
+php artisan migrate:fresh --seed
 
 # Cache
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
+php artisan config:clear && php artisan route:clear && php artisan view:clear
 
-# Ver rutas del módulo Notes
+# Ver rutas por módulo
 php artisan route:list --path=notes
+php artisan route:list --path=billing
+php artisan route:list --path=portal
 
-# Formatear código PHP (Pint)
-./vendor/bin/pint
+# Lint PHP
+php artisan route:list  # fuerza autoload — revela errores de sintaxis
+./vendor/bin/pint       # formatea con Laravel Pint
 
 # Build producción
 npm run build
@@ -305,8 +389,12 @@ npm run build
 ## Decisiones de diseño notables
 
 - **Sin API REST**: Inertia elimina la necesidad. Todo es server-rendered + redirect.
-- **Sin Pinia**: el estado global que se necesitaba era mínimo; `usePage().props` cubre los casos de auth/usuario.
-- **DomPDF, no Snappy**: Snappy requiere `wkhtmltopdf` (binario externo). DomPDF es pure PHP — funciona igual en Laragon Windows y en producción Linux.
+- **Sin Pinia**: estado global mínimo; `usePage().props` cubre los casos de auth.
+- **DomPDF, no Snappy**: Snappy requiere `wkhtmltopdf` (binario externo). DomPDF es pure PHP.
 - **`vue-draggable-plus`**: reemplazo activo de `vuedraggable` (vue.draggable.next), compatible con Vue 3.
-- **HTML en notas, no Markdown**: Tiptap almacena su output directamente como HTML. No se necesita `league/commonmark` ni un paso extra de rendering.
-- **`nullOnDelete` en FKs de notas**: eliminar una carpeta no elimina las notas — quedan en "sin carpeta". Idem `note_folders.parent_id`.
+- **HTML en notas, no Markdown**: Tiptap almacena HTML directamente. Sin paso extra de rendering.
+- **`nullOnDelete` en FKs de notas**: carpeta eliminada → notas quedan en "sin carpeta". Idem `parent_id`.
+- **Billing items snapshot**: el monto de una tarea en una factura se guarda en el momento de facturar. Cambios posteriores en las horas no afectan la factura.
+- **`step="0.25"` en input horas**: el browser nativo muestra flechas de ±15min. Sin `step`, asume `step=1` y bloquea decimales.
+- **Port 465 = `MAIL_ENCRYPTION=ssl`**: no STARTTLS (587). Si se usa 465 con `tls`, la conexión falla silenciosamente.
+- **SSH config en CI**: `StrictHostKeyChecking no` en `~/.ssh/config` en lugar de `ssh-keyscan` en runtime — evita fallos por conectividad durante el build.

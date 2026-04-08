@@ -2,7 +2,6 @@
 import { Link } from '@inertiajs/vue3'
 import PortalLayout from '@/Layouts/PortalLayout.vue'
 import Card from '@/Components/UI/Card.vue'
-import Badge from '@/Components/UI/Badge.vue'
 
 defineOptions({ layout: PortalLayout })
 
@@ -10,8 +9,8 @@ defineProps({
     billing: Object,
 })
 
-function formatMonto(monto) {
-    return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(monto)
+function formatMonto(n) {
+    return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(n ?? 0)
 }
 
 function formatDate(d) {
@@ -38,16 +37,14 @@ const estadoConfig = {
 
         <!-- Invoice card -->
         <Card variant="glass" padding="lg">
-            <!-- Header row -->
+            <!-- Header -->
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Comprobante</p>
                     <p class="text-slate-600 text-xs mt-0.5">#{{ String(billing.id).padStart(5, '0') }}</p>
                 </div>
-                <div
-                    class="px-3 py-1 rounded-full border text-sm font-semibold"
-                    :class="estadoConfig[billing.estado]?.bg"
-                >
+                <div class="px-3 py-1 rounded-full border text-sm font-semibold"
+                    :class="estadoConfig[billing.estado]?.bg">
                     <span :class="estadoConfig[billing.estado]?.color">
                         {{ estadoConfig[billing.estado]?.label ?? billing.estado }}
                     </span>
@@ -60,9 +57,24 @@ const estadoConfig = {
                 <p class="text-lg font-semibold text-slate-100 leading-snug">{{ billing.concepto }}</p>
             </div>
 
-            <!-- Amount -->
+            <!-- Items list -->
+            <div v-if="billing.items?.length" class="mb-6">
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mb-3">Detalle</p>
+                <div class="flex flex-col divide-y divide-slate-700/40 border border-slate-700/40 rounded-lg overflow-hidden">
+                    <div
+                        v-for="(item, i) in billing.items"
+                        :key="i"
+                        class="flex items-center justify-between px-4 py-2.5 bg-surface-800"
+                    >
+                        <span class="text-sm text-slate-300">{{ item.concepto }}</span>
+                        <span class="text-sm font-medium text-slate-100 ml-4 flex-shrink-0">{{ formatMonto(item.monto) }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total -->
             <div class="bg-surface-800 rounded-xl px-5 py-4 mb-6">
-                <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mb-1">Monto</p>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mb-1">Total</p>
                 <p class="text-3xl font-bold text-slate-100">{{ formatMonto(billing.monto) }}</p>
             </div>
 
@@ -80,7 +92,6 @@ const estadoConfig = {
                 </div>
             </dl>
 
-            <!-- Nota aclaratoria -->
             <p class="mt-6 pt-4 border-t border-slate-700/40 text-xs text-slate-600 text-center">
                 Este comprobante es informativo y no tiene validez fiscal.
             </p>

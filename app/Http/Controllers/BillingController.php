@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Http\Requests\StoreBillingRequest;
 use App\Http\Requests\UpdateBillingRequest;
 use App\Models\Billing;
 use App\Models\Client;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -40,30 +42,45 @@ class BillingController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Billing/Create', [
-            'clients' => Client::orderBy('nombre')->get(['id', 'nombre']),
+            'clients'            => Client::orderBy('nombre')->get(['id', 'nombre', 'valor_hora']),
+            'tareas_finalizadas' => $this->tareasFinalizadas(),
         ]);
     }
 
     public function store(StoreBillingRequest $request)
     {
-        Billing::create($request->validated());
+        $data  = $request->safe()->except('items');
+        $items = $request->validated('items');
+        $monto = collect($items)->sum('monto');
+
+        $billing = Billing::create(array_merge($data, ['monto' => $monto]));
+
+        $billing->items()->createMany($items);
 
         return redirect()->route('billing.index');
     }
 
     public function edit(Billing $billing)
     {
-        $billing->load('client');
+        $billing->load('items');
 
         return Inertia::render('Admin/Billing/Edit', [
-            'billing' => $billing,
-            'clients' => Client::orderBy('nombre')->get(['id', 'nombre']),
+            'billing'            => $billing,
+            'clients'            => Client::orderBy('nombre')->get(['id', 'nombre', 'valor_hora']),
+            'tareas_finalizadas' => $this->tareasFinalizadas(),
         ]);
     }
 
     public function update(UpdateBillingRequest $request, Billing $billing)
     {
-        $billing->update($request->validated());
+        $data  = $request->safe()->except('items');
+        $items = $request->validated('items');
+        $monto = collect($items)->sum('monto');
+
+        $billing->update(array_merge($data, ['monto' => $monto]));
+
+        $billing->items()->delete();
+        $billing->items()->createMany($items);
 
         return redirect()->route('billing.index');
     }
@@ -73,5 +90,13 @@ class BillingController extends Controller
         $billing->delete();
 
         return redirect()->route('billing.index');
+    }
+
+    private function tareasFinalizadas(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Task::where('estado', TaskStatus::Finalizado)
+            ->whereNotNull('horas')
+            ->orderBy('titulo')
+            ->get(['id', 'client_id', 'titulo', 'horas']);
     }
 }

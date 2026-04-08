@@ -69,10 +69,13 @@ class PortalController extends Controller
     {
         abort_if($billing->client_id !== auth()->user()->client_id, 403);
 
+        $billing->load('items');
+
         return Inertia::render('Portal/Billing/Show', [
-            'billing' => $billing->only([
-                'id', 'concepto', 'monto', 'fecha_emision', 'fecha_pago', 'estado',
-            ]),
+            'billing' => array_merge(
+                $billing->only(['id', 'concepto', 'monto', 'fecha_emision', 'fecha_pago', 'estado']),
+                ['items' => $billing->items->map->only(['concepto', 'monto'])],
+            ),
         ]);
     }
 

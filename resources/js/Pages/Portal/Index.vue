@@ -5,6 +5,7 @@ import { defineOptions } from 'vue'
 import Card from '@/Components/UI/Card.vue'
 import Badge from '@/Components/UI/Badge.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
+import { formatHoras } from '@/composables/useFormatHoras.js'
 
 defineOptions({ layout: PortalLayout })
 
@@ -179,7 +180,7 @@ function formatDate(dateStr) {
                 >
                     <span class="text-sm text-slate-100 truncate pr-4">{{ t.titulo }}</span>
                     <span class="text-sm text-slate-400">{{ formatDate(t.fecha_finalizacion) }}</span>
-                    <span class="text-sm text-slate-100 text-right">{{ t.horas }}h</span>
+                    <span class="text-sm text-slate-100 text-right">{{ formatHoras(t.horas) }}</span>
                     <span class="text-sm font-medium text-green-400 text-right">
                         {{ horasBilling.valor_hora ? formatMonto(t.monto) : '—' }}
                     </span>

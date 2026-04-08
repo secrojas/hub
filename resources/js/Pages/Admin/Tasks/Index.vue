@@ -6,6 +6,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Badge from '@/Components/UI/Badge.vue'
 import Button from '@/Components/UI/Button.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
+import { formatHoras } from '@/composables/useFormatHoras.js'
 
 defineOptions({ layout: AdminLayout })
 
@@ -298,7 +299,7 @@ function confirmDeleteComment(commentId) {
                             </span>
                         </div>
                         <div v-if="task.horas" class="mt-2 flex items-center justify-between">
-                            <span class="text-xs text-slate-500">{{ task.horas }}h</span>
+                            <span class="text-xs text-slate-500">{{ formatHoras(task.horas) }}</span>
                             <span v-if="taskMonto(task)" class="text-xs font-medium text-green-400">
                                 {{ formatARS(taskMonto(task)) }}
                             </span>
@@ -376,9 +377,10 @@ function confirmDeleteComment(commentId) {
                         <input
                             v-model="createForm.horas"
                             type="number"
-                            min="1"
+                            step="0.25"
+                            min="0.25"
                             max="999"
-                            placeholder="Ej: 3"
+                            placeholder="Ej: 1.5"
                             class="w-full rounded-lg text-sm"
                         />
                         <p v-if="createForm.errors.horas" class="mt-1 text-xs text-red-400">{{ createForm.errors.horas }}</p>
@@ -466,9 +468,10 @@ function confirmDeleteComment(commentId) {
                             <input
                                 v-model="editForm.horas"
                                 type="number"
-                                min="1"
+                                step="0.25"
+                                min="0.25"
                                 max="999"
-                                placeholder="Ej: 3"
+                                placeholder="Ej: 1.5"
                                 class="w-full rounded-lg text-sm"
                             />
                             <p v-if="editForm.errors.horas" class="mt-1 text-xs text-red-400">{{ editForm.errors.horas }}</p>

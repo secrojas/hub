@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/vue3'
 import PortalLayout from '@/Layouts/PortalLayout.vue'
 import Card from '@/Components/UI/Card.vue'
 import Badge from '@/Components/UI/Badge.vue'
+import { formatHoras } from '@/composables/useFormatHoras.js'
 
 defineOptions({ layout: PortalLayout })
 
@@ -50,7 +51,7 @@ function formatDate(d) {
                 </div>
                 <div v-if="task.horas">
                     <dt class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Horas estimadas</dt>
-                    <dd class="text-sm text-slate-300">{{ task.horas }}h</dd>
+                    <dd class="text-sm text-slate-300">{{ formatHoras(task.horas) }}</dd>
                 </div>
                 <div v-if="task.source_url">
                     <dt class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Referencia</dt>

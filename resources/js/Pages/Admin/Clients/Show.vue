@@ -6,6 +6,7 @@ import Card from '@/Components/UI/Card.vue'
 import Badge from '@/Components/UI/Badge.vue'
 import Button from '@/Components/UI/Button.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
+import { formatHoras } from '@/composables/useFormatHoras.js'
 
 defineOptions({ layout: AdminLayout })
 
@@ -164,7 +165,7 @@ function formatARS(monto) {
                         <tr v-for="t in horasBilling.tareas" :key="t.id" class="border-b border-slate-700/20 hover:bg-surface-700/40 transition-colors">
                             <td class="px-4 py-3 text-slate-100">{{ t.titulo }}</td>
                             <td class="px-4 py-3 text-slate-400">{{ formatDate(t.fecha_finalizacion) }}</td>
-                            <td class="px-4 py-3 text-slate-100 text-right">{{ t.horas }}h</td>
+                            <td class="px-4 py-3 text-slate-100 text-right">{{ formatHoras(t.horas) }}</td>
                             <td class="px-4 py-3 text-green-400 text-right font-medium">
                                 {{ horasBilling.valor_hora ? formatARS(t.monto) : '—' }}
                             </td>

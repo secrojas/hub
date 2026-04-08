@@ -1,6 +1,6 @@
 <script setup>
 import PortalLayout from '@/Layouts/PortalLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import { defineOptions } from 'vue'
 import Card from '@/Components/UI/Card.vue'
 import Badge from '@/Components/UI/Badge.vue'
@@ -94,17 +94,18 @@ function formatDate(dateStr) {
                     <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Fecha Limite</span>
                 </div>
                 <!-- Rows -->
-                <div
+                <Link
                     v-for="task in tasks"
                     :key="task.id"
-                    class="grid grid-cols-[1fr_140px_120px] px-4 py-3 border-b border-slate-700/40 last:border-0 hover:bg-surface-700/40 transition-colors duration-150"
+                    :href="route('portal.tasks.show', task.id)"
+                    class="grid grid-cols-[1fr_140px_120px] px-4 py-3 border-b border-slate-700/40 last:border-0 hover:bg-surface-700/40 transition-colors duration-150 group"
                 >
-                    <span class="text-sm text-slate-100 truncate pr-4">{{ task.titulo }}</span>
+                    <span class="text-sm text-slate-100 truncate pr-4 group-hover:text-cyan-400 transition-colors">{{ task.titulo }}</span>
                     <span>
                         <Badge :variant="task.estado" />
                     </span>
                     <span class="text-sm text-slate-400">{{ formatDate(task.fecha_limite) }}</span>
-                </div>
+                </Link>
             </Card>
         </section>
 
@@ -202,18 +203,19 @@ function formatDate(dateStr) {
                     <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Estado</span>
                 </div>
                 <!-- Rows -->
-                <div
+                <Link
                     v-for="billing in billings"
                     :key="billing.id"
-                    class="grid grid-cols-[1fr_160px_140px_120px] px-4 py-3 border-b border-slate-700/40 last:border-0 hover:bg-surface-700/40 transition-colors duration-150"
+                    :href="route('portal.billing.show', billing.id)"
+                    class="grid grid-cols-[1fr_160px_140px_120px] px-4 py-3 border-b border-slate-700/40 last:border-0 hover:bg-surface-700/40 transition-colors duration-150 group"
                 >
-                    <span class="text-sm text-slate-100 truncate pr-4">{{ billing.concepto }}</span>
+                    <span class="text-sm text-slate-100 truncate pr-4 group-hover:text-cyan-400 transition-colors">{{ billing.concepto }}</span>
                     <span class="text-sm text-slate-100">{{ formatMonto(billing.monto) }}</span>
                     <span class="text-sm text-slate-400">{{ formatDate(billing.fecha_emision) }}</span>
                     <span>
                         <Badge :variant="billing.estado" />
                     </span>
-                </div>
+                </Link>
             </Card>
         </section>
 

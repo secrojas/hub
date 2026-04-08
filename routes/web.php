@@ -54,6 +54,8 @@ Route::middleware('signed')->group(function () {
 
 Route::middleware(['auth', 'client'])->group(function () {
     Route::get('/portal', [PortalController::class, 'index'])->name('portal');
+    Route::get('/portal/tasks/{task}', [PortalController::class, 'showTask'])->name('portal.tasks.show');
+    Route::get('/portal/billing/{billing}', [PortalController::class, 'showBilling'])->name('portal.billing.show');
     Route::get('/portal/quotes/{quote}/pdf', [PortalController::class, 'pdf'])->name('portal.quotes.pdf');
 });
 

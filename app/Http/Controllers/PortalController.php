@@ -51,6 +51,31 @@ class PortalController extends Controller
         return Inertia::render('Portal/Index', compact('tasks', 'quotes', 'billings', 'dashboard', 'horasBilling'));
     }
 
+    public function showTask(Task $task)
+    {
+        abort_if($task->client_id !== auth()->user()->client_id, 403);
+
+        $task->load('comments');
+
+        return Inertia::render('Portal/Tasks/Show', [
+            'task' => $task->only([
+                'id', 'titulo', 'descripcion', 'estado', 'prioridad',
+                'fecha_limite', 'horas', 'source_url',
+            ]) + ['comments' => $task->comments->map->only(['id', 'body', 'created_at'])],
+        ]);
+    }
+
+    public function showBilling(Billing $billing)
+    {
+        abort_if($billing->client_id !== auth()->user()->client_id, 403);
+
+        return Inertia::render('Portal/Billing/Show', [
+            'billing' => $billing->only([
+                'id', 'concepto', 'monto', 'fecha_emision', 'fecha_pago', 'estado',
+            ]),
+        ]);
+    }
+
     public function pdf(Quote $quote)
     {
         abort_if($quote->client_id !== auth()->user()->client_id, 403);

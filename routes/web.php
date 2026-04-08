@@ -4,6 +4,8 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\NoteFolderController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
@@ -36,6 +38,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('quotes', QuoteController::class)->except(['show']);
     Route::patch('quotes/{quote}/estado', [QuoteController::class, 'updateEstado'])->name('quotes.updateEstado');
     Route::get('quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.pdf');
+
+    // Notes — search before resource to avoid {note} capturing "search"
+    Route::get('notes/search', [NoteController::class, 'index'])->name('notes.search');
+    Route::resource('notes', NoteController::class);
+    Route::post('note-folders', [NoteFolderController::class, 'store'])->name('note-folders.store');
+    Route::delete('note-folders/{noteFolder}', [NoteFolderController::class, 'destroy'])->name('note-folders.destroy');
 });
 
 // Public invitation acceptance (requires valid signature)

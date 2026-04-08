@@ -21,6 +21,11 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@tailwindcss/typography": "^0.5.19",
+        "@tiptap/extension-code-block-lowlight": "^3.22.3",
+        "@tiptap/starter-kit": "^3.22.3",
+        "@tiptap/vue-3": "^3.22.3",
+        "lowlight": "^3.3.0",
         "vue-draggable-plus": "^0.6.1"
     }
 }

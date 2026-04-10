@@ -22,6 +22,11 @@ class NoteFolderService
         return $this->repository->create($data);
     }
 
+    public function update(NoteFolder $folder, array $data): NoteFolder
+    {
+        return $this->repository->update($folder, $data);
+    }
+
     public function delete(NoteFolder $folder): void
     {
         $this->repository->delete($folder);

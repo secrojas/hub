@@ -25,6 +25,13 @@ class NoteFolderRepository implements NoteFolderRepositoryInterface
         return NoteFolder::create($data);
     }
 
+    public function update(NoteFolder $folder, array $data): NoteFolder
+    {
+        $folder->update($data);
+
+        return $folder->fresh();
+    }
+
     public function delete(NoteFolder $folder): void
     {
         $folder->delete();

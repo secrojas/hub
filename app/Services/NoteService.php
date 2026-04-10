@@ -52,6 +52,11 @@ class NoteService
         return $this->repository->getByFolder($folderId);
     }
 
+    public function getForDashboard(): Collection
+    {
+        return $this->repository->getForDashboard();
+    }
+
     private function generateExcerpt(string $html): string
     {
         return Str::limit(strip_tags($html), 250);

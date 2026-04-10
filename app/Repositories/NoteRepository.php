@@ -56,4 +56,13 @@ class NoteRepository implements NoteRepositoryInterface
             ->orderByDesc('updated_at')
             ->get();
     }
+
+    public function getForDashboard(): Collection
+    {
+        return Note::with('folder')
+            ->where('en_dashboard', true)
+            ->orderByDesc('updated_at')
+            ->limit(6)
+            ->get();
+    }
 }

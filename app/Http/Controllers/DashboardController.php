@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
 use App\Models\Task;
+use App\Services\NoteService;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DashboardController extends Controller
 {
+    public function __construct(private readonly NoteService $noteService) {}
+
     public function index(): Response
     {
         $ventana = [today(), today()->addDays(7)];
@@ -29,8 +32,9 @@ class DashboardController extends Controller
             ->get();
 
         return Inertia::render('Admin/Dashboard', [
-            'enProgreso'    => $enProgreso,
-            'vencenProonto' => $vencenProonto,
+            'enProgreso'       => $enProgreso,
+            'vencenProonto'    => $vencenProonto,
+            'notasDestacadas'  => $this->noteService->getForDashboard(),
         ]);
     }
 }

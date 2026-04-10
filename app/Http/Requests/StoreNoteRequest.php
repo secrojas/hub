@@ -17,7 +17,8 @@ class StoreNoteRequest extends FormRequest
             'titulo'      => ['required', 'string', 'max:255'],
             'contenido'   => ['nullable', 'string'],
             'folder_id'   => ['nullable', 'exists:note_folders,id'],
-            'esta_fijada' => ['boolean'],
+            'esta_fijada'  => ['boolean'],
+            'en_dashboard' => ['boolean'],
         ];
     }
 }

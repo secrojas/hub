@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, router } from '@inertiajs/vue3'
+import { Head, router, Link } from '@inertiajs/vue3'
 import { defineOptions } from 'vue'
 import Card from '@/Components/UI/Card.vue'
 import Badge from '@/Components/UI/Badge.vue'
@@ -9,8 +9,9 @@ import PageHeader from '@/Components/UI/PageHeader.vue'
 defineOptions({ layout: AdminLayout })
 
 const props = defineProps({
-    enProgreso: Array,
-    vencenProonto: Array,
+    enProgreso:      Array,
+    vencenProonto:   Array,
+    notasDestacadas: Array,
 })
 
 function formatDate(dateStr) {
@@ -47,6 +48,43 @@ function updateStatus(taskId, event) {
     <div class="space-y-8">
 
         <PageHeader title="Dashboard" subtitle="Resumen de tareas activas" />
+
+        <!-- Section 0: Notas destacadas -->
+        <section v-if="notasDestacadas.length">
+            <h2 class="text-base font-semibold text-slate-100 mb-3 flex items-center gap-2">
+                <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                </svg>
+                Notas destacadas
+                <Link :href="route('notes.index')" class="ml-auto text-xs text-slate-500 hover:text-violet-400 font-normal transition-colors">Ver todas →</Link>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <Link
+                    v-for="nota in notasDestacadas"
+                    :key="nota.id"
+                    :href="route('notes.show', nota.id)"
+                    class="relative flex flex-col gap-2 p-4 bg-surface-800 border border-slate-700/40 rounded-xl hover:border-slate-600 hover:bg-surface-700 transition-all overflow-hidden"
+                >
+                    <!-- Color accent -->
+                    <span
+                        v-if="nota.folder?.color"
+                        class="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl"
+                        :style="{ backgroundColor: nota.folder.color }"
+                    />
+                    <span class="text-sm font-semibold text-slate-100 leading-snug line-clamp-2">{{ nota.titulo }}</span>
+                    <p v-if="nota.extracto" class="text-xs text-slate-500 line-clamp-2 leading-relaxed">{{ nota.extracto }}</p>
+                    <div class="flex items-center gap-2 mt-auto pt-1">
+                        <span
+                            v-if="nota.folder"
+                            class="text-xs px-1.5 py-0.5 rounded-md"
+                            :style="nota.folder.color ? { backgroundColor: nota.folder.color + '22', color: nota.folder.color } : {}"
+                            :class="!nota.folder.color ? 'text-slate-500 bg-slate-800' : ''"
+                        >{{ nota.folder.nombre }}</span>
+                        <span class="text-xs text-slate-600 ml-auto">{{ new Date(nota.updated_at).toLocaleDateString('es-AR') }}</span>
+                    </div>
+                </Link>
+            </div>
+        </section>
 
         <!-- Section 1: En progreso -->
         <section>

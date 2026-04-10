@@ -16,12 +16,14 @@ class Note extends Model
         'contenido',
         'extracto',
         'esta_fijada',
+        'en_dashboard',
     ];
 
     protected function casts(): array
     {
         return [
-            'esta_fijada' => 'boolean',
+            'esta_fijada'  => 'boolean',
+            'en_dashboard' => 'boolean',
         ];
     }
 

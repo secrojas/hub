@@ -14,6 +14,7 @@ class NoteFolder extends Model
     protected $fillable = [
         'nombre',
         'parent_id',
+        'color',
     ];
 
     public function parent(): BelongsTo

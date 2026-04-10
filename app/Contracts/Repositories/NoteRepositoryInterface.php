@@ -20,4 +20,6 @@ interface NoteRepositoryInterface
     public function search(string $term): Collection;
 
     public function getByFolder(?int $folderId): Collection;
+
+    public function getForDashboard(): Collection;
 }

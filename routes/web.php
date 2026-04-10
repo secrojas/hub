@@ -43,6 +43,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('notes/search', [NoteController::class, 'index'])->name('notes.search');
     Route::resource('notes', NoteController::class);
     Route::post('note-folders', [NoteFolderController::class, 'store'])->name('note-folders.store');
+    Route::patch('note-folders/{noteFolder}', [NoteFolderController::class, 'update'])->name('note-folders.update');
     Route::delete('note-folders/{noteFolder}', [NoteFolderController::class, 'destroy'])->name('note-folders.destroy');
 });
 

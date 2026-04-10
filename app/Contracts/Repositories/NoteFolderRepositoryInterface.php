@@ -13,5 +13,7 @@ interface NoteFolderRepositoryInterface
 
     public function create(array $data): NoteFolder;
 
+    public function update(NoteFolder $folder, array $data): NoteFolder;
+
     public function delete(NoteFolder $folder): void;
 }

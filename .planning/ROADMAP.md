@@ -3,6 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1–7 (shipped 2026-04-01)
+- 🔄 **v1.1 Knowledge Base** — Phase 1 (in progress)
 
 ## Phases
 
@@ -21,14 +22,21 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 </details>
 
+### Phase 1: Knowledge Base Module
+
+**Goal:** Implementar un módulo `/knowledge` completamente separado del módulo de notas existente, orientado a documentar conocimiento técnico de trabajo en empresa. Incluye modelo `KnowledgeEntry` con schema rico (id estable, type, status, confidence, source, domain, subdomain, summary, avature_version, embedding_priority), tabla `knowledge_links` con tipos de relación semántica, patrón Repository/Service, y UI completa con CRUD en `/knowledge`. El módulo de notas existente NO debe ser modificado.
+**Requirements**: REQ-KB-1, REQ-KB-2, REQ-KB-3, REQ-KB-4, REQ-KB-5, REQ-KB-6, REQ-KB-7
+**Depends on:** None
+**Plans:** 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Foundation: migrations, enums, and Eloquent models (KnowledgeEntry + KnowledgeLink)
+- [ ] 01-02-PLAN.md — Repository/Service layer with interface, implementation, and AppServiceProvider binding
+- [ ] 01-03-PLAN.md — HTTP layer: FormRequests, Controllers, and route registration
+- [ ] 01-04-PLAN.md — Vue UI: Index (filters), Create, Show (links management), Edit pages + AdminLayout nav link
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 1. Fundacion y Auth | v1.0 | 4/4 | Complete | 2026-03-25 |
-| 2. CRM de Clientes | v1.0 | 3/3 | Complete | 2026-03-25 |
-| 3. Tareas y Kanban | v1.0 | 3/3 | Complete | 2026-03-20 |
-| 4. Facturacion | v1.0 | 3/3 | Complete | 2026-03-25 |
-| 5. Presupuestos y PDF | v1.0 | 3/3 | Complete | 2026-03-30 |
-| 6. Portal del Cliente | v1.0 | 2/2 | Complete | 2026-03-31 |
-| 7. Dashboard del Admin | v1.0 | 2/2 | Complete | 2026-03-31 |
+| 1. Knowledge Base Module | v1.1 | 0/4 | In Progress | — |

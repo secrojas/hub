@@ -29,6 +29,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/invitations', [InvitationController::class, 'store'])->name('invitations.store');
 
     Route::resource('clients', ClientController::class);
+    Route::get('clients/{client}/portal-preview', [ClientController::class, 'portalPreview'])->name('clients.portal-preview');
 
     Route::resource('tasks', TaskController::class)->except(['show', 'create', 'edit']);
     Route::get('tasks/archived', [TaskController::class, 'archived'])->name('tasks.archived');

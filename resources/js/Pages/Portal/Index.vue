@@ -10,11 +10,13 @@ import { formatHoras } from '@/composables/useFormatHoras.js'
 defineOptions({ layout: PortalLayout })
 
 const props = defineProps({
-    tasks: Array,
-    quotes: Array,
-    billings: Array,
-    dashboard: Object,
+    tasks:        Array,
+    quotes:       Array,
+    billings:     Array,
+    dashboard:    Object,
     horasBilling: Object,
+    is_preview:   { type: Boolean, default: false },
+    preview_name: { type: String,  default: null },
 })
 
 function formatMonto(monto) {
@@ -35,6 +37,20 @@ function formatDate(dateStr) {
     <Head title="Mi Portal" />
 
     <div class="space-y-8">
+
+        <!-- Preview banner -->
+        <div v-if="is_preview" class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                <p class="text-sm text-amber-400 font-medium">
+                    Vista previa — estás viendo el portal como <strong>{{ preview_name }}</strong>
+                </p>
+            </div>
+            <a href="javascript:history.back()" class="text-xs text-amber-500 hover:text-amber-300 transition-colors flex-shrink-0">Volver</a>
+        </div>
 
         <PageHeader title="Mi Portal" subtitle="Estado de tus proyectos, presupuestos y facturacion" />
 

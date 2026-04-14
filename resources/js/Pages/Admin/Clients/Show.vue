@@ -45,6 +45,9 @@ function formatARS(monto) {
 
     <div class="max-w-2xl space-y-6">
         <PageHeader :title="client.nombre">
+            <Link :href="`/clients/${client.id}/portal-preview`">
+                <Button variant="ghost" size="sm">Ver portal</Button>
+            </Link>
             <Link :href="`/tasks?cliente=${client.id}`">
                 <Button variant="secondary" size="sm">Ver Kanban</Button>
             </Link>

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\Repositories\KnowledgeEntryRepositoryInterface;
 use App\Contracts\Repositories\NoteFolderRepositoryInterface;
 use App\Contracts\Repositories\NoteRepositoryInterface;
+use App\Repositories\KnowledgeEntryRepository;
 use App\Repositories\NoteFolderRepository;
 use App\Repositories\NoteRepository;
 use Illuminate\Support\Facades\Vite;
@@ -15,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(NoteRepositoryInterface::class, NoteRepository::class);
         $this->app->bind(NoteFolderRepositoryInterface::class, NoteFolderRepository::class);
+        $this->app->bind(KnowledgeEntryRepositoryInterface::class, KnowledgeEntryRepository::class);
     }
 
     /**

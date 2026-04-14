@@ -69,6 +69,13 @@ function logout() {
                         ? 'bg-violet-600/10 text-violet-400 border-l-2 border-violet-500 font-semibold'
                         : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 border-l-2 border-transparent'"
                 >Notas</Link>
+
+                <Link href="/knowledge"
+                    class="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors duration-150"
+                    :class="$page.url.startsWith('/knowledge')
+                        ? 'bg-violet-600/10 text-violet-400 border-l-2 border-violet-500 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-100 border-l-2 border-transparent'"
+                >Knowledge</Link>
             </nav>
 
             <!-- User + Logout at bottom -->

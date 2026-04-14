@@ -3,6 +3,8 @@
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\KnowledgeEntryController;
+use App\Http\Controllers\KnowledgeLinkController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\NoteFolderController;
 use App\Http\Controllers\NoteController;
@@ -45,6 +47,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('note-folders', [NoteFolderController::class, 'store'])->name('note-folders.store');
     Route::patch('note-folders/{noteFolder}', [NoteFolderController::class, 'update'])->name('note-folders.update');
     Route::delete('note-folders/{noteFolder}', [NoteFolderController::class, 'destroy'])->name('note-folders.destroy');
+
+    // Knowledge — search before resource to avoid {knowledge} capturing "search"
+    Route::get('knowledge/search', [KnowledgeEntryController::class, 'index'])->name('knowledge.search');
+    Route::resource('knowledge', KnowledgeEntryController::class);
+    Route::post('knowledge/{knowledge}/links', [KnowledgeLinkController::class, 'store'])->name('knowledge-links.store');
+    Route::delete('knowledge-links/{knowledgeLink}', [KnowledgeLinkController::class, 'destroy'])->name('knowledge-links.destroy');
 });
 
 // Public invitation acceptance (requires valid signature)

@@ -187,6 +187,26 @@ function confirmDeleteTask() {
     })
 }
 
+function archiveTask() {
+    router.put(`/tasks/${editingTask.value.id}/status`, { estado: 'archivado' }, {
+        preserveScroll: true,
+        onSuccess: () => {
+            editingTask.value = null
+        },
+    })
+}
+
+const showCloseMonthModal = ref(false)
+
+function confirmCloseMonth() {
+    router.post('/tasks/close-month', {}, {
+        preserveScroll: true,
+        onSuccess: () => {
+            showCloseMonthModal.value = false
+        },
+    })
+}
+
 // Comments
 const commentForm = useForm({ contenido: '' })
 
@@ -209,6 +229,9 @@ function confirmDeleteComment(commentId) {
     <div>
         <!-- Header -->
         <PageHeader title="Tareas" subtitle="Kanban">
+            <Button variant="ghost" @click="showCloseMonthModal = true">
+                Cerrar mes
+            </Button>
             <Button variant="primary" @click="openCreateModal">
                 Nueva tarea
             </Button>
@@ -409,6 +432,25 @@ function confirmDeleteComment(commentId) {
         </div>
     </div>
 
+    <!-- Close month confirmation modal -->
+    <div v-if="showCloseMonthModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-surface-800 rounded-2xl shadow-2xl border border-slate-700/40 w-full max-w-sm mx-4">
+            <div class="px-6 pt-6 pb-4 border-b border-slate-700/40">
+                <h2 class="text-lg font-semibold text-slate-100">Cerrar mes</h2>
+            </div>
+            <div class="px-6 py-4">
+                <p class="text-sm text-slate-300">
+                    Se van a archivar todas las tareas en estado <strong class="text-green-400">Finalizado</strong>
+                    del mes anterior. Esta accion no se puede deshacer.
+                </p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-700/40 flex justify-end gap-3">
+                <Button variant="ghost" @click="showCloseMonthModal = false">Cancelar</Button>
+                <Button variant="primary" @click="confirmCloseMonth">Confirmar</Button>
+            </div>
+        </div>
+    </div>
+
     <!-- Edit modal -->
     <div v-if="editingTask" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50">
         <div class="bg-surface-800 rounded-2xl shadow-2xl border border-slate-700/40 w-full max-w-lg mx-4 max-h-[90vh] flex flex-col">
@@ -489,9 +531,14 @@ function confirmDeleteComment(commentId) {
                     </div>
                     <!-- Form footer -->
                     <div class="px-6 py-4 border-t border-slate-700/40 flex justify-between">
-                        <Button type="button" variant="danger" @click="confirmDeleteTask">
-                            Eliminar
-                        </Button>
+                        <div class="flex gap-2">
+                            <Button type="button" variant="danger" @click="confirmDeleteTask">
+                                Eliminar
+                            </Button>
+                            <Button type="button" variant="ghost" @click="archiveTask">
+                                Archivar
+                            </Button>
+                        </div>
                         <div class="flex gap-3">
                             <Button type="button" variant="ghost" @click="editingTask = null">
                                 Cancelar

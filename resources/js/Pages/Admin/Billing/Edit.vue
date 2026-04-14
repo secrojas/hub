@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Link, useForm } from '@inertiajs/vue3'
+import { Link, useForm, router } from '@inertiajs/vue3'
 import Card from '@/Components/UI/Card.vue'
 import Button from '@/Components/UI/Button.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
@@ -71,6 +71,29 @@ function removeItem(index) {
 
 function submit() {
     form.put(route('billing.update', props.billing.id))
+}
+
+// ── AFIP PDF upload ────────────────────────────────────────────
+const afipFile      = ref(null)
+const afipUploading = ref(false)
+
+function onAfipFileChange(e) {
+    afipFile.value = e.target.files[0] ?? null
+}
+
+function uploadAfipPdf() {
+    if (!afipFile.value) return
+    afipUploading.value = true
+    const data = new FormData()
+    data.append('pdf', afipFile.value)
+    router.post(route('billing.afip-pdf', props.billing.id), data, {
+        forceFormData: true,
+        preserveScroll: true,
+        onFinish: () => {
+            afipUploading.value = false
+            afipFile.value = null
+        },
+    })
 }
 
 // ── Delete ─────────────────────────────────────────────────────
@@ -197,6 +220,46 @@ function deleteBilling() {
                             <p class="text-xl font-bold text-slate-100 mt-0.5">{{ formatMonto(total) }}</p>
                         </div>
                     </div>
+                </div>
+            </Card>
+
+            <!-- AFIP PDF -->
+            <Card variant="default" padding="lg">
+                <h2 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">Factura AFIP</h2>
+
+                <div v-if="billing.has_afip_pdf" class="flex items-center gap-3 mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm text-green-400 font-medium">PDF subido</p>
+                        <p v-if="billing.afip_uploaded_at" class="text-xs text-slate-500 mt-0.5">
+                            {{ new Date(billing.afip_uploaded_at).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }}
+                        </p>
+                    </div>
+                    <a
+                        :href="route('billing.afip-pdf.download', billing.id)"
+                        target="_blank"
+                        class="text-xs text-violet-400 hover:text-violet-300 transition-colors flex-shrink-0"
+                    >Descargar</a>
+                </div>
+                <p v-else class="text-sm text-slate-500 mb-4">Sin factura AFIP cargada.</p>
+
+                <div class="flex items-center gap-3">
+                    <input
+                        type="file"
+                        accept="application/pdf"
+                        @change="onAfipFileChange"
+                        class="flex-1 text-sm text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-surface-700 file:text-slate-300 hover:file:bg-surface-600 file:cursor-pointer"
+                    />
+                    <Button
+                        type="button"
+                        variant="primary"
+                        :disabled="!afipFile || afipUploading"
+                        @click="uploadAfipPdf"
+                    >
+                        {{ afipUploading ? 'Subiendo...' : (billing.has_afip_pdf ? 'Reemplazar' : 'Subir PDF') }}
+                    </Button>
                 </div>
             </Card>
 

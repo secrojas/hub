@@ -8,4 +8,5 @@ enum TaskStatus: string
     case EnProgreso  = 'en_progreso';
     case EnRevision  = 'en_revision';
     case Finalizado  = 'finalizado';
+    case Archivado   = 'archivado';
 }

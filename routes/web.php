@@ -31,11 +31,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('clients', ClientController::class);
 
     Route::resource('tasks', TaskController::class)->except(['show', 'create', 'edit']);
+    Route::get('tasks/archived', [TaskController::class, 'archived'])->name('tasks.archived');
+    Route::post('tasks/close-month', [TaskController::class, 'closeMonth'])->name('tasks.closeMonth');
     Route::put('tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
     Route::post('tasks/{task}/comments', [TaskCommentController::class, 'store'])->name('task-comments.store');
     Route::delete('task-comments/{comment}', [TaskCommentController::class, 'destroy'])->name('task-comments.destroy');
 
     Route::resource('billing', BillingController::class)->except(['show']);
+    Route::post('billing/{billing}/afip-pdf', [BillingController::class, 'uploadAfipPdf'])->name('billing.afip-pdf');
+    Route::get('billing/{billing}/afip-pdf/download', [BillingController::class, 'downloadAfipPdf'])->name('billing.afip-pdf.download');
 
     Route::resource('quotes', QuoteController::class)->except(['show']);
     Route::patch('quotes/{quote}/estado', [QuoteController::class, 'updateEstado'])->name('quotes.updateEstado');
@@ -65,6 +69,7 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::get('/portal', [PortalController::class, 'index'])->name('portal');
     Route::get('/portal/tasks/{task}', [PortalController::class, 'showTask'])->name('portal.tasks.show');
     Route::get('/portal/billing/{billing}', [PortalController::class, 'showBilling'])->name('portal.billing.show');
+    Route::get('/portal/billing/{billing}/afip-pdf', [PortalController::class, 'downloadAfipPdf'])->name('portal.billing.afip-pdf');
     Route::get('/portal/quotes/{quote}/pdf', [PortalController::class, 'pdf'])->name('portal.quotes.pdf');
 });
 

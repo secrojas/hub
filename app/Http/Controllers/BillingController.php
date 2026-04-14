@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Enums\TaskStatus;
 use App\Http\Requests\StoreBillingRequest;
 use App\Http\Requests\UpdateBillingRequest;
+use App\Mail\FacturaAfipMail;
 use App\Models\Billing;
 use App\Models\Client;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class BillingController extends Controller
@@ -65,7 +68,10 @@ class BillingController extends Controller
         $billing->load('items');
 
         return Inertia::render('Admin/Billing/Edit', [
-            'billing'            => $billing,
+            'billing'            => array_merge(
+                $billing->toArray(),
+                ['has_afip_pdf' => (bool) $billing->afip_pdf_path],
+            ),
             'clients'            => Client::orderBy('nombre')->get(['id', 'nombre', 'valor_hora']),
             'tareas_finalizadas' => $this->tareasFinalizadas(),
         ]);
@@ -90,6 +96,39 @@ class BillingController extends Controller
         $billing->delete();
 
         return redirect()->route('billing.index');
+    }
+
+    public function uploadAfipPdf(Request $request, Billing $billing)
+    {
+        $request->validate([
+            'pdf' => ['required', 'file', 'mimes:pdf', 'max:10240'],
+        ]);
+
+        if ($billing->afip_pdf_path) {
+            Storage::disk('local')->delete($billing->afip_pdf_path);
+        }
+
+        $path = $request->file('pdf')->store('afip', 'local');
+
+        $billing->update([
+            'afip_pdf_path'    => $path,
+            'afip_uploaded_at' => now(),
+        ]);
+
+        $billing->load('client');
+        Mail::to($billing->client->email)->send(new FacturaAfipMail($billing));
+
+        return back()->with('success', 'Factura AFIP subida y enviada al cliente.');
+    }
+
+    public function downloadAfipPdf(Billing $billing)
+    {
+        abort_unless($billing->afip_pdf_path && Storage::disk('local')->exists($billing->afip_pdf_path), 404);
+
+        return Storage::disk('local')->download(
+            $billing->afip_pdf_path,
+            'factura-afip-' . str_pad($billing->id, 5, '0', STR_PAD_LEFT) . '.pdf'
+        );
     }
 
     private function tareasFinalizadas(): \Illuminate\Database\Eloquent\Collection

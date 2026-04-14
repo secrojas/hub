@@ -15,6 +15,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $query = Task::with(['client', 'comments'])
+            ->where('estado', '!=', 'archivado')
             ->when($request->filled('cliente'), fn ($q) => $q->where('client_id', $request->cliente))
             ->when($request->filled('estado'), fn ($q) => $q->where('estado', $request->estado))
             ->when($request->filled('prioridad'), fn ($q) => $q->where('prioridad', $request->prioridad))
@@ -34,6 +35,32 @@ class TaskController extends Controller
             'clients' => Client::orderBy('nombre')->get(['id', 'nombre', 'valor_hora']),
             'filtros' => $request->only(['cliente', 'estado', 'prioridad', 'titulo']),
         ]);
+    }
+
+    public function archived(Request $request)
+    {
+        $tasks = Task::with('client')
+            ->where('estado', 'archivado')
+            ->when($request->filled('cliente'), fn ($q) => $q->where('client_id', $request->cliente))
+            ->when($request->filled('titulo'), fn ($q) => $q->where('titulo', 'like', "%{$request->titulo}%"))
+            ->latest('fecha_finalizacion')
+            ->get();
+
+        return Inertia::render('Admin/Tasks/Archived', [
+            'tasks'   => $tasks,
+            'clients' => Client::orderBy('nombre')->get(['id', 'nombre']),
+            'filtros' => $request->only(['cliente', 'titulo']),
+        ]);
+    }
+
+    public function closeMonth()
+    {
+        $count = Task::where('estado', 'finalizado')
+            ->whereMonth('fecha_finalizacion', now()->subMonth()->month)
+            ->whereYear('fecha_finalizacion', now()->subMonth()->year)
+            ->update(['estado' => 'archivado']);
+
+        return back()->with('success', "Se archivaron {$count} tareas del mes anterior.");
     }
 
     public function store(StoreTaskRequest $request)
@@ -60,7 +87,7 @@ class TaskController extends Controller
     public function updateStatus(Request $request, Task $task)
     {
         $request->validate([
-            'estado' => ['required', 'in:backlog,en_progreso,en_revision,finalizado'],
+            'estado' => ['required', 'in:backlog,en_progreso,en_revision,finalizado,archivado'],
         ]);
 
         $task->update(['estado' => $request->estado]);

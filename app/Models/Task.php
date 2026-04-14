@@ -38,9 +38,11 @@ class Task extends Model
     {
         static::updating(function (Task $task) {
             if ($task->isDirty('estado')) {
-                $task->fecha_finalizacion = $task->estado === TaskStatus::Finalizado
-                    ? now()
-                    : null;
+                if ($task->estado === TaskStatus::Finalizado) {
+                    $task->fecha_finalizacion = now();
+                } elseif ($task->estado !== TaskStatus::Archivado) {
+                    $task->fecha_finalizacion = null;
+                }
             }
         });
     }

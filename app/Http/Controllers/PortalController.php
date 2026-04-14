@@ -10,6 +10,7 @@ use App\Models\Quote;
 use App\Models\Task;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -73,10 +74,24 @@ class PortalController extends Controller
 
         return Inertia::render('Portal/Billing/Show', [
             'billing' => array_merge(
-                $billing->only(['id', 'concepto', 'monto', 'fecha_emision', 'fecha_pago', 'estado']),
-                ['items' => $billing->items->map->only(['concepto', 'monto'])],
+                $billing->only(['id', 'concepto', 'monto', 'fecha_emision', 'fecha_pago', 'estado', 'afip_uploaded_at']),
+                [
+                    'items'        => $billing->items->map->only(['concepto', 'monto']),
+                    'has_afip_pdf' => (bool) $billing->afip_pdf_path,
+                ],
             ),
         ]);
+    }
+
+    public function downloadAfipPdf(Billing $billing)
+    {
+        abort_if($billing->client_id !== auth()->user()->client_id, 403);
+        abort_unless($billing->afip_pdf_path && Storage::disk('local')->exists($billing->afip_pdf_path), 404);
+
+        return Storage::disk('local')->download(
+            $billing->afip_pdf_path,
+            'factura-afip-' . str_pad($billing->id, 5, '0', STR_PAD_LEFT) . '.pdf'
+        );
     }
 
     public function pdf(Quote $quote)

@@ -19,15 +19,18 @@ class Billing extends Model
         'fecha_emision',
         'fecha_pago',
         'estado',
+        'afip_pdf_path',
+        'afip_uploaded_at',
     ];
 
     protected function casts(): array
     {
         return [
-            'estado'        => BillingStatus::class,
-            'fecha_emision' => 'date',
-            'fecha_pago'    => 'date',
-            'monto'         => 'decimal:2',
+            'estado'           => BillingStatus::class,
+            'fecha_emision'    => 'date',
+            'fecha_pago'       => 'date',
+            'monto'            => 'decimal:2',
+            'afip_uploaded_at' => 'datetime',
         ];
     }
 

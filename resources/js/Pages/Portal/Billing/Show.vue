@@ -92,7 +92,21 @@ const estadoConfig = {
                 </div>
             </dl>
 
-            <p class="mt-6 pt-4 border-t border-slate-700/40 text-xs text-slate-600 text-center">
+            <!-- AFIP PDF download -->
+            <div v-if="billing.has_afip_pdf" class="mt-6 pt-4 border-t border-slate-700/40">
+                <a
+                    :href="`/portal/billing/${billing.id}/afip-pdf`"
+                    target="_blank"
+                    class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg border border-violet-500/40 bg-violet-500/10 text-violet-400 hover:bg-violet-500/20 transition-colors text-sm font-medium"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Descargar factura AFIP
+                </a>
+            </div>
+
+            <p class="mt-4 text-xs text-slate-600 text-center">
                 Este comprobante es informativo y no tiene validez fiscal.
             </p>
         </Card>

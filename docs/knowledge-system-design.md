@@ -480,3 +480,143 @@ El sistema es correcto en dirección. Los cambios en orden de impacto:
 7. **Embeddings + chunking** — cuando el volumen lo justifique.
 
 El pipeline ChatGPT → Hub → Claude es sólido. El problema no es el pipeline sino la calidad y estructura de lo que entra. En un knowledge base de AI, el garbage se amplifica — una nota incorrecta con `confidence: high` es peor que no tenerla.
+
+---
+
+## 8. Implementación actual (2026-04-14)
+
+### Estado del roadmap
+
+| Ítem | Estado |
+|------|--------|
+| Schema completo (entry_id, summary, status, confidence, etc.) | ✅ Implementado |
+| Tabla `knowledge_links` con tipos de relación | ✅ Implementado |
+| UI para crear/editar/ver entradas + links | ✅ Implementado |
+| Búsqueda + filtros (type, status, domain) | ✅ Implementado |
+| Comando de importación desde template ChatGPT | ✅ Implementado |
+| Embeddings / chunking / vector search | 🔲 Pendiente (100+ entradas) |
+| Grafo visual | 🔲 Pendiente |
+
+---
+
+### Stack técnico
+
+| Capa | Tecnología |
+|------|-----------|
+| Modelo | `App\Models\KnowledgeEntry` — casts a Enums + `tags` como array JSON |
+| Persistencia | Repo/Service pattern igual que Notes (`KnowledgeEntryRepositoryInterface`) |
+| Editor | Tiptap 3 + `CodeBlockLowlight` (lowlight/highlight.js) |
+| Formato almacenado | **HTML** (output de `editor.getHTML()`) — NO Markdown |
+| Display | `v-html` + clase `.kb-content` en `app.css` para estilos de code blocks |
+| Relaciones | Tabla `knowledge_links` — `from_entry_id`, `to_entry_id`, `relation_type` |
+
+> **IMPORTANTE**: `contenido` se guarda como HTML de Tiptap, no como Markdown.
+> Cualquier display con `v-html` recibe HTML directamente. No usar `marked` ni
+> ningún parser Markdown sobre este campo.
+
+---
+
+### CSS para display de código (read-only)
+
+Los estilos del editor Tiptap (`.ProseMirror pre`) **no aplican** en la vista Show.
+Los estilos de code blocks para la vista de lectura están en `resources/css/app.css`
+bajo la clase wrapper `.kb-content`:
+
+```css
+.kb-content pre { ... }
+.kb-content pre code.hljs { ... }
+.kb-content .hljs-keyword { ... }
+/* etc. */
+```
+
+La clase se aplica al wrapper del `v-html` en `Show.vue`:
+```html
+<div class="kb-content prose prose-invert max-w-none" v-html="entry.contenido" />
+```
+
+> **Gotcha**: Un `<style>` sin `scoped` en un componente Vue es GLOBAL — afecta
+> todas las páginas. Para estilos que aplican a `v-html`, usar siempre una clase
+> wrapper específica en `app.css` en lugar de un `<style>` en el componente.
+
+---
+
+### Workflow de importación desde ChatGPT
+
+#### 1. Prompt template para ChatGPT
+
+Al terminar una sesión de trabajo, pegá este prompt:
+
+```
+Basándote en todo lo que trabajamos en esta sesión, generá una entrada para mi
+Knowledge Base personal con el formato exacto de abajo. No agregues texto fuera
+del bloque.
+
+CAMPOS VÁLIDOS:
+- type: concept | flow | bug | decision | runbook | glossary
+- status: draft (siempre al crear)
+- confidence: low | medium | high
+- source: chatgpt (siempre, ya que viene de acá)
+- scope: module | system | cross-system
+- embedding_priority: low | normal | high | critical
+
+---KB-ENTRY-START---
+entry_id: [slug único con guiones, ej: avt-badge-crud-flow]
+titulo: [Título claro y descriptivo]
+type: [ver valores válidos arriba]
+confidence: [ver valores válidos arriba]
+domain: [dominio técnico principal, ej: badges, auth, rtc, billing]
+subdomain: [subdominio si aplica, sino vacío]
+tags: [tag1, tag2, tag3]
+scope: [ver valores válidos arriba]
+summary: [UNA sola oración densa, máx 400 caracteres, sin rodeos]
+avature_version: [sprint o versión si aplica, sino vacío]
+embedding_priority: [ver valores válidos arriba]
+
+---CONTENIDO-START---
+[Contenido completo en Markdown con ## secciones, bloques de código ```lang,
+gotchas, decisiones, rutas de archivos relevantes]
+---CONTENIDO-END---
+---KB-ENTRY-END---
+```
+
+#### 2. Convención de `entry_id`
+
+Formato: `dominio-subtema-descripcion` — siempre en minúsculas con guiones.
+
+```
+avt-badge-crud-flow
+avt-rtc-signaling-bug
+avt-auth-session-decision
+avt-iats-widget-datasource-flow
+```
+
+#### 3. Comando de importación
+
+```bash
+# Guardás el output de ChatGPT en un .txt y corrés:
+php artisan knowledge:import path/to/entrada.txt
+```
+
+El comando:
+- Parsea los campos del bloque metadata
+- Convierte el Markdown del `---CONTENIDO-START---` a HTML compatible con Tiptap
+  usando `Str::markdown()` (CommonMark)
+- Muestra una tabla de preview y pide confirmación
+- Fuerza `status: draft` y `source: chatgpt` — nunca importa como verificado
+- Valida `entry_id` único antes de crear
+- Usa `KnowledgeEntryService` — misma ruta que el formulario web
+
+**Archivo**: `app/Console/Commands/ImportKnowledgeEntry.php`
+
+---
+
+### Enums disponibles
+
+| Enum | Valores |
+|------|---------|
+| `KnowledgeType` | `concept`, `flow`, `bug`, `decision`, `runbook`, `glossary` |
+| `KnowledgeStatus` | `draft`, `reviewed`, `verified`, `stale` |
+| `KnowledgeConfidence` | `low`, `medium`, `high` |
+| `KnowledgeSource` | `chatgpt`, `self`, `docs`, `colleague` |
+| `EmbeddingPriority` | `normal`, `high` |
+| `KnowledgeLinkRelation` | `explains`, `depends_on`, `solves`, `contradicts`, `updates`, `source_of`, `example_of` |

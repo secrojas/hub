@@ -99,8 +99,8 @@ const otherEntries = props.allEntries.filter(e => e.id !== props.entry.id)
                 </div>
 
                 <!-- Contenido -->
-                <div class="bg-surface-800 border border-slate-700/50 rounded-xl p-6">
-                    <div class="prose prose-invert max-w-none" v-html="entry.contenido" />
+                <div class="bg-surface-800 border border-slate-700/50 rounded-xl p-6 min-w-0 overflow-hidden">
+                    <div class="kb-content prose prose-invert max-w-none" v-html="entry.contenido" />
                 </div>
 
                 <!-- Links / Relaciones -->
@@ -265,3 +265,4 @@ const otherEntries = props.allEntries.filter(e => e.id !== props.entry.id)
         </div>
     </div>
 </template>
+

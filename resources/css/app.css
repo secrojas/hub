@@ -18,6 +18,37 @@
   }
 }
 
+/* Knowledge Base — read-only content view */
+.kb-content pre {
+    background: #020617;
+    border: 1px solid rgb(51 65 85 / 0.6);
+    border-radius: 0.5rem;
+    padding: 0;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.kb-content pre code,
+.kb-content pre code.hljs {
+    background: transparent;
+    padding: 1rem 1.25rem;
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    white-space: pre;
+    color: #e2e8f0;
+}
+
+.kb-content .hljs-keyword                { color: #c084fc; }
+.kb-content .hljs-string                 { color: #86efac; }
+.kb-content .hljs-comment                { color: #64748b; font-style: italic; }
+.kb-content .hljs-number                 { color: #fb923c; }
+.kb-content .hljs-title,
+.kb-content .hljs-function               { color: #7dd3fc; }
+.kb-content .hljs-variable,
+.kb-content .hljs-attr                   { color: #f0abfc; }
+.kb-content .hljs-built_in               { color: #93c5fd; }
+
 @layer utilities {
   .glass       { @apply bg-slate-800/70 backdrop-blur-md border border-slate-700/30; }
   .glass-hover { @apply hover:bg-slate-700/70 transition-colors duration-200; }

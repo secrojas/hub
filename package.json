@@ -26,6 +26,7 @@
         "@tiptap/starter-kit": "^3.22.3",
         "@tiptap/vue-3": "^3.22.3",
         "lowlight": "^3.3.0",
+        "marked": "^18.0.0",
         "vue-draggable-plus": "^0.6.1"
     }
 }

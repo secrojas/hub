@@ -26,7 +26,7 @@ const form = useForm({
     verified:           props.entry.verified,
     domain:             props.entry.domain ?? '',
     subdomain:          props.entry.subdomain ?? '',
-    tags:               (props.entry.tags ?? []).join(', '),
+    tags:               Array.isArray(props.entry.tags) ? props.entry.tags.join(', ') : '',
     scope:              props.entry.scope ?? '',
     summary:            props.entry.summary ?? '',
     contenido:          props.entry.contenido ?? '',

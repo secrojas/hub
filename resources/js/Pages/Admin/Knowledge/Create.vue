@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3'
+import { Head, useForm, Link } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import NoteEditor from '@/Components/Notes/NoteEditor.vue'
 import InputError from '@/Components/InputError.vue'
@@ -43,6 +43,7 @@ function submit() {
 </script>
 
 <template>
+    <Head title="Nueva entrada" />
     <div class="flex flex-col gap-6">
         <PageHeader title="Nueva entrada" subtitle="Documentar conocimiento técnico">
             <Link

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
 import FolderSidebar from '@/Components/Notes/FolderSidebar.vue'
@@ -30,6 +30,7 @@ watch(search, (val) => {
 </script>
 
 <template>
+    <Head title="Notas" />
     <div class="flex flex-col gap-6">
         <PageHeader title="Notas" subtitle="Base de conocimiento interna">
             <Link :href="route('notes.create')" class="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium rounded-lg transition-colors">

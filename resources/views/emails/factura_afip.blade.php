@@ -17,7 +17,7 @@
                     <!-- Brand -->
                     <tr>
                         <td align="center" style="padding-bottom:32px;">
-                            <span style="font-size:28px;font-weight:700;color:#f1f5f9;letter-spacing:-0.5px;">Hub</span>
+                            <span style="font-size:28px;font-weight:700;color:#f1f5f9;letter-spacing:-0.5px;">secrojas · Hub</span>
                         </td>
                     </tr>
 
@@ -65,7 +65,7 @@
                     <tr>
                         <td align="center" style="padding-top:28px;">
                             <p style="margin:0;font-size:12px;color:#334155;line-height:1.6;">
-                                © {{ date('Y') }} Hub — Plataforma de gestión freelance
+                                © {{ date('Y') }} secrojas · Hub — Plataforma de gestión freelance
                             </p>
                         </td>
                     </tr>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Invitación Hub</title>
+    <title>Invitación secrojas · Hub</title>
 </head>
 <body style="margin:0;padding:0;background-color:#020617;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
 
@@ -20,7 +20,7 @@
                     <tr>
                         <td align="center" style="padding-bottom:32px;">
                             <span style="font-size:28px;font-weight:700;color:#f1f5f9;letter-spacing:-0.5px;">
-                                Hub
+                                secrojas · Hub
                             </span>
                         </td>
                     </tr>
@@ -34,7 +34,7 @@
                                 Hola, {{ $clientName }}
                             </p>
                             <p style="margin:0 0 28px;font-size:15px;color:#94a3b8;line-height:1.6;">
-                                Fuiste invitado a acceder al portal de clientes de <strong style="color:#f1f5f9;">Hub</strong>.
+                                Fuiste invitado a acceder al portal de clientes de <strong style="color:#f1f5f9;">secrojas · Hub</strong>.
                                 Desde ahí vas a poder ver el estado de tus proyectos, presupuestos y facturación en tiempo real.
                             </p>
 
@@ -75,7 +75,7 @@
                         <td align="center" style="padding-top:28px;">
                             <p style="margin:0;font-size:12px;color:#334155;line-height:1.6;">
                                 Si no esperabas esta invitación, podés ignorar este email.<br />
-                                © {{ date('Y') }} Hub — Plataforma de gestión freelance
+                                © {{ date('Y') }} secrojas · Hub — Plataforma de gestión freelance
                             </p>
                         </td>
                     </tr>

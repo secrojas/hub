@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Link, useForm } from '@inertiajs/vue3'
+import { Head, Link, useForm } from '@inertiajs/vue3'
 import Card from '@/Components/UI/Card.vue'
 import Button from '@/Components/UI/Button.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
@@ -70,6 +70,7 @@ function submit() {
 </script>
 
 <template>
+    <Head title="Nuevo Cobro" />
     <div class="max-w-3xl">
         <PageHeader title="Nuevo Cobro" subtitle="Registrá un cobro con sus ítems detallados">
             <Link href="/billing">

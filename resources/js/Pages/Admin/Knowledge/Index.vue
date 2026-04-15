@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
 
@@ -50,6 +50,7 @@ const statusColors = {
 </script>
 
 <template>
+    <Head title="Knowledge Base" />
     <div class="flex flex-col gap-6">
         <PageHeader title="Knowledge Base" subtitle="Conocimiento técnico de trabajo en empresa">
             <Link

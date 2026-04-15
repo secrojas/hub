@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Link, useForm, router } from '@inertiajs/vue3'
+import { Head, Link, useForm, router } from '@inertiajs/vue3'
 import Card from '@/Components/UI/Card.vue'
 import Button from '@/Components/UI/Button.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
@@ -104,6 +104,7 @@ function deleteBilling() {
 </script>
 
 <template>
+    <Head title="Editar Cobro" />
     <div class="max-w-3xl">
         <PageHeader title="Editar Cobro" :subtitle="billing.concepto">
             <Link href="/billing">

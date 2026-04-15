@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, Link, router } from '@inertiajs/vue3'
+import { Head, useForm, Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import PageHeader from '@/Components/UI/PageHeader.vue'
 
@@ -55,6 +55,7 @@ const otherEntries = props.allEntries.filter(e => e.id !== props.entry.id)
 </script>
 
 <template>
+    <Head :title="entry.titulo" />
     <div class="flex flex-col gap-6">
         <PageHeader :title="entry.titulo" :subtitle="entry.entry_id">
             <div class="flex items-center gap-2">

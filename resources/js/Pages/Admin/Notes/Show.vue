@@ -1,5 +1,5 @@
 <script setup>
-import { Link, router } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import FolderSidebar from '@/Components/Notes/FolderSidebar.vue'
 import NoteViewer from '@/Components/Notes/NoteViewer.vue'
@@ -38,6 +38,7 @@ function destroy() {
 </script>
 
 <template>
+    <Head :title="note.titulo" />
     <div class="flex gap-6 items-start">
         <!-- Sidebar -->
         <FolderSidebar :folders="folders" :active-folder-id="note.folder_id" :filters="{}" />

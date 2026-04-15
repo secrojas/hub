@@ -493,7 +493,9 @@ El pipeline ChatGPT → Hub → Claude es sólido. El problema no es el pipeline
 | Tabla `knowledge_links` con tipos de relación | ✅ Implementado |
 | UI para crear/editar/ver entradas + links | ✅ Implementado |
 | Búsqueda + filtros (type, status, domain) | ✅ Implementado |
-| Comando de importación desde template ChatGPT | ✅ Implementado |
+| Comando de importación desde template ChatGPT (`.txt`) | ✅ Implementado |
+| Comando de importación desde `.md` con frontmatter YAML | ✅ Implementado |
+| Generación automática de migración al importar | ✅ Implementado |
 | Embeddings / chunking / vector search | 🔲 Pendiente (100+ entradas) |
 | Grafo visual | 🔲 Pendiente |
 
@@ -540,11 +542,79 @@ La clase se aplica al wrapper del `v-html` en `Show.vue`:
 
 ---
 
-### Workflow de importación desde ChatGPT
+### Workflow de importación
 
-#### 1. Prompt template para ChatGPT
+El comando acepta dos formatos. Ambos generan la migración automáticamente.
 
-Al terminar una sesión de trabajo, pegá este prompt:
+#### Formato A — `.md` con frontmatter YAML (recomendado)
+
+Ideal para guías generadas por ChatGPT o escritas a mano. El frontmatter va al
+inicio del archivo; el resto del cuerpo es Markdown libre que se convierte a HTML.
+
+```markdown
+---
+entry_id:          avt-badge-crud-flow
+titulo:            ITIS — Badge: Flujo CRUD completo
+type:              flow
+confidence:        high
+domain:            iats
+subdomain:         badge
+scope:             module
+tags:              badge, crud, datasource, API
+summary:           Flujo end-to-end para crear y listar badges en Avature.
+embedding_priority: high
+---
+
+# Título del artículo
+
+Contenido en Markdown con `## secciones`, bloques de código, etc.
+```
+
+```bash
+php artisan knowledge:import D:\Descargas\mi-guia.md
+```
+
+#### Formato B — `.txt` legacy con bloques KB-ENTRY (compatible con prompt viejo)
+
+```
+---KB-ENTRY-START---
+entry_id: avt-badge-crud-flow
+titulo:   ITIS — Badge: Flujo CRUD completo
+...
+---CONTENIDO-START---
+## Sección
+Contenido en Markdown...
+---CONTENIDO-END---
+---KB-ENTRY-END---
+```
+
+```bash
+php artisan knowledge:import path/to/entrada.txt
+```
+
+#### Lo que hace el comando en ambos casos
+
+1. Parsea metadata del formato detectado
+2. Convierte el cuerpo Markdown → HTML (`Str::markdown()` CommonMark)
+3. Muestra tabla de preview y pide confirmación
+4. Inserta en la DB local (fuerza `status: draft`, `source: chatgpt`)
+5. **Genera automáticamente** `database/migrations/YYYY_MM_DD_HHMMSS_seed_knowledge_entry_{slug}.php`
+   con `updateOrInsert` — seguro tanto para crear en prod como para re-ejecutar
+
+> En producción: `php artisan migrate` aplica la entrada automáticamente al hacer deploy.
+
+#### Convención de `entry_id`
+
+Formato: `dominio-subtema-descripcion` — siempre en minúsculas con guiones.
+
+```
+avt-badge-crud-flow
+avt-rtc-signaling-bug
+avt-auth-session-decision
+avt-iats-widget-datasource-flow
+```
+
+#### Prompt template para ChatGPT (formato `.txt` legacy)
 
 ```
 Basándote en todo lo que trabajamos en esta sesión, generá una entrada para mi
@@ -578,33 +648,6 @@ gotchas, decisiones, rutas de archivos relevantes]
 ---CONTENIDO-END---
 ---KB-ENTRY-END---
 ```
-
-#### 2. Convención de `entry_id`
-
-Formato: `dominio-subtema-descripcion` — siempre en minúsculas con guiones.
-
-```
-avt-badge-crud-flow
-avt-rtc-signaling-bug
-avt-auth-session-decision
-avt-iats-widget-datasource-flow
-```
-
-#### 3. Comando de importación
-
-```bash
-# Guardás el output de ChatGPT en un .txt y corrés:
-php artisan knowledge:import path/to/entrada.txt
-```
-
-El comando:
-- Parsea los campos del bloque metadata
-- Convierte el Markdown del `---CONTENIDO-START---` a HTML compatible con Tiptap
-  usando `Str::markdown()` (CommonMark)
-- Muestra una tabla de preview y pide confirmación
-- Fuerza `status: draft` y `source: chatgpt` — nunca importa como verificado
-- Valida `entry_id` único antes de crear
-- Usa `KnowledgeEntryService` — misma ruta que el formulario web
 
 **Archivo**: `app/Console/Commands/ImportKnowledgeEntry.php`
 

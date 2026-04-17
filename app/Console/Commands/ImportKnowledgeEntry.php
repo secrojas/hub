@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 
 class ImportKnowledgeEntry extends Command
 {
-    protected $signature = 'knowledge:import {file : Ruta al archivo .md (con frontmatter) o .txt (template legacy)}';
+    protected $signature = 'knowledge:import {file : Ruta al archivo .md (con frontmatter) o .txt (template legacy)} {--force : Actualiza la entrada si ya existe}';
     protected $description = 'Importa una entrada al Knowledge Base y genera la migración de producción';
 
     public function __construct(private readonly KnowledgeEntryService $service)
@@ -49,8 +49,10 @@ class ImportKnowledgeEntry extends Command
             }
         }
 
-        if (KnowledgeEntry::where('entry_id', $meta['entry_id'])->exists()) {
-            $this->error("Ya existe una entrada con entry_id '{$meta['entry_id']}'.");
+        $existing = KnowledgeEntry::where('entry_id', $meta['entry_id'])->first();
+
+        if ($existing && ! $this->option('force')) {
+            $this->error("Ya existe una entrada con entry_id '{$meta['entry_id']}'. Usá --force para actualizarla.");
             return self::FAILURE;
         }
 
@@ -74,13 +76,14 @@ class ImportKnowledgeEntry extends Command
             ]
         );
 
-        if (! $this->confirm('¿Crear esta entrada?', true)) {
+        $action = $existing ? 'Actualizar' : 'Crear';
+
+        if (! $this->confirm("¿{$action} esta entrada?", true)) {
             $this->line('Cancelado.');
             return self::SUCCESS;
         }
 
-        $entry = $this->service->create([
-            'entry_id'           => $meta['entry_id'],
+        $data = [
             'titulo'             => $meta['titulo'],
             'type'               => $meta['type'],
             'status'             => KnowledgeStatus::Draft->value,
@@ -95,9 +98,17 @@ class ImportKnowledgeEntry extends Command
             'contenido'          => $contenido,
             'avature_version'    => $meta['avature_version'] ?? null,
             'embedding_priority' => $meta['embedding_priority'] ?? EmbeddingPriority::Normal->value,
-        ]);
+        ];
 
-        $this->info("Entrada creada: {$entry->entry_id} (ID: {$entry->id})");
+        if ($existing) {
+            $existing->update($data);
+            $entry = $existing->fresh();
+            $this->info("Entrada actualizada: {$entry->entry_id} (ID: {$entry->id})");
+        } else {
+            $entry = $this->service->create(array_merge(['entry_id' => $meta['entry_id']], $data));
+            $this->info("Entrada creada: {$entry->entry_id} (ID: {$entry->id})");
+        }
+
         $this->line("  → http://127.0.0.1:8000/knowledge/{$entry->id}");
 
         $migrationFile = $this->generateMigration($meta, $contenido, $tags);

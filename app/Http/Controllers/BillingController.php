@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\TaskStatus;
 use App\Http\Requests\StoreBillingRequest;
 use App\Http\Requests\UpdateBillingRequest;
+use App\Mail\BillingDetailMail;
 use App\Mail\FacturaAfipMail;
 use App\Models\Billing;
 use App\Models\Client;
@@ -61,6 +62,50 @@ class BillingController extends Controller
         $billing->items()->createMany($items);
 
         return redirect()->route('billing.index');
+    }
+
+    public function show(Billing $billing)
+    {
+        $billing->load(['client', 'items.task']);
+
+        return Inertia::render('Admin/Billing/Show', [
+            'billing' => [
+                'id'               => $billing->id,
+                'concepto'         => $billing->concepto,
+                'monto'            => (float) $billing->monto,
+                'fecha_emision'    => $billing->fecha_emision?->toDateString(),
+                'fecha_pago'       => $billing->fecha_pago?->toDateString(),
+                'estado'           => $billing->estado->value,
+                'has_afip_pdf'     => (bool) $billing->afip_pdf_path,
+                'afip_uploaded_at' => $billing->afip_uploaded_at?->toDateTimeString(),
+                'client'           => $billing->client ? [
+                    'nombre' => $billing->client->nombre,
+                    'email'  => $billing->client->email,
+                ] : null,
+                'items'            => $billing->items->map(fn ($item) => [
+                    'id'       => $item->id,
+                    'concepto' => $item->concepto,
+                    'monto'    => (float) $item->monto,
+                    'task_id'  => $item->task_id,
+                    'task'     => $item->task ? [
+                        'id'    => $item->task->id,
+                        'titulo'=> $item->task->titulo,
+                        'horas' => $item->task->horas,
+                    ] : null,
+                ]),
+            ],
+        ]);
+    }
+
+    public function sendEmail(Billing $billing)
+    {
+        $billing->load(['client', 'items.task']);
+
+        Mail::to($billing->client->email)
+            ->bcc(env('ADMIN_EMAIL', 'sec.rojas@gmail.com'))
+            ->send(new BillingDetailMail($billing));
+
+        return back()->with('message', 'Email enviado a ' . $billing->client->email . ' correctamente.');
     }
 
     public function edit(Billing $billing)

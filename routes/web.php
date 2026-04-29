@@ -38,7 +38,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('tasks/{task}/comments', [TaskCommentController::class, 'store'])->name('task-comments.store');
     Route::delete('task-comments/{comment}', [TaskCommentController::class, 'destroy'])->name('task-comments.destroy');
 
-    Route::resource('billing', BillingController::class)->except(['show']);
+    Route::resource('billing', BillingController::class);
+    Route::post('billing/{billing}/send-email', [BillingController::class, 'sendEmail'])->name('billing.send-email');
     Route::post('billing/{billing}/afip-pdf', [BillingController::class, 'uploadAfipPdf'])->name('billing.afip-pdf');
     Route::get('billing/{billing}/afip-pdf/download', [BillingController::class, 'downloadAfipPdf'])->name('billing.afip-pdf.download');
 

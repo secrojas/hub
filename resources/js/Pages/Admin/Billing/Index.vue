@@ -128,6 +128,7 @@ function formatDate(dateStr) {
                                 <Badge :variant="billing.estado" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap space-x-3">
+                                <Link :href="`/billing/${billing.id}`" class="text-slate-400 hover:text-slate-200">Ver</Link>
                                 <Link :href="`/billing/${billing.id}/edit`" class="text-violet-400 hover:text-violet-300">Editar</Link>
                                 <button @click="confirmDelete(billing)" class="text-red-400 hover:text-red-300">Eliminar</button>
                             </td>

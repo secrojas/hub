@@ -91,6 +91,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // Public travel share view (token-based, no auth)
 Route::get('/v/{token}', [PublicTravelController::class, 'show'])->name('travels.public');
 
+// Temporary deploy diagnostic — remove after confirming deploy works
+Route::get('/_deploy-check', fn () => response()->json([
+    'commit' => trim(shell_exec('git -C ' . base_path() . ' rev-parse --short HEAD') ?? 'unknown'),
+    'php'    => PHP_VERSION,
+    'time'   => now()->toIso8601String(),
+]))->name('deploy.check');
+
 // Public invitation acceptance (requires valid signature)
 Route::middleware('signed')->group(function () {
     Route::get('/invitation/accept', [InvitationController::class, 'show'])->name('invitation.accept');

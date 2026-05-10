@@ -50,6 +50,7 @@ jobs:
                git pull origin master &&
                composer install --no-dev --optimize-autoloader --no-interaction &&
                php artisan migrate --force &&
+               php artisan route:clear &&
                php artisan optimize &&
                php artisan view:clear'
 

@@ -86,6 +86,22 @@ function logout() {
                 </Link>
             </div>
 
+            <!-- Personal section -->
+            <div class="px-3 py-3 border-t border-slate-700/40">
+                <p class="text-[10px] font-semibold uppercase tracking-widest text-slate-600 px-2 mb-1.5">Personal</p>
+                <Link href="/travels"
+                    class="flex items-center gap-2.5 px-3 py-2.5 text-sm rounded-md transition-colors duration-150"
+                    :class="$page.url.startsWith('/travels')
+                        ? 'bg-cyan-500/10 text-cyan-300 font-semibold'
+                        : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-100'"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.8.7-.5 1.1l5.4 5.4-1.5 4.5c-.2.5.3 1 .8.8l4.5-1.5 5.4 5.4c.4.3 1 0 1.1-.5z"/>
+                    </svg>
+                    Viajes
+                </Link>
+            </div>
+
             <!-- Admin footer -->
             <div class="border-t border-slate-700/40 px-3 py-4 space-y-3">
 

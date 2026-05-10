@@ -10,9 +10,15 @@ use App\Http\Controllers\NoteFolderController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicTravelController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TravelAccommodationController;
+use App\Http\Controllers\TravelActivityController;
+use App\Http\Controllers\TravelController;
+use App\Http\Controllers\TravelDocumentController;
+use App\Http\Controllers\TravelSegmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -59,7 +65,31 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('knowledge', KnowledgeEntryController::class);
     Route::post('knowledge/{knowledge}/links', [KnowledgeLinkController::class, 'store'])->name('knowledge-links.store');
     Route::delete('knowledge-links/{knowledgeLink}', [KnowledgeLinkController::class, 'destroy'])->name('knowledge-links.destroy');
+
+    // Personal — Travels
+    Route::resource('travels', TravelController::class);
+    Route::post('travels/{travel}/documents', [TravelDocumentController::class, 'store'])->name('travels.documents.store');
+    Route::get('travels/{travel}/documents/{document}/download', [TravelDocumentController::class, 'download'])->name('travels.documents.download');
+    Route::delete('travels/{travel}/documents/{document}', [TravelDocumentController::class, 'destroy'])->name('travels.documents.destroy');
+    Route::get('travels/{travel}/segments/create', [TravelSegmentController::class, 'create'])->name('travels.segments.create');
+    Route::post('travels/{travel}/segments', [TravelSegmentController::class, 'store'])->name('travels.segments.store');
+    Route::get('travels/{travel}/segments/{segment}/edit', [TravelSegmentController::class, 'edit'])->name('travels.segments.edit');
+    Route::put('travels/{travel}/segments/{segment}', [TravelSegmentController::class, 'update'])->name('travels.segments.update');
+    Route::delete('travels/{travel}/segments/{segment}', [TravelSegmentController::class, 'destroy'])->name('travels.segments.destroy');
+    Route::get('travels/{travel}/accommodations/create', [TravelAccommodationController::class, 'create'])->name('travels.accommodations.create');
+    Route::post('travels/{travel}/accommodations', [TravelAccommodationController::class, 'store'])->name('travels.accommodations.store');
+    Route::get('travels/{travel}/accommodations/{accommodation}/edit', [TravelAccommodationController::class, 'edit'])->name('travels.accommodations.edit');
+    Route::put('travels/{travel}/accommodations/{accommodation}', [TravelAccommodationController::class, 'update'])->name('travels.accommodations.update');
+    Route::delete('travels/{travel}/accommodations/{accommodation}', [TravelAccommodationController::class, 'destroy'])->name('travels.accommodations.destroy');
+    Route::get('travels/{travel}/activities/create', [TravelActivityController::class, 'create'])->name('travels.activities.create');
+    Route::post('travels/{travel}/activities', [TravelActivityController::class, 'store'])->name('travels.activities.store');
+    Route::get('travels/{travel}/activities/{activity}/edit', [TravelActivityController::class, 'edit'])->name('travels.activities.edit');
+    Route::put('travels/{travel}/activities/{activity}', [TravelActivityController::class, 'update'])->name('travels.activities.update');
+    Route::delete('travels/{travel}/activities/{activity}', [TravelActivityController::class, 'destroy'])->name('travels.activities.destroy');
 });
+
+// Public travel share view (token-based, no auth)
+Route::get('/v/{token}', [PublicTravelController::class, 'show'])->name('travels.public');
 
 // Public invitation acceptance (requires valid signature)
 Route::middleware('signed')->group(function () {

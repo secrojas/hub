@@ -104,6 +104,8 @@ function formatDate(dateStr) {
             </h2>
             <p v-if="tasks.length === 0" class="text-sm text-slate-500 px-1">No tenes tareas asignadas.</p>
             <Card v-else variant="default" padding="none">
+                <div class="overflow-x-auto">
+                <div class="min-w-[400px]">
                 <!-- Header -->
                 <div class="grid grid-cols-[1fr_140px_120px] px-4 py-2 border-b border-slate-700/40">
                     <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Titulo</span>
@@ -123,6 +125,8 @@ function formatDate(dateStr) {
                     </span>
                     <span class="text-sm text-slate-400">{{ formatDate(task.fecha_limite) }}</span>
                 </Link>
+                </div>
+                </div>
             </Card>
         </section>
 
@@ -134,6 +138,8 @@ function formatDate(dateStr) {
             </h2>
             <p v-if="quotes.length === 0" class="text-sm text-slate-500 px-1">No tenes presupuestos.</p>
             <Card v-else variant="default" padding="none">
+                <div class="overflow-x-auto">
+                <div class="min-w-[500px]">
                 <!-- Header -->
                 <div class="grid grid-cols-[1fr_140px_140px_80px] px-4 py-2 border-b border-slate-700/40">
                     <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Titulo</span>
@@ -159,6 +165,8 @@ function formatDate(dateStr) {
                         >PDF</a>
                     </span>
                 </div>
+                </div>
+                </div>
             </Card>
         </section>
 
@@ -183,6 +191,8 @@ function formatDate(dateStr) {
 
             <!-- Tabla de tareas finalizadas -->
             <Card v-if="horasBilling.tareas?.length" variant="default" padding="none">
+                <div class="overflow-x-auto">
+                <div class="min-w-[480px]">
                 <div class="grid grid-cols-[1fr_120px_80px_140px] px-4 py-2 border-b border-slate-700/40">
                     <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Tarea</span>
                     <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Finalizada</span>
@@ -201,6 +211,8 @@ function formatDate(dateStr) {
                         {{ horasBilling.valor_hora ? formatMonto(t.monto) : '—' }}
                     </span>
                 </div>
+                </div>
+                </div>
             </Card>
         </section>
 
@@ -212,6 +224,8 @@ function formatDate(dateStr) {
             </h2>
             <p v-if="billings.length === 0" class="text-sm text-slate-500 px-1">No tenes cobros registrados.</p>
             <Card v-else variant="default" padding="none">
+                <div class="overflow-x-auto">
+                <div class="min-w-[560px]">
                 <!-- Header -->
                 <div class="grid grid-cols-[1fr_160px_140px_120px] px-4 py-2 border-b border-slate-700/40">
                     <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Concepto</span>
@@ -233,6 +247,8 @@ function formatDate(dateStr) {
                         <Badge :variant="billing.estado" />
                     </span>
                 </Link>
+                </div>
+                </div>
             </Card>
         </section>
 

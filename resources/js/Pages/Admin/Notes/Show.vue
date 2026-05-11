@@ -39,9 +39,9 @@ function destroy() {
 
 <template>
     <Head :title="note.titulo" />
-    <div class="flex gap-6 items-start">
+    <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
         <!-- Sidebar -->
-        <FolderSidebar :folders="folders" :active-folder-id="note.folder_id" :filters="{}" />
+        <FolderSidebar class="w-full md:w-56 shrink-0" :folders="folders" :active-folder-id="note.folder_id" :filters="{}" />
 
         <!-- Note content -->
         <div class="flex-1 min-w-0 flex flex-col gap-5">

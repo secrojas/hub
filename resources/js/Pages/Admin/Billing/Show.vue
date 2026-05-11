@@ -98,7 +98,8 @@ function sendEmail() {
                 <h2 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">Ítems del cobro</h2>
             </div>
 
-            <table class="w-full text-sm">
+            <div class="overflow-x-auto">
+            <table class="w-full text-sm min-w-[480px]">
                 <thead>
                     <tr class="border-b border-slate-700/40">
                         <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Concepto</th>
@@ -144,6 +145,7 @@ function sendEmail() {
                     </tr>
                 </tfoot>
             </table>
+            </div>
         </Card>
 
         <!-- Actions bar -->

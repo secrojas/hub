@@ -104,8 +104,8 @@ function formatARS(monto) {
             <div class="px-6 py-4 border-b border-slate-700/40">
                 <h2 class="text-base font-semibold text-slate-100">Facturacion</h2>
             </div>
-            <div v-if="billings && billings.length">
-                <table class="w-full text-sm">
+            <div v-if="billings && billings.length" class="overflow-x-auto">
+                <table class="w-full text-sm min-w-[500px]">
                     <thead>
                         <tr class="bg-surface-800 border-b border-slate-700/40">
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Concepto</th>
@@ -154,8 +154,8 @@ function formatARS(monto) {
             </div>
 
             <!-- Tabla de tareas finalizadas con horas -->
-            <div v-if="horasBilling.tareas?.length">
-                <table class="w-full text-sm">
+            <div v-if="horasBilling.tareas?.length" class="overflow-x-auto">
+                <table class="w-full text-sm min-w-[500px]">
                     <thead>
                         <tr class="bg-surface-800 border-b border-slate-700/40">
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Tarea</th>

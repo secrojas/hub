@@ -355,7 +355,7 @@ const itinerarioPorDia = computed(() => {
                             <label class="block text-xs font-medium text-slate-400 mb-1.5">Archivo (PDF o imagen, máx. 20 MB) *</label>
                             <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" @change="e => docForm.archivo = e.target.files[0]" class="w-full text-xs text-slate-400 file:mr-3 file:px-3 file:py-1.5 file:rounded file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600 file:cursor-pointer" />
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs font-medium text-slate-400 mb-1.5">Nombre del documento</label>
                                 <input v-model="docForm.nombre" type="text" placeholder="Ej: Pasaje Córdoba ida" class="w-full rounded-lg text-sm" />

@@ -104,6 +104,7 @@ const statusColors = {
 
         <!-- Table -->
         <div class="bg-surface-800 border border-slate-700/50 rounded-xl overflow-hidden">
+            <div class="overflow-x-auto">
             <table v-if="entries.length" class="w-full text-sm">
                 <thead class="border-b border-slate-700/50">
                     <tr class="text-slate-400 text-xs uppercase tracking-wider">
@@ -141,6 +142,7 @@ const statusColors = {
                     </tr>
                 </tbody>
             </table>
+            </div>
 
             <div v-else class="flex flex-col items-center justify-center py-16 text-center">
                 <svg class="w-10 h-10 text-slate-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

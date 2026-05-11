@@ -63,9 +63,9 @@ function submit() {
         </button>
     </div>
 
-    <form @submit.prevent="submit" class="flex gap-6 items-start">
+    <form @submit.prevent="submit" class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
         <!-- Sidebar -->
-        <FolderSidebar :folders="folders" :active-folder-id="null" :filters="{}" />
+        <FolderSidebar class="w-full md:w-56 shrink-0" :folders="folders" :active-folder-id="null" :filters="{}" />
 
         <!-- Main editing area -->
         <div class="flex-1 min-w-0 flex flex-col gap-4">

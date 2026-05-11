@@ -1,9 +1,12 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
 
 const page = usePage()
 const user = computed(() => page.props.auth.user)
+const sidebarOpen = ref(false)
+
+watch(() => page.url, () => { sidebarOpen.value = false })
 
 function logout() {
     router.post('/logout')
@@ -11,13 +14,57 @@ function logout() {
 </script>
 
 <template>
-    <div class="min-h-screen bg-surface-900 flex">
-        <!-- Fixed sidebar -->
-        <aside class="w-[220px] bg-surface-950 border-r border-slate-700/40 fixed inset-y-0 left-0 flex flex-col">
+    <div class="min-h-screen bg-surface-900">
 
-            <!-- Logo -->
-            <div class="px-4 py-5 border-b border-slate-700/40">
+        <!-- Mobile top bar -->
+        <div class="lg:hidden fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-4 h-14 bg-surface-950 border-b border-slate-700/40">
+            <Link href="/dashboard" class="text-xl font-bold text-slate-100 tracking-tight">Hub</Link>
+            <button
+                @click="sidebarOpen = !sidebarOpen"
+                class="p-2 text-slate-400 hover:text-slate-100 transition-colors"
+                aria-label="Menú"
+            >
+                <svg v-if="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Overlay (mobile) -->
+        <Transition
+            enter-active-class="transition-opacity duration-200"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="transition-opacity duration-200"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
+        >
+            <div
+                v-if="sidebarOpen"
+                @click="sidebarOpen = false"
+                class="lg:hidden fixed inset-0 z-40 bg-black/60"
+            />
+        </Transition>
+
+        <!-- Sidebar -->
+        <aside
+            :class="[
+                'fixed inset-y-0 left-0 z-50 w-[220px] bg-surface-950 border-r border-slate-700/40 flex flex-col',
+                'transition-transform duration-200 ease-in-out',
+                sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+            ]"
+        >
+            <!-- Logo (desktop only — mobile shows it in top bar) -->
+            <div class="hidden lg:flex px-4 py-5 border-b border-slate-700/40">
                 <Link href="/dashboard" class="text-xl font-bold text-slate-100 tracking-tight">Hub</Link>
+            </div>
+
+            <!-- Spacer on mobile to account for top bar height -->
+            <div class="lg:hidden h-14 border-b border-slate-700/40 flex items-center px-4">
+                <span class="text-xl font-bold text-slate-100 tracking-tight">Hub</span>
             </div>
 
             <!-- Main nav -->
@@ -104,8 +151,6 @@ function logout() {
 
             <!-- Admin footer -->
             <div class="border-t border-slate-700/40 px-3 py-4 space-y-3">
-
-                <!-- Invitar Cliente -->
                 <Link href="/invitations/create"
                     class="flex items-center justify-center gap-2 w-full px-3 py-2 text-xs font-medium rounded-md border transition-colors duration-150"
                     :class="$page.url.startsWith('/invitations')
@@ -118,7 +163,6 @@ function logout() {
                     Invitar Cliente
                 </Link>
 
-                <!-- User + logout -->
                 <div class="flex items-center justify-between gap-2 px-1">
                     <p class="text-xs text-slate-500 truncate">{{ user?.name }}</p>
                     <button
@@ -127,14 +171,14 @@ function logout() {
                     >Salir</button>
                 </div>
             </div>
-
         </aside>
 
         <!-- Main content area -->
-        <div class="ml-[220px] flex-1 flex flex-col">
-            <main class="p-6 flex-1">
+        <div class="lg:ml-[220px] pt-14 lg:pt-0 flex flex-col min-h-screen">
+            <main class="p-4 md:p-6 flex-1">
                 <slot />
             </main>
         </div>
+
     </div>
 </template>

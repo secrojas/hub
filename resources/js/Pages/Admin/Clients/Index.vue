@@ -71,7 +71,7 @@ function formatDate(dateStr) {
 
         <!-- Clients table -->
         <Card variant="default" padding="none">
-            <div class="overflow-hidden rounded-xl">
+            <div class="overflow-x-auto rounded-xl">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="bg-surface-800 border-b border-slate-700/40">

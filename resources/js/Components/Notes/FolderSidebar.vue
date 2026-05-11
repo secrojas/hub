@@ -113,7 +113,7 @@ function deleteFolder(folder) {
 </script>
 
 <template>
-    <aside class="w-56 flex-shrink-0 flex flex-col gap-1">
+    <aside class="flex-shrink-0 flex flex-col gap-1">
 
         <!-- Nueva nota button -->
         <Link

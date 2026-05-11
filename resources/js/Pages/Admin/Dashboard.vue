@@ -103,17 +103,17 @@ function updateStatus(taskId, event) {
                     v-for="task in enProgreso"
                     :key="task.id"
                     @click="goToClient(task.client_id)"
-                    class="flex items-center gap-4 px-4 py-3 hover:bg-surface-700/60 cursor-pointer border-b border-slate-700/40 last:border-0 transition-colors duration-150"
+                    class="flex items-center gap-3 px-4 py-3 hover:bg-surface-700/60 cursor-pointer border-b border-slate-700/40 last:border-0 transition-colors duration-150"
                 >
-                    <span class="flex-1 text-sm font-medium text-slate-100 truncate">{{ task.titulo }}</span>
-                    <span class="text-xs text-slate-400 w-32 truncate">{{ task.client.nombre }}</span>
-                    <Badge :variant="task.prioridad" />
-                    <span class="text-xs w-24 text-right text-slate-400">{{ formatDate(task.fecha_limite) }}</span>
+                    <span class="flex-1 text-sm font-medium text-slate-100 truncate min-w-0">{{ task.titulo }}</span>
+                    <span class="hidden sm:block text-xs text-slate-400 w-28 truncate shrink-0">{{ task.client.nombre }}</span>
+                    <Badge :variant="task.prioridad" class="shrink-0" />
+                    <span class="hidden sm:block text-xs w-20 text-right shrink-0" :class="'text-slate-400'">{{ formatDate(task.fecha_limite) }}</span>
                     <select
                         :value="task.estado"
                         @click.stop
                         @change.stop="updateStatus(task.id, $event)"
-                        class="text-xs rounded-md px-2 py-1 bg-surface-700 border border-slate-600/50 text-slate-300 focus:outline-none focus:ring-1 focus:ring-violet-500/50"
+                        class="text-xs rounded-md px-2 py-1 bg-surface-700 border border-slate-600/50 text-slate-300 focus:outline-none focus:ring-1 focus:ring-violet-500/50 shrink-0"
                     >
                         <option value="backlog">Backlog</option>
                         <option value="en_progreso">En progreso</option>
@@ -141,17 +141,17 @@ function updateStatus(taskId, event) {
                     v-for="task in vencenProonto"
                     :key="task.id"
                     @click="goToClient(task.client_id)"
-                    class="flex items-center gap-4 px-4 py-3 hover:bg-surface-700/60 cursor-pointer border-b border-slate-700/40 last:border-0 transition-colors duration-150"
+                    class="flex items-center gap-3 px-4 py-3 hover:bg-surface-700/60 cursor-pointer border-b border-slate-700/40 last:border-0 transition-colors duration-150"
                 >
-                    <span class="flex-1 text-sm font-medium text-slate-100 truncate">{{ task.titulo }}</span>
-                    <span class="text-xs text-slate-400 w-32 truncate">{{ task.client.nombre }}</span>
-                    <Badge :variant="task.prioridad" />
-                    <span class="text-xs w-24 text-right" :class="urgencyClass(task.fecha_limite)">{{ formatDate(task.fecha_limite) }}</span>
+                    <span class="flex-1 text-sm font-medium text-slate-100 truncate min-w-0">{{ task.titulo }}</span>
+                    <span class="hidden sm:block text-xs text-slate-400 w-28 truncate shrink-0">{{ task.client.nombre }}</span>
+                    <Badge :variant="task.prioridad" class="shrink-0" />
+                    <span class="hidden sm:block text-xs w-20 text-right shrink-0" :class="urgencyClass(task.fecha_limite)">{{ formatDate(task.fecha_limite) }}</span>
                     <select
                         :value="task.estado"
                         @click.stop
                         @change.stop="updateStatus(task.id, $event)"
-                        class="text-xs rounded-md px-2 py-1 bg-surface-700 border border-slate-600/50 text-slate-300 focus:outline-none focus:ring-1 focus:ring-violet-500/50"
+                        class="text-xs rounded-md px-2 py-1 bg-surface-700 border border-slate-600/50 text-slate-300 focus:outline-none focus:ring-1 focus:ring-violet-500/50 shrink-0"
                     >
                         <option value="backlog">Backlog</option>
                         <option value="en_progreso">En progreso</option>

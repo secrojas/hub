@@ -69,7 +69,7 @@ function formatDate(dateStr) {
         </PageHeader>
 
         <!-- Summary cards -->
-        <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div class="bg-surface-800 border border-green-500/20 rounded-xl p-4 border-l-4 border-l-green-500">
                 <p class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">Cobrado este mes</p>
                 <p class="text-xl font-semibold text-green-400">{{ formatMonto(summary?.cobrado_mes ?? 0) }}</p>
@@ -106,7 +106,7 @@ function formatDate(dateStr) {
 
         <!-- Billing table -->
         <Card variant="default" padding="none">
-            <div class="overflow-hidden rounded-xl">
+            <div class="overflow-x-auto rounded-xl">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="bg-surface-800 border-b border-slate-700/40">

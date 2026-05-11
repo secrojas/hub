@@ -55,8 +55,9 @@ watch(search, (val) => {
         </div>
 
         <!-- Body: sidebar + list -->
-        <div class="flex gap-6 items-start">
+        <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
             <FolderSidebar
+                class="w-full md:w-56"
                 :folders="folders"
                 :active-folder-id="filters?.folder_id"
                 :filters="filters"

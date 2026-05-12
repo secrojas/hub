@@ -3,6 +3,11 @@
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Finance\BankAccountController;
+use App\Http\Controllers\Finance\FinanceDashboardController;
+use App\Http\Controllers\Finance\FixedExpenseController;
+use App\Http\Controllers\Finance\PayslipController;
+use App\Http\Controllers\Finance\VariableExpenseController;
 use App\Http\Controllers\KnowledgeEntryController;
 use App\Http\Controllers\KnowledgeLinkController;
 use App\Http\Controllers\InvitationController;
@@ -65,6 +70,27 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('knowledge', KnowledgeEntryController::class);
     Route::post('knowledge/{knowledge}/links', [KnowledgeLinkController::class, 'store'])->name('knowledge-links.store');
     Route::delete('knowledge-links/{knowledgeLink}', [KnowledgeLinkController::class, 'destroy'])->name('knowledge-links.destroy');
+
+    // Personal — Finance
+    Route::get('finance', [FinanceDashboardController::class, 'index'])->name('finance.dashboard');
+    Route::get('finance/payslips', [PayslipController::class, 'index'])->name('finance.payslips.index');
+    Route::get('finance/payslips/create', [PayslipController::class, 'create'])->name('finance.payslips.create');
+    Route::post('finance/payslips/parse', [PayslipController::class, 'parse'])->name('finance.payslips.parse');
+    Route::post('finance/payslips', [PayslipController::class, 'store'])->name('finance.payslips.store');
+    Route::get('finance/payslips/{payslip}', [PayslipController::class, 'show'])->name('finance.payslips.show');
+    Route::delete('finance/payslips/{payslip}', [PayslipController::class, 'destroy'])->name('finance.payslips.destroy');
+    Route::get('finance/accounts', [BankAccountController::class, 'index'])->name('finance.accounts.index');
+    Route::post('finance/accounts', [BankAccountController::class, 'store'])->name('finance.accounts.store');
+    Route::patch('finance/accounts/{account}', [BankAccountController::class, 'update'])->name('finance.accounts.update');
+    Route::delete('finance/accounts/{account}', [BankAccountController::class, 'destroy'])->name('finance.accounts.destroy');
+    Route::post('finance/accounts/{account}/balances', [BankAccountController::class, 'addBalance'])->name('finance.accounts.balances.store');
+    Route::get('finance/expenses', [FixedExpenseController::class, 'index'])->name('finance.expenses.index');
+    Route::post('finance/fixed-expenses', [FixedExpenseController::class, 'store'])->name('finance.fixed-expenses.store');
+    Route::patch('finance/fixed-expenses/{fixedExpense}', [FixedExpenseController::class, 'update'])->name('finance.fixed-expenses.update');
+    Route::delete('finance/fixed-expenses/{fixedExpense}', [FixedExpenseController::class, 'destroy'])->name('finance.fixed-expenses.destroy');
+    Route::post('finance/variable-expenses', [VariableExpenseController::class, 'store'])->name('finance.variable-expenses.store');
+    Route::patch('finance/variable-expenses/{variableExpense}', [VariableExpenseController::class, 'update'])->name('finance.variable-expenses.update');
+    Route::delete('finance/variable-expenses/{variableExpense}', [VariableExpenseController::class, 'destroy'])->name('finance.variable-expenses.destroy');
 
     // Personal — Travels
     Route::resource('travels', TravelController::class);

@@ -46,6 +46,31 @@ Constructor con ítems de línea (descripción + precio). Cuatro estados: `Borra
 ### Notas (Knowledge Base)
 Base de conocimiento interna estilo Notion. Carpetas con jerarquía, editor WYSIWYG con syntax highlighting, búsqueda por título.
 
+### Viajes (Personal)
+Módulo personal para documentar viajes. Entidades: `Travel`, `TravelSegment`, `TravelAccommodation`, `TravelActivity`, `TravelDocument`. Cada viaje tiene un token UUID que genera una vista pública compartible sin autenticación (`/v/{token}`). Documentos almacenados en `storage/app/personal/travels/{id}/`.
+
+### Finanzas (Personal)
+Módulo personal de seguimiento económico. Entidades:
+
+| Modelo | Tabla | Descripción |
+|---|---|---|
+| `Payslip` | `payslips` | Recibo de sueldo con datos extraídos por Gemini |
+| `BankAccount` | `bank_accounts` | Cuentas bancarias (Santander, Provincia, Lemon, MP) |
+| `BankAccountBalance` | `bank_account_balances` | Historial de saldos por cuenta |
+| `FixedExpense` | `fixed_expenses` | Gastos fijos mensuales (alquiler, servicios, tarjetas, etc.) |
+| `VariableExpense` | `variable_expenses` | Gastos variables con categoría |
+
+**Flujo de recibo de sueldo:**
+1. Upload PDF → `POST /finance/payslips/parse`
+2. Backend lo envía a Gemini 2.5 Flash como `inlineData` base64
+3. Gemini extrae: período, empresa, bruto, neto, ítems de descuento (JSON estructurado)
+4. Frontend muestra preview editable → usuario confirma → `POST /finance/payslips`
+5. PDF se mueve de `finance/payslips/tmp/` a `finance/payslips/`
+
+**Saldo disponible:** `total cuentas (última actualización por cuenta) − gastos variables del mes en curso`
+
+**Enum `ExpenseCategory`:** 11 categorías con `label()` y `color()` para UI.
+
 ### Portal del Cliente
 Vista de solo lectura para el cliente autenticado: tareas activas (con detalle), presupuestos (con PDF), facturación (con detalle de ítems).
 
@@ -107,10 +132,14 @@ resources/js/
     ├── Admin/
     │   ├── Dashboard.vue
     │   ├── Clients/              (Index, Create, Edit, Show)
-    │   ├── Tasks/                (Index — Kanban)
-    │   ├── Billing/              (Index, Create, Edit)
+    │   ├── Tasks/                (Index — Kanban, Archived)
+    │   ├── Billing/              (Index, Create, Edit, Show)
     │   ├── Quotes/               (Index, Create, Edit)
     │   ├── Notes/                (Index, Show, Create, Edit)
+    │   ├── Knowledge/            (Index, Show, Create, Edit)
+    │   ├── Travels/              (Index, Show, Create, Edit + Segments/Accommodations/Activities)
+    │   ├── Finance/              (Dashboard, Accounts, Expenses)
+    │   │   └── Payslips/         (Index, Show, Create)
     │   └── Invitations/
     ├── Portal/
     │   ├── Index.vue
@@ -357,6 +386,10 @@ MAIL_PASSWORD=
 MAIL_ENCRYPTION=ssl
 MAIL_FROM_ADDRESS="delivery@srojas.app"
 MAIL_FROM_NAME="Hub"
+
+# Gemini AI (módulo Finanzas — parsing de recibos de sueldo)
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
 ```
 
 ---
@@ -398,3 +431,7 @@ npm run build
 - **`step="0.25"` en input horas**: el browser nativo muestra flechas de ±15min. Sin `step`, asume `step=1` y bloquea decimales.
 - **Port 465 = `MAIL_ENCRYPTION=ssl`**: no STARTTLS (587). Si se usa 465 con `tls`, la conexión falla silenciosamente.
 - **SSH config en CI**: `StrictHostKeyChecking no` en `~/.ssh/config` en lugar de `ssh-keyscan` en runtime — evita fallos por conectividad durante el build.
+- **Viajes — vista pública sin auth**: token UUID en `travels.share_token`. Ruta `/v/{token}` fuera del grupo `auth`. El token es inmutable una vez generado.
+- **Gemini inline PDF**: el PDF se envía como `inlineData` base64 (no File API) con `responseMimeType: application/json`. Funciona para archivos < 20 MB.
+- **Config cache en producción**: agregar variables al `.env` en el servidor NO surte efecto si hay config cacheada. Siempre correr `php artisan config:clear && config:cache` después de editar `.env` en prod.
+- **Finance — controllers sin Repository**: a diferencia de Notes/Knowledge/Travels, el módulo Finance usa Eloquent directo en controllers + Services para lógica compleja. Adecuado para datos personales con queries simples.
